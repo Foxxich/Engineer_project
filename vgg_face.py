@@ -1,4 +1,5 @@
-from image_converter import convert_formats
+import time
+
 from PIL import Image
 from keras_vggface.utils import preprocess_input
 from keras_vggface.vggface import VGGFace
@@ -27,8 +28,8 @@ def extract_face(filename, required_size=(224, 224)):
 
 # This function is used for calling face extraction function and
 # getting samples;
-def prepare_sample(file_names):
-    faces = [extract_face(f) for f in file_names]
+def prepare_sample(test_image, original_image):
+    faces = [extract_face(f) for f in (test_image, original_image)]
     samples = asarray(faces, 'float32')
     return preprocess_input(samples, version=2)
 
@@ -43,23 +44,24 @@ def prepare_prediction(samples):
 
 # This function is used for comparison of distance between embeddings
 # to check up percent of matches;
-def is_match(known_embedding, candidate_embedding):
+def is_match(known_embedding, candidate_embedding, test_image, original_image):
     thresh = 0.5
     score = cosine(known_embedding, candidate_embedding)
     if score <= thresh:
-        print('>face is a Match (%.3f <= %.3f)' % (score, thresh))
+        print('There is a match (%.3f <= %.3f)' % (score, thresh) + ' between', test_image + ' and', original_image)
     else:
-        print('>face is NOT a Match (%.3f > %.3f)' % (score, thresh))
+        print('There is NO match (%.3f <= %.3f)' % (score, thresh) + ' between', test_image + ' and', original_image)
 
 
 def main():
-    filenames = ['1.jpg',
-                 '2.jpg',
-                 '3.jpg']
-    predictions = prepare_prediction(prepare_sample(filenames))
+    test_image = '2.jpg'
+    original_image = '3.jpg'
+    start_time = time.time()
+    predictions = prepare_prediction(prepare_sample(test_image, original_image))
     print('Tests:')
-    is_match(predictions[0], predictions[1])
-    is_match(predictions[0], predictions[2])
+    is_match(predictions[0], predictions[1], test_image, original_image)
+    end_time = time.time()
+    print("Total time: ", round((end_time - start_time)), ' Seconds')
 
 
 if __name__ == "__main__":
