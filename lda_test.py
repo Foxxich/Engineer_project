@@ -5,7 +5,7 @@ from numpy.linalg import inv
 import numpy as np
 import os
 
-dataset_path = 'C:\\Users\\Vadym\\PycharmProjects\\engineer_work\\dataset\\'
+dataset_path = 'C:\\Users\\Vadym\\PycharmProjects\\Engineer_project\\att_faces\\'
 dataset_dir  = os.listdir(dataset_path)
 
 width  = 92
