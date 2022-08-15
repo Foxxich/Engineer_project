@@ -12,7 +12,7 @@ import numpy as np
 from keras.preprocessing.image import ImageDataGenerator
 
 # Specifying the folder where images are present
-TrainingImagePath = 'C:\\Users\\Vadym\\PycharmProjects\\engineer_work\\Face Images\\Final Training Images\\'
+TrainingImagePath = 'C:\\Users\\Vadym\\PycharmProjects\\Engineer_project\\Face Images\\Final Training Images\\'
 
 train_datagen = ImageDataGenerator(
     shear_range=0.1,
@@ -107,7 +107,7 @@ classifier.fit(
 EndTime = time.time()
 print("###### Total Time Taken: ", round((EndTime - StartTime) / 60), 'Minutes ######')
 
-ImagePath = 'C:\\Users\\Vadym\\PycharmProjects\\engineer_work\\Face Images\\Final Testing Images\\face4\\3face4.jpg'
+ImagePath = 'C:\\Users\\Vadym\\PycharmProjects\\Engineer_project\\Face Images\\Final Testing Images\\face4\\3face4.jpg'
 test_image = tensorflow.keras.utils.load_img(ImagePath, target_size=(64, 64))
 test_image = tensorflow.keras.utils.img_to_array(test_image)
 
