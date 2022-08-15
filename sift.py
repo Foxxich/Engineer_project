@@ -1,144 +1,141 @@
-import numpy as np
-import cv2
-from matplotlib import pyplot as plt
-from PIL import Image
 import os
+import cv2
 import matplotlib.pyplot as plt
 
 
-def getHaarcascadePath():
+def cascade_path():
     path = os.path.dirname(os.path.realpath('__file__'))
-    cascadePath = path + '/haarcascade_frontalface_default.xml'
-    return cascadePath
+    return path + '/haarcascade_frontalface_default.xml'
 
 
-img1 = cv2.imread('test1.jpg')
-img2 = cv2.imread('test3.jpg')
+def prepare_images(image1, image2):
+    img1 = cv2.cvtColor(image1, cv2.COLOR_BGR2RGB)
+    img2 = cv2.cvtColor(image2, cv2.COLOR_BGR2RGB)
+    gray1 = cv2.cvtColor(img1, cv2.COLOR_RGB2GRAY)
+    gray2 = cv2.cvtColor(img2, cv2.COLOR_RGB2GRAY)
+    return img1, img2, gray1, gray2
 
-# convert the images from bgr to rgb
-img1 = cv2.cvtColor(img1, cv2.COLOR_BGR2RGB)
-img2 = cv2.cvtColor(img2, cv2.COLOR_BGR2RGB)
 
-gray = cv2.cvtColor(img1, cv2.COLOR_RGB2GRAY)
-print(gray.shape)
+def get_key_points(gray, image):
+    plt.figure(figsize=(20, 10))
+    plt.imshow(gray, cmap='gray', vmin=0, vmax=255)
+    plt.show()
 
-plt.figure(figsize=(20, 10))
-plt.imshow(gray, cmap='gray', vmin=0, vmax=255)
-plt.show()
+    sift = cv2.SIFT_create()
+    kp = sift.detect(gray, None)
 
-sift = cv2.SIFT_create()
-kp = sift.detect(gray, None)
+    keypoints = cv2.drawKeypoints(gray, kp, None, flags=cv2.DRAW_MATCHES_FLAGS_DRAW_RICH_KEYPOINTS)
+    cv2.imwrite('sift_keypoints.jpg', image)
 
-keypoints = cv2.drawKeypoints(gray, kp, None, flags=cv2.DRAW_MATCHES_FLAGS_DRAW_RICH_KEYPOINTS)
-cv2.imwrite('sift_keypoints.jpg', img1)
+    print(keypoints.shape)
+    plt.figure(figsize=(20, 10))
+    plt.imshow(keypoints)
+    plt.title('Keypoints of Image 1 for reference')
+    plt.show()
 
-print(keypoints.shape)
-plt.figure(figsize=(20, 10))
-plt.imshow(keypoints)
-plt.title('Keypoints of Image 1 for reference')
-plt.show()
 
-# for face detection
-face_cascade = cv2.CascadeClassifier(getHaarcascadePath())
+def crop(image, roi_color, roi_gray, faces, gray, size):
+    for (x, y, w, h) in faces:
+        extra = int(w / 6)
+        x1 = max(0, x - extra)
+        y1 = max(0, y - extra)
+        x2 = min(size[1], x1 + 2 * extra + w)
+        y2 = min(size[0], y1 + 2 * extra + w)
 
-# images to grayscale
-gray1 = cv2.cvtColor(img1, cv2.COLOR_RGB2GRAY)
-gray2 = cv2.cvtColor(img2, cv2.COLOR_RGB2GRAY)
+        image = cv2.rectangle(image, (x1, y1), (x2 - 1, y2 - 1), (0, 0, 255), 4)
+        roi_gray.append(gray[y1:y2, x1:x2])
+        roi_color.append(image[y1:y2, x1:x2])
+    return image, roi_color, roi_gray
 
-# detect faces in the 2 images
-faces1 = face_cascade.detectMultiScale(gray1, 1.3, 5)
-faces2 = face_cascade.detectMultiScale(gray2, 1.3, 5)
-roi_gray = []
-roi_color = []
 
-size = gray1.shape
+def plot_cropped(roi_gray):
+    # plot the cropped out grayscale images of the originals
+    plt.figure(figsize=(20, 10))
+    plt.imshow(roi_gray[0], cmap='gray', vmin=0, vmax=255)
+    plt.title('ROI of image 1')
+    plt.show()
+    plt.figure(figsize=(20, 10))
+    plt.imshow(roi_gray[1], cmap='gray', vmin=0, vmax=255)
+    plt.title('ROI of image 2')
+    plt.show()
 
-# crop out only the face of the first and second images
-for (x, y, w, h) in faces1:
-    extra = int(w / 6)
-    x1 = max(0, x - extra)
-    y1 = max(0, y - extra)
-    x2 = min(size[1], x1 + 2 * extra + w)
-    y2 = min(size[0], y1 + 2 * extra + w)
 
-    img1 = cv2.rectangle(img1, (x1, y1), (x2 - 1, y2 - 1), (0, 0, 255), 4)
-    roi_gray.append(gray1[y1:y2, x1:x2])
-    roi_color.append(img1[y1:y2, x1:x2])
+def final_statistics(img1, img2, kp1, kp2, des1, des2):
+    bf = cv2.BFMatcher(cv2.NORM_L1, crossCheck=True)
+    matches = bf.match(des1, des2)
+    matches = sorted(matches, key=lambda x: x.distance)
+    img3 = cv2.drawMatches(img1, kp1, img2, kp2, matches[:50], img2, flags=2)
+    plt.imshow(img3), plt.show()
 
-if len(faces1) == 0:
-    roi_gray.append(gray1)
-    roi_color.append(img1)
 
-size = gray2.shape
-for (x, y, w, h) in faces2:
-    extra = int(w / 6)
-    x1 = max(0, x - extra)
-    y1 = max(0, y - extra)
-    x2 = min(size[1], x1 + 2 * extra + w)
-    y2 = min(size[0], y1 + 2 * extra + w)
+def is_match(good):
+    if len(good) >= 15:
+        print("It's a Match")
+        print(len(good))
+    else:
+        print("Not a Match")
+        print(len(good))
 
-    img2 = cv2.rectangle(img2, (x1, y1), (x2 - 1, y2 - 1), (0, 0, 255), 4)
-    roi_gray.append(gray2[y1:y2, x1:x2])
-    roi_color.append(img2[y1:y2, x1:x2])
 
-if len(faces2) == 0:
-    roi_gray.append(gray2)
-    roi_color.append(img2)
+def comparison(image1, image2):
+    image1, image2, gray1, gray2 = prepare_images(image1, image2)
+    get_key_points(gray1, image1)
+    sift = cv2.SIFT_create()
 
-# img2 = cv2.cvtColor(img2, cv2.COLOR_BGR2RGB)
-# roi_color=cv2.cvtColor(roi_color,cv2.COLOR_BGR2RGB)
+    # for face detection
+    face_cascade = cv2.CascadeClassifier(cascade_path())
 
-# plot the cropped out grayscale images of the originals
-plt.figure(figsize=(20, 10))
-plt.imshow(roi_gray[0], cmap='gray', vmin=0, vmax=255)
-plt.title('ROI of image 1')
-plt.show()
+    # detect faces in the images
+    faces1 = face_cascade.detectMultiScale(gray1, 1.3, 5)
+    faces2 = face_cascade.detectMultiScale(gray2, 1.3, 5)
+    roi_gray = []
+    roi_color = []
 
-plt.figure(figsize=(20, 10))
-plt.imshow(roi_gray[1], cmap='gray', vmin=0, vmax=255)
-plt.title('ROI of image 2')
-plt.show()
+    size1 = gray1.shape
+    size2 = gray2.shape
 
-kp1, des1 = sift.detectAndCompute(roi_gray[0], None)
-kp2, des2 = sift.detectAndCompute(roi_gray[1], None)
+    # crop out only the face of the first and second images
+    image1, roi_color, roi_gray = crop(image1, roi_color, roi_gray, faces1, gray1, size1)
+    image2, roi_color, roi_gray = crop(image2, roi_color, roi_gray, faces2, gray2, size2)
 
-# create a bruteforce matcher
-bf = cv2.BFMatcher()
+    if len(faces1) == 0:
+        roi_gray.append(gray1)
+        roi_color.append(image1)
+    if len(faces2) == 0:
+        roi_gray.append(gray2)
+        roi_color.append(image2)
 
-# Match descriptors.
-# matches = bf.match(des1,des2)
-matches = bf.knnMatch(des1, des2, k=2)
+    plot_cropped(roi_gray)
 
-# Sort them in the order of their distance.
-# matches = sorted(matches, key = lambda x:x.distance)
+    kp1, des1 = sift.detectAndCompute(roi_gray[0], None)
+    kp2, des2 = sift.detectAndCompute(roi_gray[1], None)
 
-# Apply ratio test to filter out only the good matches
-good = []
-for m, n in matches:
-    if m.distance < 0.75 * n.distance:
-        good.append([m])
+    # create a bruteforce matcher
+    bf = cv2.BFMatcher()
+    # Match descriptors.
+    matches = bf.knnMatch(des1, des2, k=2)
 
-print(len(matches))
-print(len(good))
+    # Apply ratio test to filter out only the good matches
+    is_matching = []
+    for m, n in matches:
+        if m.distance < 0.75 * n.distance:
+            is_matching.append([m])
 
-if len(good) >= 15:
-    print("It's a Match")
-    print(len(good))
-else:
-    print("Not a Match")
-    print(len(good))
+    print(len(matches))
+    print(len(is_matching))
+    is_match(is_matching)
+    # feature matching
+    final_statistics(image1, image2, kp1, kp2, des1, des2)
 
-# Draw first 10 matches.
-# img3=cv2.drawMatches(roi_gray[0],kp1,roi_gray[0],kp2,matches,None,flags=2)
 
-#feature matching
-bf = cv2.BFMatcher(cv2.NORM_L1, crossCheck=True)
+def main():
+    img1 = cv2.imread('1.jpg')
+    img2 = cv2.imread('2.jpg')
+    comparison(img1, img2)
 
-matches = bf.match(des1,des2)
-matches = sorted(matches, key = lambda x:x.distance)
 
-img3 = cv2.drawMatches(img1, kp1, img2, kp2, matches[:50], img2, flags=2)
-plt.imshow(img3),plt.show()
+if __name__ == "__main__":
+    main()
 
 # img1 = cv2.imread('test1.jpg',0)
 # img2 = cv2.imread('test4.jpg',0)
