@@ -1,3 +1,4 @@
+from image_converter import convert_formats
 from PIL import Image
 from keras_vggface.utils import preprocess_input
 from keras_vggface.vggface import VGGFace
@@ -7,44 +8,43 @@ from numpy import asarray
 from scipy.spatial.distance import cosine
 
 
-# extract a single face from a given photograph
+# This function is used to extract the face from a given photograph;
+# Basically size is set for 224 up to 224;
 def extract_face(filename, required_size=(224, 224)):
-    # load image from file
     pixels = pyplot.imread(filename)
-    # create the detector, using default weights
     detector = MTCNN()
-    # detect faces in the image
     results = detector.detect_faces(pixels)
-    # extract the bounding box from the first face
+    print(results[0]['box'])
     x1, y1, width, height = results[0]['box']
     x2, y2 = x1 + width, y1 + height
-    # extract the face
     face = pixels[y1:y2, x1:x2]
-    # resize pixels to the model size
     image = Image.fromarray(face)
     image = image.resize(required_size)
+    # noinspection PyTypeChecker
     face_array = asarray(image)
     return face_array
 
 
-# extract faces and calculate face embeddings for a list of photo files
-def get_embeddings(filenames):
-    # extract faces
-    faces = [extract_face(f) for f in filenames]
-    # convert into an array of samples
+# This function is used for calling face extraction function and
+# getting samples;
+def prepare_sample(file_names):
+    faces = [extract_face(f) for f in file_names]
     samples = asarray(faces, 'float32')
-    # prepare the face for the model, e.g. center pixels
-    samples = preprocess_input(samples, version=2)
-    # create a vggface model
+    return preprocess_input(samples, version=2)
+
+
+# This function is used for calculation of prediction with face embeddings;
+# Standard model is resnet50;
+def prepare_prediction(samples):
     model = VGGFace(model='resnet50', include_top=False, input_shape=(224, 224, 3), pooling='avg')
-    # perform prediction
-    yhat = model.predict(samples)
-    return yhat
+    prediction = model.predict(samples)
+    return prediction
 
 
-# determine if a candidate face is a match for a known face
-def is_match(known_embedding, candidate_embedding, thresh=0.5):
-    # calculate distance between embeddings
+# This function is used for comparison of distance between embeddings
+# to check up percent of matches;
+def is_match(known_embedding, candidate_embedding):
+    thresh = 0.5
     score = cosine(known_embedding, candidate_embedding)
     if score <= thresh:
         print('>face is a Match (%.3f <= %.3f)' % (score, thresh))
@@ -52,14 +52,15 @@ def is_match(known_embedding, candidate_embedding, thresh=0.5):
         print('>face is NOT a Match (%.3f > %.3f)' % (score, thresh))
 
 
-# define filenames
-filenames = ['test1.jpg', 'test2.jpg',
-             'test3.jpg']
-# get embeddings file filenames
-embeddings = get_embeddings(filenames)
-# define sharon stone
-sharon_id = embeddings[0]
-# verify known photos of sharon
-print('Positive Tests')
-is_match(embeddings[0], embeddings[1])
-is_match(embeddings[0], embeddings[2])
+def main():
+    filenames = ['1.jpg',
+                 '2.jpg',
+                 '3.jpg']
+    predictions = prepare_prediction(prepare_sample(filenames))
+    print('Tests:')
+    is_match(predictions[0], predictions[1])
+    is_match(predictions[0], predictions[2])
+
+
+if __name__ == "__main__":
+    main()
