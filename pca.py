@@ -10,10 +10,10 @@ from sklearn.decomposition import PCA
 faces = {}
 path = os.getcwd() + "\\att_faces\\"
 image_folders = os.listdir(path)
-for i in range(1, len(image_folders)):
+for i in range(1, len(image_folders) + 1):
     filepath = path + str(i) + "\\*.pgm"
     files_list = glob.glob(filepath)
-    for j in range(1, len(files_list)):
+    for j in range(1, len(files_list) + 1):
         image_path = path + str(i) + "\\" + str(j) + ".pgm"
         order = str(i) + "/" + str(j) + ".pgm"
         img = Image.open(image_path)
