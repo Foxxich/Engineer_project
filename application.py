@@ -1,12 +1,11 @@
 import os
-import time
 import tkinter as tk
+from functools import partial
+from tkinter import *
 
 import PIL.Image
 import PIL.ImageTk
 import cv2
-from tkinter import *
-from functools import partial
 
 
 class App:
@@ -27,7 +26,12 @@ class App:
     def make_photo(self):
         ret, frame = self.vid.get_frame()
         if ret:
-            os.rename('from.extension.whatever', 'to.another.extension')
+            try:
+                if os.path.isfile('extra_frame.jpg'):
+                    os.remove('extra_frame.jpg')
+                os.rename('last_frame.jpg', 'extra_frame.jpg')
+            except FileNotFoundError:
+                print("File not exist")
             cv2.imwrite("last_frame.jpg", cv2.cvtColor(frame, cv2.COLOR_RGB2BGR))
             self.vid.destroy()
             self.window.destroy()
@@ -47,15 +51,11 @@ class App:
 class VideoCapture:
     def __init__(self, video_source=0):
         # Open the video source
-        self.vid = cv2.VideoCapture(video_source)
+        self.vid = cv2.VideoCapture(video_source, cv2.CAP_DSHOW)
         if not self.vid.isOpened():
             raise ValueError("Unable to open camera", video_source)
 
-        VIDEO_TYPE = {
-            'avi': cv2.VideoWriter_fourcc(*'XVID'),
-        }
-
-        self.fourcc = VIDEO_TYPE['avi']
+        self.fourcc = cv2.VideoWriter_fourcc(*'XVID')
 
         STD_DIMENSIONS = {
             '480p': (640, 480),
@@ -64,11 +64,9 @@ class VideoCapture:
         }
         res = STD_DIMENSIONS['480p']
         print('output', self.fourcc, res)
-        self.out = cv2.VideoWriter('output .' + 'avi', self.fourcc, 10, res)
         self.vid.set(3, res[0])
         self.vid.set(4, res[1])
         self.width, self.height = res
-
 
     def get_frame(self):
         if self.vid.isOpened():
@@ -80,19 +78,16 @@ class VideoCapture:
         else:
             return None
 
-    def __del__(self):
-        if self.vid.isOpened():
-            self.vid.release()
-            self.out.release()
-            cv2.destroyAllWindows()
-
     def destroy(self):
         self.vid.release()
+        self.vid.release()
+        cv2.destroyAllWindows()
 
 
 class RegisterWindow:
 
-    def validateLogin(self, username, password):
+    @staticmethod
+    def validate_login(username, password):
         print("username entered :", username.get())
         print("password entered :", password.get())
         return
@@ -112,7 +107,7 @@ class RegisterWindow:
         password = StringVar()
         passwordEntry = Entry(master, textvariable=password, show='*').grid(row=1, column=1)
 
-        validateLogin = partial(self.validateLogin, username, password)
+        validateLogin = partial(self.validate_login, username, password)
 
         # login button
         loginButton = Button(master, text="Login", command=validateLogin).grid(row=4, column=0)
@@ -126,9 +121,9 @@ class MainWindow:
         self.master = master
         self.frame = tk.Frame(self.master, width=300, height=300)
         self.frame.size()
-        self.button1 = tk.Button(self.frame, text = 'Login', width = 125, command = self.login_window)
+        self.button1 = tk.Button(self.frame, text='Login', width=125, command=self.login_window)
         self.button1.pack()
-        self.button2 = tk.Button(self.frame, text = 'Register', width = 125, command = self.register_window)
+        self.button2 = tk.Button(self.frame, text='Register', width=125, command=self.register_window)
         self.button2.pack()
         self.frame.pack()
 
@@ -136,16 +131,17 @@ class MainWindow:
         self.newWindow = tk.Toplevel(self.master)
         self.app = App(self.newWindow, 'Video Recorder')
 
-
     def register_window(self):
         self.newWindow = tk.Toplevel(self.master)
         self.app = RegisterWindow(self.newWindow)
         print(2)
+
 
 def main():
     root = tk.Tk()
     root.geometry("300x300")
     app = MainWindow(root)
     root.mainloop()
+
 
 main()
