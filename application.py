@@ -1,50 +1,39 @@
+import os
 import time
 import tkinter as tk
 
 import PIL.Image
 import PIL.ImageTk
 import cv2
+from tkinter import *
+from functools import partial
 
 
 class App:
-    def __init__(self, window, window_title, video_source=0):
+    def __init__(self, window, window_title):
         self.window = window
         self.window.title(window_title)
-        self.video_source = video_source
+        self.video_source = 0
         self.ok = False
 
-        # open video source (by default this will try to open the computer webcam)
         self.vid = VideoCapture(self.video_source)
-
-        # Create a canvas that can fit the above video source size
         self.canvas = tk.Canvas(window, width=self.vid.width, height=self.vid.height)
         self.canvas.pack()
-
-        # Button that lets the user take a snapshot
-        self.btn_snapshot = tk.Button(window, text="Snapshot", command=self.snapshot)
+        self.btn_snapshot = tk.Button(window, text="Make photo", command=self.make_photo)
         self.btn_snapshot.pack(side=tk.LEFT)
-
-        # quit button
-        self.btn_quit = tk.Button(window, text='QUIT', command=quit)
-        self.btn_quit.pack(side=tk.LEFT)
-
-        # After it is called once, the update method will be automatically called every delay milliseconds
         self.delay = 10
-        self.update()
+        self.update_frame()
 
-    def snapshot(self):
-        # Get a frame from the video source
+    def make_photo(self):
         ret, frame = self.vid.get_frame()
-
         if ret:
-            cv2.imwrite("frame-" + time.strftime("%d-%m-%Y-%H-%M-%S") + ".jpg", cv2.cvtColor(frame, cv2.COLOR_RGB2BGR))
+            os.rename('from.extension.whatever', 'to.another.extension')
+            cv2.imwrite("last_frame.jpg", cv2.cvtColor(frame, cv2.COLOR_RGB2BGR))
             self.vid.destroy()
             self.window.destroy()
             cv2.destroyAllWindows()
 
-    def update(self):
-
-        # Get a frame from the video source
+    def update_frame(self):
         ret, frame = self.vid.get_frame()
         if self.ok:
             self.vid.out.write(cv2.cvtColor(frame, cv2.COLOR_RGB2BGR))
@@ -52,7 +41,7 @@ class App:
         if ret:
             self.photo = PIL.ImageTk.PhotoImage(image=PIL.Image.fromarray(frame))
             self.canvas.create_image(0, 0, image=self.photo, anchor=tk.NW)
-        self.window.after(self.delay, self.update)
+        self.window.after(self.delay, self.update_frame)
 
 
 class VideoCapture:
@@ -60,48 +49,37 @@ class VideoCapture:
         # Open the video source
         self.vid = cv2.VideoCapture(video_source)
         if not self.vid.isOpened():
-            raise ValueError("Unable to open video source", video_source)
+            raise ValueError("Unable to open camera", video_source)
 
-        # 1. Video Type
         VIDEO_TYPE = {
             'avi': cv2.VideoWriter_fourcc(*'XVID'),
-            # 'mp4': cv2.VideoWriter_fourcc(*'H264'),
-            'mp4': cv2.VideoWriter_fourcc(*'XVID'),
         }
 
         self.fourcc = VIDEO_TYPE['avi']
 
-        # 2. Video Dimension
         STD_DIMENSIONS = {
             '480p': (640, 480),
             '720p': (1280, 720),
             '1080p': (1920, 1080),
-            '4k': (3840, 2160),
         }
         res = STD_DIMENSIONS['480p']
         print('output', self.fourcc, res)
         self.out = cv2.VideoWriter('output .' + 'avi', self.fourcc, 10, res)
-
-        # set video sourec width and height
         self.vid.set(3, res[0])
         self.vid.set(4, res[1])
-
-        # Get video source width and height
         self.width, self.height = res
 
-    # To get frames
+
     def get_frame(self):
         if self.vid.isOpened():
             ret, frame = self.vid.read()
             if ret:
-                # Return a boolean success flag and the current frame converted to BGR
-                return (ret, cv2.cvtColor(frame, cv2.COLOR_RGB2BGR))
+                return ret, cv2.cvtColor(frame, cv2.COLOR_RGB2BGR)
             else:
-                return (ret, None)
+                return ret, None
         else:
-            return (ret, None)
+            return None
 
-    # Release the video source when the object is destroyed
     def __del__(self):
         if self.vid.isOpened():
             self.vid.release()
@@ -113,12 +91,31 @@ class VideoCapture:
 
 
 class RegisterWindow:
+
+    def validateLogin(self, username, password):
+        print("username entered :", username.get())
+        print("password entered :", password.get())
+        return
+
     def __init__(self, master):
         self.master = master
         self.frame = tk.Frame(self.master)
-        self.quitButton = tk.Button(self.frame, text = 'Quit', width = 25, command = self.close_windows)
-        self.quitButton.pack()
-        self.frame.pack()
+        master.title('Tkinter Login Form - pythonexamples.org')
+
+        # username label and text entry box
+        usernameLabel = Label(master, text="User Name").grid(row=0, column=0)
+        username = StringVar()
+        usernameEntry = Entry(master, textvariable=username).grid(row=0, column=1)
+
+        # password label and password entry box
+        passwordLabel = Label(master, text="Password").grid(row=1, column=0)
+        password = StringVar()
+        passwordEntry = Entry(master, textvariable=password, show='*').grid(row=1, column=1)
+
+        validateLogin = partial(self.validateLogin, username, password)
+
+        # login button
+        loginButton = Button(master, text="Login", command=validateLogin).grid(row=4, column=0)
 
     def close_windows(self):
         self.master.destroy()
@@ -143,7 +140,7 @@ class MainWindow:
     def register_window(self):
         self.newWindow = tk.Toplevel(self.master)
         self.app = RegisterWindow(self.newWindow)
-
+        print(2)
 
 def main():
     root = tk.Tk()
