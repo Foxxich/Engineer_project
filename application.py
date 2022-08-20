@@ -1,15 +1,32 @@
 import os
+import time
 import tkinter as tk
 from functools import partial
 from tkinter import *
-
+from sift import comparison
 import PIL.Image
 import PIL.ImageTk
 import cv2
 
+is_login_possible = False
+
+
+def run_tests(self):
+    img1 = 'extra_frame.jpg'
+    img2 = 'last_frame.jpg'
+    start_time = time.time()
+    result = comparison(img1, img2)
+    end_time = time.time()
+    print("Total time: ", round((end_time - start_time)), ' Seconds')
+    if result:
+        self.newWindow = tk.Toplevel(self.master)
+        self.app = App(self.newWindow, 'Take image to login')
+
+
 
 class App:
     def __init__(self, window, window_title):
+        self.photo = None
         self.window = window
         self.window.title(window_title)
         self.video_source = 0
@@ -36,6 +53,7 @@ class App:
             self.vid.destroy()
             self.window.destroy()
             cv2.destroyAllWindows()
+            run_tests(se)
 
     def update_frame(self):
         ret, frame = self.vid.get_frame()
@@ -57,13 +75,12 @@ class VideoCapture:
 
         self.fourcc = cv2.VideoWriter_fourcc(*'XVID')
 
-        STD_DIMENSIONS = {
+        dimensions = {
             '480p': (640, 480),
             '720p': (1280, 720),
             '1080p': (1920, 1080),
         }
-        res = STD_DIMENSIONS['480p']
-        print('output', self.fourcc, res)
+        res = dimensions['480p']
         self.vid.set(3, res[0])
         self.vid.set(4, res[1])
         self.width, self.height = res
@@ -80,37 +97,36 @@ class VideoCapture:
 
     def destroy(self):
         self.vid.release()
-        self.vid.release()
         cv2.destroyAllWindows()
 
 
 class RegisterWindow:
 
     @staticmethod
-    def validate_login(username, password):
+    def validate_login(self, username, password):
         print("username entered :", username.get())
         print("password entered :", password.get())
+        self.newWindow = tk.Toplevel(self.master)
+        self.app = App(self.newWindow, 'Take image to login')
         return
 
     def __init__(self, master):
         self.master = master
         self.frame = tk.Frame(self.master)
-        master.title('Tkinter Login Form - pythonexamples.org')
+        master.title('Create account')
 
-        # username label and text entry box
-        usernameLabel = Label(master, text="User Name").grid(row=0, column=0)
+        Label(master, text="User Name").grid(row=0, column=0)
         username = StringVar()
-        usernameEntry = Entry(master, textvariable=username).grid(row=0, column=1)
+        Entry(master, textvariable=username).grid(row=0, column=1)
 
-        # password label and password entry box
-        passwordLabel = Label(master, text="Password").grid(row=1, column=0)
+        Label(master, text="Password").grid(row=1, column=0)
         password = StringVar()
-        passwordEntry = Entry(master, textvariable=password, show='*').grid(row=1, column=1)
+        Entry(master, textvariable=password, show='*').grid(row=1, column=1)
 
-        validateLogin = partial(self.validate_login, username, password)
+        validate_login = partial(self.validate_login, master, username, password)
 
         # login button
-        loginButton = Button(master, text="Login", command=validateLogin).grid(row=4, column=0)
+        Button(master, text="Login", command=validate_login).grid(row=4, column=0)
 
     def close_windows(self):
         self.master.destroy()
@@ -118,6 +134,8 @@ class RegisterWindow:
 
 class MainWindow:
     def __init__(self, master):
+        self.app = None
+        self.newWindow = None
         self.master = master
         self.frame = tk.Frame(self.master, width=300, height=300)
         self.frame.size()
@@ -129,12 +147,11 @@ class MainWindow:
 
     def login_window(self):
         self.newWindow = tk.Toplevel(self.master)
-        self.app = App(self.newWindow, 'Video Recorder')
+        self.app = App(self.newWindow, 'Take image to login')
 
     def register_window(self):
         self.newWindow = tk.Toplevel(self.master)
         self.app = RegisterWindow(self.newWindow)
-        print(2)
 
 
 def main():
@@ -144,4 +161,5 @@ def main():
     root.mainloop()
 
 
-main()
+if __name__ == "__main__":
+    main()

@@ -88,9 +88,11 @@ def is_match(good, matches, test_image, original_image):
     if len(good) >= delta:
         print('There is a match between {} and {}'.format(test_image, original_image))
         print(len(good))
+        return True
     else:
         print('There is NO match between {} and {}'.format(test_image, original_image))
         print(len(good))
+        return False
 
 
 def comparison(test_image, original_image):
@@ -137,8 +139,8 @@ def comparison(test_image, original_image):
         if m.distance < 0.75 * n.distance:
             matcher_count.append([m])
 
-    is_match(matcher_count, matches, test_image, original_image)
     final_statistics(image1, image2, kp1, kp2, des1, des2)
+    return is_match(matcher_count, matches, test_image, original_image)
 
 
 def main():
