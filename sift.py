@@ -83,9 +83,9 @@ def final_statistics(image1, image2, kp1, kp2, des1, des2):
 # This function is used to check up percent of matches with set custom delta;
 def is_match(good, matches, test_image, original_image):
     delta = 15
-    # match_percent = len(good) * 100 / len(matches)
-    # percent_delta = 2.1
-    if len(good) >= delta:
+    match_percent = len(good) * 100 / len(matches)
+    percent_delta = 2.1
+    if match_percent >= percent_delta:
         print('There is a match between {} and {}'.format(test_image, original_image))
         print(len(good))
         return True
