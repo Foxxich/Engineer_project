@@ -3,51 +3,53 @@ import time
 import tkinter as tk
 from functools import partial
 from tkinter import *
-
-from PIL import ImageTk
-
-from sift import comparison
-from PIL import Image
 import PIL.ImageTk
 import cv2
-from tkinter import filedialog
+from PIL import Image
 from PIL import ImageTk
+from sift import comparison
+
 
 class LoggedWindow:
-
     def on_closing(self):
         self.master.destroy()
         self.main_window.destroy()
 
-    def __init__(self, master, main_window):
+    def __init__(self, master, main_window, is_successful):
         self.master = master
         self.main_window = main_window
         self.frame = tk.Frame(self.master, width=300, height=300)
         master.title('You are logged')
 
-        img = Image.open('savedImage.jpg')
-        self.tkimage = ImageTk.PhotoImage(img)
-        Label(self.master, image=self.tkimage).place(x=0, y=0, relwidth=1, relheight=1)
+        if is_successful:
+            img = Image.open('logged.png')
+        else:
+            img = Image.open('error.png')
+        self.tk_image = ImageTk.PhotoImage(img)
+        Label(self.master, image=self.tk_image).place(x=0, y=0, relwidth=1, relheight=1)
 
         master.protocol("WM_DELETE_WINDOW", self.on_closing)
 
 
 def run_tests(self, main_window):
-    img1 = 'extra_frame.jpg'
-    img2 = 'last_frame.jpg'
+    img1 = 'previous_image.jpg'
+    img2 = 'new_image.jpg'
     start_time = time.time()
     result = comparison(img1, img2)
     end_time = time.time()
     print("Total time: ", round((end_time - start_time)), ' Seconds')
     if result:
         self.newWindow = tk.Toplevel(self.master)
-        self.app = LoggedWindow(self.newWindow, main_window)
+        self.app = LoggedWindow(self.newWindow, main_window, True)
+    else:
+        self.newWindow = tk.Toplevel(self.master)
+        self.app = LoggedWindow(self.newWindow, main_window, False)
 
 
 def show_logged(self, main_window):
     self.master.withdraw()
     self.newWindow = tk.Toplevel(self.master)
-    self.app = LoggedWindow(self.newWindow, main_window)
+    self.app = LoggedWindow(self.newWindow, main_window, True)
 
 
 class App:
@@ -74,12 +76,12 @@ class App:
         ret, frame = self.vid.get_frame()
         if ret:
             try:
-                if os.path.isfile('extra_frame.jpg'):
-                    os.remove('extra_frame.jpg')
-                os.rename('last_frame.jpg', 'extra_frame.jpg')
+                if os.path.isfile('previous_image.jpg'):
+                    os.remove('previous_image.jpg')
+                os.rename('new_image.jpg', 'previous_image.jpg')
             except FileNotFoundError:
                 print("File not exist")
-            cv2.imwrite("last_frame.jpg", cv2.cvtColor(frame, cv2.COLOR_RGB2BGR))
+            cv2.imwrite("new_image.jpg", cv2.cvtColor(frame, cv2.COLOR_RGB2BGR))
             self.vid.destroy()
             self.window.destroy()
             cv2.destroyAllWindows()
@@ -101,7 +103,6 @@ class App:
 
 class VideoCapture:
     def __init__(self, video_source=0):
-        # Open the video source
         self.out = None
         self.vid = cv2.VideoCapture(video_source, cv2.CAP_DSHOW)
         if not self.vid.isOpened():
@@ -114,10 +115,10 @@ class VideoCapture:
             '720p': (1280, 720),
             '1080p': (1920, 1080),
         }
-        res = dimensions['480p']
-        self.vid.set(3, res[0])
-        self.vid.set(4, res[1])
-        self.width, self.height = res
+        chosen_dimension = dimensions['480p']
+        self.vid.set(3, chosen_dimension[0])
+        self.vid.set(4, chosen_dimension[1])
+        self.width, self.height = chosen_dimension
 
     def get_frame(self):
         if self.vid.isOpened():
@@ -157,7 +158,6 @@ class RegisterWindow:
 
         validate_login = partial(self.validate_login, username)
 
-        # login button
         Button(master, text="Login", command=validate_login).grid(row=4, column=0)
 
     def close_windows(self):
@@ -195,3 +195,5 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+    # TODO: add https://stackoverflow.com/questions/14910858/how-to-specify-where-a-tkinter-window-opens
