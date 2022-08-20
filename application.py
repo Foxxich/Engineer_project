@@ -3,12 +3,13 @@ import time
 import tkinter as tk
 from functools import partial
 from tkinter import *
+
+from PIL import ImageTk
+
 from sift import comparison
 import PIL.Image
 import PIL.ImageTk
 import cv2
-
-is_login_possible = False
 
 
 class LoggedWindow:
@@ -22,11 +23,15 @@ class LoggedWindow:
         self.main_window = main_window
         self.frame = tk.Frame(self.master)
         master.title('You are logged')
-        master.protocol("WM_DELETE_WINDOW", self.on_closing)
 
-    def close_windows(self):
-        self.master.destroy()
-        self.main_window.destroy()
+        # Create an object of tkinter ImageTk
+        img = ImageTk.PhotoImage(Image.open("extra_frame.jpg"))
+
+        # Create a Label Widget to display the text or Image
+        label = Label(self.frame, image=img)
+        label.pack()
+
+        master.protocol("WM_DELETE_WINDOW", self.on_closing)
 
 
 def run_tests(self, main_window):
@@ -42,9 +47,12 @@ def run_tests(self, main_window):
 
 
 class App:
-    def __init__(self, window, window_title, main_window):
+    def __init__(self, window, window_title, main_window, testing):
+        self.app = None
+        self.newWindow = None
         self.photo = None
         self.window = window
+        self.testing = testing
         self.main_window = main_window
         self.window.title(window_title)
         self.video_source = 0
@@ -71,7 +79,11 @@ class App:
             self.vid.destroy()
             self.window.destroy()
             cv2.destroyAllWindows()
-            run_tests(self.window, self.main_window)
+            if self.testing:
+                run_tests(self.window, self.main_window)
+            else:
+                self.newWindow = tk.Toplevel(self.window)
+                self.app = LoggedWindow(self.newWindow, self.main_window)
 
     def update_frame(self):
         ret, frame = self.vid.get_frame()
@@ -124,11 +136,13 @@ class RegisterWindow:
     def validate_login(self, username):
         print("username entered :", username.get())
         self.newWindow = tk.Toplevel(self.main_window)
-        self.app = App(self.newWindow, 'Take image to login', self.main_window)
+        self.app = App(self.newWindow, 'Take image to login', self.main_window, False)
         self.master.destroy()
         return
 
     def __init__(self, master, main_window):
+        self.app = None
+        self.newWindow = None
         self.master = master
         self.main_window = main_window
         self.frame = tk.Frame(self.master)
@@ -163,7 +177,7 @@ class MainWindow:
     def login_window(self):
         self.master.withdraw()
         self.newWindow = tk.Toplevel(self.master)
-        self.app = App(self.newWindow, 'Take image to login', self.master)
+        self.app = App(self.newWindow, 'Take image to login', self.master, True)
 
     def register_window(self):
         self.newWindow = tk.Toplevel(self.master)
@@ -172,7 +186,7 @@ class MainWindow:
 
 def main():
     root = tk.Tk()
-    app = MainWindow(root)
+    MainWindow(root)
     root.mainloop()
 
 
