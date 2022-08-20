@@ -7,10 +7,11 @@ from tkinter import *
 from PIL import ImageTk
 
 from sift import comparison
-import PIL.Image
+from PIL import Image
 import PIL.ImageTk
 import cv2
-
+from tkinter import filedialog
+from PIL import ImageTk
 
 class LoggedWindow:
 
@@ -21,15 +22,12 @@ class LoggedWindow:
     def __init__(self, master, main_window):
         self.master = master
         self.main_window = main_window
-        self.frame = tk.Frame(self.master)
+        self.frame = tk.Frame(self.master, width=300, height=300)
         master.title('You are logged')
 
-        # Create an object of tkinter ImageTk
-        img = ImageTk.PhotoImage(Image.open("extra_frame.jpg"))
-
-        # Create a Label Widget to display the text or Image
-        label = Label(self.frame, image=img)
-        label.pack()
+        img = Image.open('savedImage.jpg')
+        self.tkimage = ImageTk.PhotoImage(img)
+        Label(self.master, image=self.tkimage).place(x=0, y=0, relwidth=1, relheight=1)
 
         master.protocol("WM_DELETE_WINDOW", self.on_closing)
 
@@ -44,6 +42,12 @@ def run_tests(self, main_window):
     if result:
         self.newWindow = tk.Toplevel(self.master)
         self.app = LoggedWindow(self.newWindow, main_window)
+
+
+def show_logged(self, main_window):
+    self.master.withdraw()
+    self.newWindow = tk.Toplevel(self.master)
+    self.app = LoggedWindow(self.newWindow, main_window)
 
 
 class App:
@@ -82,8 +86,7 @@ class App:
             if self.testing:
                 run_tests(self.window, self.main_window)
             else:
-                self.newWindow = tk.Toplevel(self.window)
-                self.app = LoggedWindow(self.newWindow, self.main_window)
+                show_logged(self.window, self.main_window)
 
     def update_frame(self):
         ret, frame = self.vid.get_frame()
