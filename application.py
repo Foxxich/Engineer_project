@@ -53,7 +53,7 @@ class App:
             self.vid.destroy()
             self.window.destroy()
             cv2.destroyAllWindows()
-            run_tests(se)
+            run_tests(self.window)
 
     def update_frame(self):
         ret, frame = self.vid.get_frame()
