@@ -11,7 +11,25 @@ import cv2
 is_login_possible = False
 
 
-def run_tests(self):
+class LoggedWindow:
+
+    def on_closing(self):
+        self.master.destroy()
+        self.main_window.destroy()
+
+    def __init__(self, master, main_window):
+        self.master = master
+        self.main_window = main_window
+        self.frame = tk.Frame(self.master)
+        master.title('You are logged')
+        master.protocol("WM_DELETE_WINDOW", self.on_closing)
+
+    def close_windows(self):
+        self.master.destroy()
+        self.main_window.destroy()
+
+
+def run_tests(self, main_window):
     img1 = 'extra_frame.jpg'
     img2 = 'last_frame.jpg'
     start_time = time.time()
@@ -20,14 +38,14 @@ def run_tests(self):
     print("Total time: ", round((end_time - start_time)), ' Seconds')
     if result:
         self.newWindow = tk.Toplevel(self.master)
-        self.app = App(self.newWindow, 'Take image to login')
-
+        self.app = LoggedWindow(self.newWindow, main_window)
 
 
 class App:
-    def __init__(self, window, window_title):
+    def __init__(self, window, window_title, main_window):
         self.photo = None
         self.window = window
+        self.main_window = main_window
         self.window.title(window_title)
         self.video_source = 0
         self.ok = False
@@ -53,7 +71,7 @@ class App:
             self.vid.destroy()
             self.window.destroy()
             cv2.destroyAllWindows()
-            run_tests(self.window)
+            run_tests(self.window, self.main_window)
 
     def update_frame(self):
         ret, frame = self.vid.get_frame()
@@ -69,6 +87,7 @@ class App:
 class VideoCapture:
     def __init__(self, video_source=0):
         # Open the video source
+        self.out = None
         self.vid = cv2.VideoCapture(video_source, cv2.CAP_DSHOW)
         if not self.vid.isOpened():
             raise ValueError("Unable to open camera", video_source)
@@ -102,16 +121,16 @@ class VideoCapture:
 
 class RegisterWindow:
 
-    @staticmethod
-    def validate_login(self, username, password):
+    def validate_login(self, username):
         print("username entered :", username.get())
-        print("password entered :", password.get())
-        self.newWindow = tk.Toplevel(self.master)
-        self.app = App(self.newWindow, 'Take image to login')
+        self.newWindow = tk.Toplevel(self.main_window)
+        self.app = App(self.newWindow, 'Take image to login', self.main_window)
+        self.master.destroy()
         return
 
-    def __init__(self, master):
+    def __init__(self, master, main_window):
         self.master = master
+        self.main_window = main_window
         self.frame = tk.Frame(self.master)
         master.title('Create account')
 
@@ -119,11 +138,7 @@ class RegisterWindow:
         username = StringVar()
         Entry(master, textvariable=username).grid(row=0, column=1)
 
-        Label(master, text="Password").grid(row=1, column=0)
-        password = StringVar()
-        Entry(master, textvariable=password, show='*').grid(row=1, column=1)
-
-        validate_login = partial(self.validate_login, master, username, password)
+        validate_login = partial(self.validate_login, username)
 
         # login button
         Button(master, text="Login", command=validate_login).grid(row=4, column=0)
@@ -146,17 +161,17 @@ class MainWindow:
         self.frame.pack()
 
     def login_window(self):
+        self.master.withdraw()
         self.newWindow = tk.Toplevel(self.master)
-        self.app = App(self.newWindow, 'Take image to login')
+        self.app = App(self.newWindow, 'Take image to login', self.master)
 
     def register_window(self):
         self.newWindow = tk.Toplevel(self.master)
-        self.app = RegisterWindow(self.newWindow)
+        self.app = RegisterWindow(self.newWindow, self.master)
 
 
 def main():
     root = tk.Tk()
-    root.geometry("300x300")
     app = MainWindow(root)
     root.mainloop()
 
