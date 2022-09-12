@@ -1,5 +1,3 @@
-import time
-
 from PIL import Image
 from keras_vggface.utils import preprocess_input
 from keras_vggface.vggface import VGGFace
@@ -58,18 +56,3 @@ def is_match(known_embedding, candidate_embedding, test_image, original_image):
 def comparison(test_image, original_image):
     predictions = prepare_prediction(prepare_sample(test_image, original_image))
     return is_match(predictions[0], predictions[1], test_image, original_image)
-
-
-def main():
-    test_image = '2.jpg'
-    original_image = '3.jpg'
-    start_time = time.time()
-    predictions = prepare_prediction(prepare_sample(test_image, original_image))
-    print('Tests:')
-    is_match(predictions[0], predictions[1], test_image, original_image)
-    end_time = time.time()
-    print("Total time: ", round((end_time - start_time)), ' Seconds')
-
-
-if __name__ == "__main__":
-    main()

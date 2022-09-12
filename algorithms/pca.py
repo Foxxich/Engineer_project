@@ -1,15 +1,16 @@
 import glob
 import os
-
 import matplotlib.pyplot as plt
 import numpy as np
 from PIL import Image
+import definitons
 from sklearn.decomposition import PCA
+# noinspection PyTypeChecker
 
 
 def prepare_data_set():
     faces = {}
-    path = os.getcwd() + "\\att_faces\\"
+    path = definitons.ROOT_DIR + "\\att_faces\\"
     image_folders = os.listdir(path)
     for i in range(1, len(image_folders) + 1):
         filepath = path + str(i) + "\\*.pgm"
@@ -21,7 +22,6 @@ def prepare_data_set():
             img.load()
             data = np.asarray(img, dtype="int32")
             # If we extracted files from zip, we can use cv2.imread(filename) instead
-
             faces[order] = data
     return faces
 
@@ -43,8 +43,7 @@ def main():
     print("Number of classes:", len(classes))
     print("Number of images:", len(faces))
 
-    # Take classes 1-39 for eigenfaces, keep entire class 40 and
-    # image 10 of class 39 as out-of-sample test
+    # Take classes 1-39 for eigenfaces
     face_matrix = []
     face_label = []
     for key, val in faces.items():
@@ -77,20 +76,6 @@ def main():
 
     # Test on out-of-sample image of existing class
     query = faces["39/10.pgm"].reshape(1, -1)
-    query_weight = eigenfaces @ (query - pca.mean_).T
-    euclidean_distance = np.linalg.norm(weights - query_weight, axis=0)
-    best_match = np.argmin(euclidean_distance)
-    print("Best match %s with Euclidean distance %f" % (face_label[best_match], euclidean_distance[best_match]))
-    # Visualize
-    fig, axes = plt.subplots(1, 2, figsize=(8, 6))
-    axes[0].imshow(query.reshape(face_shape), cmap="gray")
-    axes[0].set_title("Query")
-    axes[1].imshow(face_matrix[best_match].reshape(face_shape), cmap="gray")
-    axes[1].set_title("Best match")
-    plt.show()
-
-    # Test on out-of-sample image of new class
-    query = faces["40/1.pgm"].reshape(1, -1)
     query_weight = eigenfaces @ (query - pca.mean_).T
     euclidean_distance = np.linalg.norm(weights - query_weight, axis=0)
     best_match = np.argmin(euclidean_distance)

@@ -1,14 +1,12 @@
-import os
-import time
-
 import cv2
 import matplotlib.pyplot as plt
+import definitons
 
 
 # This function is used to get path for cascade needed
 # for the sift;
 def cascade_path():
-    path = os.getcwd() + '\\cascades\\'
+    path = definitons.ROOT_DIR + '\\cascades\\'
     return path + 'haarcascade_frontalface_default.xml'
 
 
@@ -141,16 +139,3 @@ def comparison(test_image, original_image):
 
     final_statistics(image1, image2, kp1, kp2, des1, des2)
     return is_match(matcher_count, matches, test_image, original_image)
-
-
-def main():
-    img1 = '1.jpg'
-    img2 = '2.jpg'
-    start_time = time.time()
-    comparison(img1, img2)
-    end_time = time.time()
-    print("Total time: ", round((end_time - start_time)), ' Seconds')
-
-
-if __name__ == "__main__":
-    main()

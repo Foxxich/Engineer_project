@@ -7,9 +7,8 @@ import PIL.ImageTk
 import cv2
 from PIL import Image
 from PIL import ImageTk
-import sift
-import vgg_face
-import cnn
+from algorithms import sift, vgg_face, cnn
+
 
 class LoggedWindow:
     def on_closing(self):
@@ -23,9 +22,9 @@ class LoggedWindow:
         master.title('You are logged')
 
         if is_successful:
-            img = Image.open('logged.png')
+            img = Image.open(os.getcwd() + '\\app_images\\error.png')
         else:
-            img = Image.open('error.png')
+            img = Image.open(os.getcwd() + '\\app_images\\error.png')
         self.tk_image = ImageTk.PhotoImage(img)
         Label(self.master, image=self.tk_image).place(x=0, y=0, relwidth=1, relheight=1)
 
@@ -107,7 +106,6 @@ class App:
         self.delay = 10
         self.update_frame()
 
-
     def open_vgg(self):
         ret, frame = self.vid.get_frame()
         if ret:
@@ -125,7 +123,6 @@ class App:
                 run_vgg(self.window, self.main_window)
             else:
                 show_logged(self.window, self.main_window)
-
 
     def open_cnn(self):
         ret, frame = self.vid.get_frame()
@@ -145,7 +142,6 @@ class App:
             else:
                 show_logged(self.window, self.main_window)
 
-
     def open_sift(self):
         ret, frame = self.vid.get_frame()
         if ret:
@@ -163,7 +159,6 @@ class App:
                 run_sift(self.window, self.main_window)
             else:
                 show_logged(self.window, self.main_window)
-
 
     def update_frame(self):
         ret, frame = self.vid.get_frame()
