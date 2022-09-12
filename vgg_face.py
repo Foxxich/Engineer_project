@@ -49,8 +49,15 @@ def is_match(known_embedding, candidate_embedding, test_image, original_image):
     score = cosine(known_embedding, candidate_embedding)
     if score <= thresh:
         print('There is a match (%.3f <= %.3f)' % (score, thresh) + ' between', test_image + ' and', original_image)
+        return True
     else:
         print('There is NO match (%.3f <= %.3f)' % (score, thresh) + ' between', test_image + ' and', original_image)
+        return False
+
+
+def comparison(test_image, original_image):
+    predictions = prepare_prediction(prepare_sample(test_image, original_image))
+    return is_match(predictions[0], predictions[1], test_image, original_image)
 
 
 def main():

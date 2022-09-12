@@ -7,7 +7,8 @@ import PIL.ImageTk
 import cv2
 from PIL import Image
 from PIL import ImageTk
-from sift import comparison
+import sift
+import vgg_face
 
 
 class LoggedWindow:
@@ -31,11 +32,26 @@ class LoggedWindow:
         master.protocol("WM_DELETE_WINDOW", self.on_closing)
 
 
-def run_tests(self, main_window):
+def run_sift(self, main_window):
     img1 = 'previous_image.jpg'
     img2 = 'new_image.jpg'
     start_time = time.time()
-    result = comparison(img1, img2)
+    result = sift.comparison(img1, img2)
+    end_time = time.time()
+    print("Total time: ", round((end_time - start_time)), ' Seconds')
+    if result:
+        self.newWindow = tk.Toplevel(self.master)
+        self.app = LoggedWindow(self.newWindow, main_window, True)
+    else:
+        self.newWindow = tk.Toplevel(self.master)
+        self.app = LoggedWindow(self.newWindow, main_window, False)
+
+
+def run_vgg(self, main_window):
+    img1 = 'previous_image.jpg'
+    img2 = 'new_image.jpg'
+    start_time = time.time()
+    result = vgg_face.comparison(img1, img2)
     end_time = time.time()
     print("Total time: ", round((end_time - start_time)), ' Seconds')
     if result:
@@ -67,7 +83,7 @@ class App:
         self.vid = VideoCapture(self.video_source)
         self.canvas = tk.Canvas(window, width=self.vid.width, height=self.vid.height)
         self.canvas.pack()
-        self.btn_snapshot = tk.Button(window, text="Make photo", command=self.make_photo)
+        self.btn_snapshot = tk.Button(window, text="SIFT", command=self.make_photo)
         self.btn_snapshot.pack(side=tk.LEFT)
         self.delay = 10
         self.update_frame()
@@ -86,7 +102,8 @@ class App:
             self.window.destroy()
             cv2.destroyAllWindows()
             if self.testing:
-                run_tests(self.window, self.main_window)
+                #TODO
+                run_sift(self.window, self.main_window)
             else:
                 show_logged(self.window, self.main_window)
 
