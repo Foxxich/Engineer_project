@@ -9,7 +9,7 @@ from PIL import Image
 from PIL import ImageTk
 import sift
 import vgg_face
-
+import cnn
 
 class LoggedWindow:
     def on_closing(self):
@@ -62,6 +62,21 @@ def run_vgg(self, main_window):
         self.app = LoggedWindow(self.newWindow, main_window, False)
 
 
+def run_cnn(self, main_window):
+    img1 = 'previous_image.jpg'
+    img2 = 'new_image.jpg'
+    start_time = time.time()
+    result = cnn.comparison(img1, img2)
+    end_time = time.time()
+    print("Total time: ", round((end_time - start_time)), ' Seconds')
+    if result:
+        self.newWindow = tk.Toplevel(self.master)
+        self.app = LoggedWindow(self.newWindow, main_window, True)
+    else:
+        self.newWindow = tk.Toplevel(self.master)
+        self.app = LoggedWindow(self.newWindow, main_window, False)
+
+
 def show_logged(self, main_window):
     self.master.withdraw()
     self.newWindow = tk.Toplevel(self.master)
@@ -83,12 +98,17 @@ class App:
         self.vid = VideoCapture(self.video_source)
         self.canvas = tk.Canvas(window, width=self.vid.width, height=self.vid.height)
         self.canvas.pack()
-        self.btn_snapshot = tk.Button(window, text="SIFT", command=self.make_photo)
+        self.btn_snapshot = tk.Button(window, text="SIFT", command=self.open_sift)
         self.btn_snapshot.pack(side=tk.LEFT)
+        self.btn_cnn = tk.Button(window, text="CNN", command=self.open_cnn)
+        self.btn_cnn.pack(side=tk.LEFT)
+        self.btn_vgg = tk.Button(window, text="VGG", command=self.open_vgg)
+        self.btn_vgg.pack(side=tk.LEFT)
         self.delay = 10
         self.update_frame()
 
-    def make_photo(self):
+
+    def open_vgg(self):
         ret, frame = self.vid.get_frame()
         if ret:
             try:
@@ -102,10 +122,48 @@ class App:
             self.window.destroy()
             cv2.destroyAllWindows()
             if self.testing:
-                #TODO
+                run_vgg(self.window, self.main_window)
+            else:
+                show_logged(self.window, self.main_window)
+
+
+    def open_cnn(self):
+        ret, frame = self.vid.get_frame()
+        if ret:
+            try:
+                if os.path.isfile('previous_image.jpg'):
+                    os.remove('previous_image.jpg')
+                os.rename('new_image.jpg', 'previous_image.jpg')
+            except FileNotFoundError:
+                print("File not exist")
+            cv2.imwrite("new_image.jpg", cv2.cvtColor(frame, cv2.COLOR_RGB2BGR))
+            self.vid.destroy()
+            self.window.destroy()
+            cv2.destroyAllWindows()
+            if self.testing:
+                run_cnn(self.window, self.main_window)
+            else:
+                show_logged(self.window, self.main_window)
+
+
+    def open_sift(self):
+        ret, frame = self.vid.get_frame()
+        if ret:
+            try:
+                if os.path.isfile('previous_image.jpg'):
+                    os.remove('previous_image.jpg')
+                os.rename('new_image.jpg', 'previous_image.jpg')
+            except FileNotFoundError:
+                print("File not exist")
+            cv2.imwrite("new_image.jpg", cv2.cvtColor(frame, cv2.COLOR_RGB2BGR))
+            self.vid.destroy()
+            self.window.destroy()
+            cv2.destroyAllWindows()
+            if self.testing:
                 run_sift(self.window, self.main_window)
             else:
                 show_logged(self.window, self.main_window)
+
 
     def update_frame(self):
         ret, frame = self.vid.get_frame()
