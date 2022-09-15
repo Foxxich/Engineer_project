@@ -22,9 +22,9 @@ class LoggedWindow:
         master.title('You are logged')
 
         if is_successful:
-            img = Image.open(os.getcwd() + '\\app_images\\error.png')
+            img = Image.open(os.getcwd() + '\\images\\app_images\\logged.png')
         else:
-            img = Image.open(os.getcwd() + '\\app_images\\error.png')
+            img = Image.open(os.getcwd() + '\\images\\app_images\\error.png')
         self.tk_image = ImageTk.PhotoImage(img)
         Label(self.master, image=self.tk_image).place(x=0, y=0, relwidth=1, relheight=1)
 
@@ -62,13 +62,13 @@ def run_vgg(self, main_window):
 
 
 def run_cnn(self, main_window):
-    img1 = 'previous_image.jpg'
-    img2 = 'new_image.jpg'
+    folder = os.getcwd() + '\\images\\user_images\\'
+    img2 = os.getcwd() + '\\new_image.jpg'
     start_time = time.time()
-    result = cnn.comparison(img1, img2)
+    result = cnn.comparison(folder, img2)
     end_time = time.time()
     print("Total time: ", round((end_time - start_time)), ' Seconds')
-    if result:
+    if result == 'tests':
         self.newWindow = tk.Toplevel(self.master)
         self.app = LoggedWindow(self.newWindow, main_window, True)
     else:

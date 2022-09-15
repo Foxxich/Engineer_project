@@ -1,4 +1,5 @@
 import os
+import pickle
 
 import numpy as np
 import tensorflow
@@ -13,6 +14,9 @@ from keras.preprocessing.image import ImageDataGenerator
 # This function is used to prepare both training and final test sets.
 # First is prepared with defining pre-processing transformations on raw images of testing data.
 # The final test set is generated without transformations.
+import definitons
+
+
 def generate_sets(training_image_path):
     test_datagen = ImageDataGenerator()
 
@@ -66,3 +70,35 @@ def final_prediction(image_path, classifier, result_map):
     result = classifier.predict(test_image, verbose=0)
     print('####' * 10)
     print('Prediction is: ', result_map[np.argmax(result)])
+    return result_map[np.argmax(result)]
+
+
+def comparison(folder, img):
+    training_image_path = folder
+    image_path = img
+    epochs_number = 50
+    steps_for_validation = 10
+    training_set, test_set = generate_sets(training_image_path)
+    train_classes = training_set.class_indices
+    result_map = {}
+    for faceValue, faceName in zip(train_classes.values(), train_classes.keys()):
+        result_map[faceValue] = faceName
+
+    with open("algorithms/ResultsMap.pkl", 'wb') as fileWriteStream:
+        pickle.dump(result_map, fileWriteStream)
+    output_neurons = len(result_map)
+
+    print("Mapping of Face and its ID", result_map)
+    print('\n The Number of output neurons: ', output_neurons)
+
+    classifier = prepare_classifier(output_neurons)
+    steps_per_epoch = len(test_set)
+
+    classifier.fit(
+        training_set,
+        steps_per_epoch=steps_per_epoch,
+        epochs=epochs_number,
+        validation_data=test_set,
+        validation_steps=steps_for_validation)
+
+    return final_prediction(image_path, classifier, result_map)

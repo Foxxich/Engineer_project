@@ -69,7 +69,7 @@ def run_pca():
 
 
 def main():
-    run_sift()
+    run_cnn()
 
 
 if __name__ == "__main__":
