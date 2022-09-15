@@ -28,7 +28,6 @@ def prepare_data_set():
 
 def main():
     faces = prepare_data_set()
-    fig, axes = plt.subplots(4, 4, figsize=(8, 10))
     # faceimages = list(faces.values())[-16:]  # last 16 images
     # for i in range(16):
     #     axes[i % 4][i // 4].imshow(faceimages[i], cmap="gray")
@@ -87,6 +86,9 @@ def main():
     axes[1].imshow(face_matrix[best_match].reshape(face_shape), cmap="gray")
     axes[1].set_title("Best match")
     plt.show()
+
+    print(best_match)
+    print(face_label[best_match])
 
 
 if __name__ == "__main__":

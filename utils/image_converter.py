@@ -2,11 +2,12 @@ import glob
 import cv2
 from PIL import Image
 import os
+import definitons
 from pathlib import Path
 
 
 def convert_formats():
-    path = os.getcwd() + "\\att_faces\\"
+    path = definitons.ROOT_DIR + "\\images\\att_faces_dataset\\"
     image_folders = os.listdir(path)
     for i in range(1, len(image_folders) + 1):
         filepath = path + str(i) + "\\*.pgm"
@@ -15,11 +16,11 @@ def convert_formats():
             new_file = "{}.jpg".format(j)
             image_path = path + str(i) + "\\" + str(j) + ".pgm"
             with Image.open(image_path) as im:
-                Path(os.getcwd() + "\\test_images\\" + str(i)).mkdir(parents=True, exist_ok=True)
-                im.save(os.getcwd() + "\\test_images\\" + str(i) + "\\" + new_file)
+                Path(definitons.ROOT_DIR + "\\images\\converted_images\\" + str(i)).mkdir(parents=True, exist_ok=True)
+                im.save(definitons.ROOT_DIR + "\\images\\converted_images\\" + str(i) + "\\" + new_file)
                 source = cv2.imread(image_path, 0)
                 image = convert_bgr_to_rgb(source)
-                cv2.imwrite(os.getcwd() + "\\test_images\\" + str(i) + "\\" + new_file, image)
+                cv2.imwrite(os.getcwd() + "\\images\\converted_images\\" + str(i) + "\\" + new_file, image)
 
 
 def convert_bgr_to_rgb(image):
@@ -28,3 +29,11 @@ def convert_bgr_to_rgb(image):
 
 def convert_rgb_to_gray(image):
     return cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+
+
+def main():
+    convert_formats()
+
+
+if __name__ == "__main__":
+    main()
