@@ -32,8 +32,8 @@ class LoggedWindow:
 
 
 def run_sift(self, main_window):
-    img1 = 'previous_image.jpg'
-    img2 = 'new_image.jpg'
+    img1 = os.getcwd() + '\\images\\user_images\\tests\\previous_image.jpg'
+    img2 = os.getcwd() + '\\images\\user_images\\tests\\new_image.jpg'
     start_time = time.time()
     result = sift.comparison(img1, img2)
     end_time = time.time()
@@ -47,8 +47,8 @@ def run_sift(self, main_window):
 
 
 def run_vgg(self, main_window):
-    img1 = 'previous_image.jpg'
-    img2 = 'new_image.jpg'
+    img1 = os.getcwd() + '\\images\\user_images\\tests\\previous_image.jpg'
+    img2 = os.getcwd() + '\\images\\user_images\\tests\\new_image.jpg'
     start_time = time.time()
     result = vgg_face.comparison(img1, img2)
     end_time = time.time()
@@ -63,7 +63,7 @@ def run_vgg(self, main_window):
 
 def run_cnn(self, main_window):
     folder = os.getcwd() + '\\images\\user_images\\'
-    img2 = os.getcwd() + '\\new_image.jpg'
+    img2 = os.getcwd() + '\\images\\user_images\\tests\\new_image.jpg'
     start_time = time.time()
     result = cnn.comparison(folder, img2)
     end_time = time.time()
@@ -97,66 +97,37 @@ class App:
         self.vid = VideoCapture(self.video_source)
         self.canvas = tk.Canvas(window, width=self.vid.width, height=self.vid.height)
         self.canvas.pack()
-        self.btn_snapshot = tk.Button(window, text="SIFT", command=self.open_sift)
+        self.btn_snapshot = tk.Button(window, text="SIFT", command=lambda: self.open_files('sift'))
         self.btn_snapshot.pack(side=tk.LEFT)
-        self.btn_cnn = tk.Button(window, text="CNN", command=self.open_cnn)
+        self.btn_cnn = tk.Button(window, text="CNN", command=lambda: self.open_files('cnn'))
         self.btn_cnn.pack(side=tk.LEFT)
-        self.btn_vgg = tk.Button(window, text="VGG", command=self.open_vgg)
+        self.btn_vgg = tk.Button(window, text="VGG", command=lambda: self.open_files('vgg'))
         self.btn_vgg.pack(side=tk.LEFT)
         self.delay = 10
         self.update_frame()
 
-    def open_vgg(self):
+    def open_files(self, algorithm_type):
         ret, frame = self.vid.get_frame()
         if ret:
             try:
-                if os.path.isfile('previous_image.jpg'):
-                    os.remove('previous_image.jpg')
-                os.rename('new_image.jpg', 'previous_image.jpg')
+                if os.path.isfile(os.getcwd() + '\\images\\user_images\\tests\\previous_image.jpg'):
+                    os.remove(os.getcwd() + '\\images\\user_images\\tests\\previous_image.jpg')
+                os.rename(os.getcwd() + '\\images\\user_images\\tests\\new_image.jpg',
+                          os.getcwd() + '\\images\\user_images\\tests\\previous_image.jpg')
             except FileNotFoundError:
                 print("File not exist")
-            cv2.imwrite("new_image.jpg", cv2.cvtColor(frame, cv2.COLOR_RGB2BGR))
+            cv2.imwrite(os.getcwd() + '\\images\\user_images\\tests\\new_image.jpg',
+                        cv2.cvtColor(frame, cv2.COLOR_RGB2BGR))
             self.vid.destroy()
             self.window.destroy()
             cv2.destroyAllWindows()
             if self.testing:
-                run_vgg(self.window, self.main_window)
-            else:
-                show_logged(self.window, self.main_window)
-
-    def open_cnn(self):
-        ret, frame = self.vid.get_frame()
-        if ret:
-            try:
-                if os.path.isfile('previous_image.jpg'):
-                    os.remove('previous_image.jpg')
-                os.rename('new_image.jpg', 'previous_image.jpg')
-            except FileNotFoundError:
-                print("File not exist")
-            cv2.imwrite("new_image.jpg", cv2.cvtColor(frame, cv2.COLOR_RGB2BGR))
-            self.vid.destroy()
-            self.window.destroy()
-            cv2.destroyAllWindows()
-            if self.testing:
-                run_cnn(self.window, self.main_window)
-            else:
-                show_logged(self.window, self.main_window)
-
-    def open_sift(self):
-        ret, frame = self.vid.get_frame()
-        if ret:
-            try:
-                if os.path.isfile('previous_image.jpg'):
-                    os.remove('previous_image.jpg')
-                os.rename('new_image.jpg', 'previous_image.jpg')
-            except FileNotFoundError:
-                print("File not exist")
-            cv2.imwrite("new_image.jpg", cv2.cvtColor(frame, cv2.COLOR_RGB2BGR))
-            self.vid.destroy()
-            self.window.destroy()
-            cv2.destroyAllWindows()
-            if self.testing:
-                run_sift(self.window, self.main_window)
+                if algorithm_type == 'sift':
+                    run_sift(self.window, self.main_window)
+                elif algorithm_type == 'vgg':
+                    run_vgg(self.window, self.main_window)
+                elif algorithm_type == 'cnn':
+                    run_cnn(self.window, self.main_window)
             else:
                 show_logged(self.window, self.main_window)
 
@@ -239,7 +210,7 @@ class MainWindow:
         self.app = None
         self.newWindow = None
         self.master = master
-        self.frame = tk.Frame(self.master, width=300, height=300)
+        self.frame = tk.Frame(self.master, width=200, height=300)
         self.frame.size()
         self.button1 = tk.Button(self.frame, text='Login', width=125, command=self.login_window)
         self.button1.pack()
@@ -266,4 +237,4 @@ def main():
 if __name__ == "__main__":
     main()
 
-    # TODO: add https://stackoverflow.com/questions/14910858/how-to-specify-where-a-tkinter-window-opens
+    # add https://stackoverflow.com/questions/14910858/how-to-specify-where-a-tkinter-window-opens

@@ -76,8 +76,8 @@ def final_prediction(image_path, classifier, result_map):
 def comparison(folder, img):
     training_image_path = folder
     image_path = img
-    epochs_number = 50
-    steps_for_validation = 10
+    epochs_number = 10
+    steps_for_validation = 20
     training_set, test_set = generate_sets(training_image_path)
     train_classes = training_set.class_indices
     result_map = {}
