@@ -10,7 +10,7 @@ from sklearn.decomposition import PCA
 
 def load_data_set():
     faces = {}
-    path = definitons.ROOT_DIR + "\\images\\converted_images\\"
+    path = definitons.root_dir + "\\images\\converted_images\\"
     image_folders = os.listdir(path)
     for i in range(1, len(image_folders) + 1):
         filepath = path + str(i) + "\\*.jpg"

@@ -5,8 +5,8 @@ import definitons
 
 
 def run_sift():
-    test_image = definitons.ROOT_DIR + '\\images\\user_images\\1.jpg'
-    original_image = definitons.ROOT_DIR + '\\images\\user_images\\3.jpg'
+    test_image = definitons.root_dir + '\\images\\user_images\\1.jpg'
+    original_image = definitons.root_dir + '\\images\\user_images\\3.jpg'
     start_time = time.time()
     sift.comparison(test_image, original_image)
     end_time = time.time()
@@ -14,8 +14,8 @@ def run_sift():
 
 
 def run_vgg():
-    test_image = definitons.ROOT_DIR + '\\images\\user_images\\1.jpg'
-    original_image = definitons.ROOT_DIR + '\\images\\user_images\\3.jpg'
+    test_image = definitons.root_dir + '\\images\\user_images\\1.jpg'
+    original_image = definitons.root_dir + '\\images\\user_images\\3.jpg'
     start_time = time.time()
     result = vgg_face.comparison(test_image, original_image)
     end_time = time.time()
@@ -23,8 +23,8 @@ def run_vgg():
 
 
 def run_cnn():
-    training_image_path = definitons.ROOT_DIR + '\\Face Images\\Final Training Images\\'
-    image_path = definitons.ROOT_DIR + '\\Face Images\\Final Testing Images\\face2\\1face2.jpg'
+    training_image_path = definitons.root_dir + '\\Face Images\\Final Training Images\\'
+    image_path = definitons.root_dir + '\\Face Images\\Final Testing Images\\face2\\1face2.jpg'
     epochs_number = 50
     steps_for_validation = 10
     training_set, test_set = cnn.generate_sets(training_image_path)

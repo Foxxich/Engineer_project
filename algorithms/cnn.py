@@ -1,6 +1,4 @@
-import os
 import pickle
-
 import numpy as np
 import tensorflow
 from keras.layers import Convolution2D
@@ -14,9 +12,6 @@ from keras.preprocessing.image import ImageDataGenerator
 # This function is used to prepare both training and final test sets.
 # First is prepared with defining pre-processing transformations on raw images of testing data.
 # The final test set is generated without transformations.
-import definitons
-
-
 def generate_sets(training_image_path):
     test_datagen = ImageDataGenerator()
 

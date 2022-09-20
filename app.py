@@ -7,6 +7,8 @@ import PIL.ImageTk
 import cv2
 from PIL import Image
 from PIL import ImageTk
+
+import definitons
 from algorithms import sift, vgg_face, cnn
 
 
@@ -22,53 +24,32 @@ class LoggedWindow:
         master.title('You are logged')
 
         if is_successful:
-            img = Image.open(os.getcwd() + '\\images\\app_images\\logged.png')
+            img = Image.open(definitons.app_images_dir + 'logged.png')
         else:
-            img = Image.open(os.getcwd() + '\\images\\app_images\\error.png')
+            img = Image.open(definitons.app_images_dir + 'error.png')
         self.tk_image = ImageTk.PhotoImage(img)
         Label(self.master, image=self.tk_image).place(x=0, y=0, relwidth=1, relheight=1)
 
         master.protocol("WM_DELETE_WINDOW", self.on_closing)
 
 
-def run_sift(self, main_window):
+def run_algorithm(self, main_window, algorithm_type):
+    result = False
     img1 = os.getcwd() + '\\images\\user_images\\tests\\previous_image.jpg'
     img2 = os.getcwd() + '\\images\\user_images\\tests\\new_image.jpg'
     start_time = time.time()
-    result = sift.comparison(img1, img2)
+
+    if algorithm_type == 'sift':
+        result = sift.comparison(img1, img2)
+    elif algorithm_type == 'cnn':
+        folder = os.getcwd() + '\\images\\user_images\\'
+        result = cnn.comparison(folder, img2)
+    elif algorithm_type == 'vgg':
+        result = vgg_face.comparison(img1, img2)
+
     end_time = time.time()
     print("Total time: ", round((end_time - start_time)), ' Seconds')
     if result:
-        self.newWindow = tk.Toplevel(self.master)
-        self.app = LoggedWindow(self.newWindow, main_window, True)
-    else:
-        self.newWindow = tk.Toplevel(self.master)
-        self.app = LoggedWindow(self.newWindow, main_window, False)
-
-
-def run_vgg(self, main_window):
-    img1 = os.getcwd() + '\\images\\user_images\\tests\\previous_image.jpg'
-    img2 = os.getcwd() + '\\images\\user_images\\tests\\new_image.jpg'
-    start_time = time.time()
-    result = vgg_face.comparison(img1, img2)
-    end_time = time.time()
-    print("Total time: ", round((end_time - start_time)), ' Seconds')
-    if result:
-        self.newWindow = tk.Toplevel(self.master)
-        self.app = LoggedWindow(self.newWindow, main_window, True)
-    else:
-        self.newWindow = tk.Toplevel(self.master)
-        self.app = LoggedWindow(self.newWindow, main_window, False)
-
-
-def run_cnn(self, main_window):
-    folder = os.getcwd() + '\\images\\user_images\\'
-    img2 = os.getcwd() + '\\images\\user_images\\tests\\new_image.jpg'
-    start_time = time.time()
-    result = cnn.comparison(folder, img2)
-    end_time = time.time()
-    print("Total time: ", round((end_time - start_time)), ' Seconds')
-    if result == 'tests':
         self.newWindow = tk.Toplevel(self.master)
         self.app = LoggedWindow(self.newWindow, main_window, True)
     else:
@@ -122,12 +103,7 @@ class App:
             self.window.destroy()
             cv2.destroyAllWindows()
             if self.testing:
-                if algorithm_type == 'sift':
-                    run_sift(self.window, self.main_window)
-                elif algorithm_type == 'vgg':
-                    run_vgg(self.window, self.main_window)
-                elif algorithm_type == 'cnn':
-                    run_cnn(self.window, self.main_window)
+                run_algorithm(self.window, self.main_window, algorithm_type)
             else:
                 show_logged(self.window, self.main_window)
 
@@ -154,7 +130,6 @@ class VideoCapture:
         dimensions = {
             '480p': (640, 480),
             '720p': (1280, 720),
-            '1080p': (1920, 1080),
         }
         chosen_dimension = dimensions['480p']
         self.vid.set(3, chosen_dimension[0])

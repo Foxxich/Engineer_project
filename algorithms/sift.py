@@ -6,7 +6,7 @@ import definitons
 # This function is used to get path for cascade needed
 # for the sift;
 def cascade_path():
-    path = definitons.ROOT_DIR + '\\utils\\cascades\\'
+    path = definitons.root_dir + '\\utils\\cascades\\'
     return path + 'haarcascade_frontalface_default.xml'
 
 
@@ -36,7 +36,7 @@ def show_key_points(gray, image):
     plt.figure(figsize=(20, 10))
     plt.imshow(keypoints)
     plt.title('Keypoints of Image 1 for reference')
-    plt.savefig(definitons.ROOT_DIR + '\\results\\sift_keypoints.jpg')
+    plt.savefig(definitons.root_dir + '\\results\\sift_keypoints.jpg')
     plt.show()
 
 
