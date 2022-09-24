@@ -66,3 +66,4 @@ def comparison(test_filename, path):
     axes[1].set_title("Best match")
     plt.show()
     print('Person number', face_label[best_match])
+    return int(face_label[best_match])

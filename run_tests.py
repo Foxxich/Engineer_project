@@ -1,4 +1,6 @@
+import random
 import time
+
 import definitons
 from algorithms import sift, vgg_face, cnn, pca
 
@@ -22,27 +24,41 @@ def run_vgg():
 
 
 def run_cnn():
-    print("LOL")
+    face = 2
+    random_image_number = random.randrange(1, 4, 1)
     folder = definitons.root_dir + '\\images\\tt_dataset\\Final Training Images\\'
-    image_path = definitons.root_dir + '\\images\\tt_dataset\\Final Testing Images\\face2\\1face2.jpg'
+    image_path = definitons.root_dir + '\\images\\tt_dataset\\Final Testing Images\\face' + str(face) + '\\' + str(
+        random_image_number) + 'face' + str(face) + '.jpg'
     start_time = time.time()
     epochs_number = 50
     steps_for_validation = 10
-    result = cnn.comparison(folder, image_path, epochs_number, steps_for_validation)
+    if cnn.comparison(folder, image_path, epochs_number, steps_for_validation) == 'face' + str(face):
+        print('Same person on both images')
+    else:
+        print('Different persons on both images')
     end_time = time.time()
     print("Total time: ", round((end_time - start_time)), ' Seconds')
 
 
 def run_pca():
-    test_file = "21/10.jpg"
+    face = 21
+    random_image_number = random.randrange(1, 10, 1)
+    print(random_image_number)
+    test_file = str(face) + "/" + str(random_image_number) + ".jpg"
     path = definitons.root_dir + "\\images\\converted_images\\"
     start_time = time.time()
-    result = pca.comparison(test_file, path)
+    if pca.comparison(test_file, path) == face:
+        print('Same person on both images')
+    else:
+        print('Different persons on both images')
     end_time = time.time()
     print("Total time: ", round((end_time - start_time)), ' Seconds')
 
 
 def main():
+    # run_sift()
+    # run_vgg()
+    # run_cnn()
     run_pca()
 
 
