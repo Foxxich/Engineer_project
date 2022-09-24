@@ -1,16 +1,17 @@
 import glob
 import os
+
 import matplotlib.pyplot as plt
 import numpy as np
 from PIL import Image
-import definitons
 from sklearn.decomposition import PCA
+
+
 # noinspection PyTypeChecker
 
 
-def load_data_set():
+def load_data_set(path):
     faces = {}
-    path = definitons.root_dir + "\\images\\converted_images\\"
     image_folders = os.listdir(path)
     for i in range(1, len(image_folders) + 1):
         filepath = path + str(i) + "\\*.jpg"
@@ -25,11 +26,10 @@ def load_data_set():
     return faces
 
 
-def main():
-    faces = load_data_set()
+def comparison(test_filename, path):
+    faces = load_data_set(path)
     face_shape = list(faces.values())[0].shape
     classes = set(filename.split("/")[0] for filename in faces.keys())
-    test_filename = "21/10.jpg"
 
     print("Face image shape:", face_shape)
     print("Number of classes:", len(classes))
@@ -65,9 +65,4 @@ def main():
     axes[1].imshow(face_matrix[best_match].reshape(face_shape), cmap="gray")
     axes[1].set_title("Best match")
     plt.show()
-
     print('Person number', face_label[best_match])
-
-
-if __name__ == "__main__":
-    main()

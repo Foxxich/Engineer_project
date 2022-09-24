@@ -9,7 +9,7 @@ from PIL import Image
 from PIL import ImageTk
 
 import definitons
-from algorithms import sift, vgg_face, cnn
+from algorithms import sift, vgg_face, cnn, pca
 
 
 class LoggedWindow:
@@ -43,9 +43,14 @@ def run_algorithm(self, main_window, algorithm_type):
         result = sift.comparison(img1, img2)
     elif algorithm_type == 'cnn':
         folder = os.getcwd() + '\\images\\user_images\\'
-        result = cnn.comparison(folder, img2)
+        epochs_number = 10
+        steps_for_validation = 20
+        result = cnn.comparison(folder, img2, epochs_number, steps_for_validation)
     elif algorithm_type == 'vgg':
         result = vgg_face.comparison(img1, img2)
+    elif algorithm_type == 'pca':
+        folder = os.getcwd() + '\\images\\user_images\\'
+        result = pca.comparison(img2, folder)
 
     end_time = time.time()
     print("Total time: ", round((end_time - start_time)), ' Seconds')
