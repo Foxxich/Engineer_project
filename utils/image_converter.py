@@ -1,9 +1,11 @@
 import glob
+import os
+from pathlib import Path
+
 import cv2
 from PIL import Image
-import os
+
 import definitons
-from pathlib import Path
 
 
 def convert_formats():

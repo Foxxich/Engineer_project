@@ -1,4 +1,5 @@
 import pickle
+
 import numpy as np
 import tensorflow
 from keras.layers import Convolution2D
@@ -68,6 +69,8 @@ def final_prediction(image_path, classifier, result_map):
     return result_map[np.argmax(result)]
 
 
+# This function is use to run code both for tests/app, implementing
+# the logic of CNN, like getting generated set, prepare classifier and making final prediction
 def comparison(folder, img, epochs_number, steps_for_validation):
     training_image_path = folder
     image_path = img
