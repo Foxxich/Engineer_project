@@ -1,4 +1,5 @@
 import os
+import random
 import time
 import tkinter as tk
 from functools import partial
@@ -36,8 +37,8 @@ class LoggedWindow:
 
 def run_algorithm(self, main_window, algorithm_type):
     result = False
-    img1 = os.getcwd() + '\\images\\user_images\\tests\\previous_image.jpg'
-    img2 = os.getcwd() + '\\images\\user_images\\tests\\new_image.jpg'
+    img1 = os.getcwd() + '\\images\\user_images\\previous_images\\previous_image.jpg'
+    img2 = os.getcwd() + '\\images\\user_images\\new_image.jpg'
     start_time = time.time()
 
     if algorithm_type == 'sift':
@@ -45,13 +46,21 @@ def run_algorithm(self, main_window, algorithm_type):
     elif algorithm_type == 'vgg':
         result = vgg_face.comparison(img1, img2)
     elif algorithm_type == 'pca':
-        folder = os.getcwd() + '\\images\\user_images\\'
-        result = pca.comparison(img2, folder)
+        random_image_number = random.randrange(1, 10, 1)
+        print(random_image_number)
+        path = os.getcwd() + '\\images\\user_images\\'
+        start_time = time.time()
+        if pca.comparison(img2, path, 'lol') == 11:
+            print('Same person on both images')
+        else:
+            print('Different persons on both images')
     elif algorithm_type == 'cnn':
         folder = os.getcwd() + '\\images\\user_images\\'
         epochs_number = 10
         steps_for_validation = 20
-        result = cnn.comparison(folder, img2, epochs_number, steps_for_validation)
+        face_name = cnn.comparison(folder, img2, epochs_number, steps_for_validation)
+        if face_name == 'previous_images':
+            result = True
 
     end_time = time.time()
     print("Total time: ", round((end_time - start_time)), ' Seconds')
@@ -88,6 +97,8 @@ class App:
         self.btn_snapshot.pack(side=tk.LEFT)
         self.btn_cnn = tk.Button(window, text="CNN", command=lambda: self.open_files('cnn'))
         self.btn_cnn.pack(side=tk.LEFT)
+        self.btn_vgg = tk.Button(window, text="PCA", command=lambda: self.open_files('pca'))
+        self.btn_vgg.pack(side=tk.LEFT)
         self.btn_vgg = tk.Button(window, text="VGG", command=lambda: self.open_files('vgg'))
         self.btn_vgg.pack(side=tk.LEFT)
         self.delay = 10
@@ -96,21 +107,24 @@ class App:
     def open_files(self, algorithm_type):
         ret, frame = self.vid.get_frame()
         if ret:
-            try:
-                if os.path.isfile(os.getcwd() + '\\images\\user_images\\tests\\previous_image.jpg'):
-                    os.remove(os.getcwd() + '\\images\\user_images\\tests\\previous_image.jpg')
-                os.rename(os.getcwd() + '\\images\\user_images\\tests\\new_image.jpg',
-                          os.getcwd() + '\\images\\user_images\\tests\\previous_image.jpg')
-            except FileNotFoundError:
-                print("File not exist")
-            cv2.imwrite(os.getcwd() + '\\images\\user_images\\tests\\new_image.jpg',
-                        cv2.cvtColor(frame, cv2.COLOR_RGB2BGR))
-            self.vid.destroy()
-            self.window.destroy()
-            cv2.destroyAllWindows()
-            if self.testing:
+            if os.path.isfile(os.getcwd() + '\\images\\user_images\\new_image.jpg'):
+                os.rename(os.getcwd() + '\\images\\user_images\\new_image.jpg',
+                          os.getcwd() + '\\images\\user_images\\previous_image.jpg')
+                os.replace(os.getcwd() + '\\images\\user_images\\previous_image.jpg',
+                           os.getcwd() + '\\images\\user_images\\previous_images\\previous_image.jpg'
+                           )
+                cv2.imwrite(os.getcwd() + '\\images\\user_images\\new_image.jpg',
+                            cv2.cvtColor(frame, cv2.COLOR_RGB2BGR))
+                self.vid.destroy()
+                self.window.destroy()
+                cv2.destroyAllWindows()
                 run_algorithm(self.window, self.main_window, algorithm_type)
             else:
+                cv2.imwrite(os.getcwd() + '\\images\\user_images\\new_image.jpg',
+                            cv2.cvtColor(frame, cv2.COLOR_RGB2BGR))
+                self.vid.destroy()
+                self.window.destroy()
+                cv2.destroyAllWindows()
                 show_logged(self.window, self.main_window)
 
     def update_frame(self):

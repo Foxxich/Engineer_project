@@ -44,10 +44,10 @@ def run_pca():
     face = 21
     random_image_number = random.randrange(1, 10, 1)
     print(random_image_number)
-    test_file = str(face) + "/" + str(random_image_number) + ".jpg"
+    test_file = definitons.root_dir + "\\images\\converted_images\\11\\8.jpg"
     path = definitons.root_dir + "\\images\\converted_images\\"
     start_time = time.time()
-    if pca.comparison(test_file, path) == face:
+    if int(pca.comparison(test_file, path, 'test')) == 11:
         print('Same person on both images')
     else:
         print('Different persons on both images')

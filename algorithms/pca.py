@@ -5,6 +5,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 from PIL import Image
 from sklearn.decomposition import PCA
+import glob
 
 
 # noinspection PyTypeChecker
@@ -27,8 +28,27 @@ def load_data_set(path):
     return faces
 
 
-def comparison(test_filename, path):
-    faces = load_data_set(path)
+def load_set(path):
+    faces = {}
+    final_faces = {}
+    image_folders = os.listdir(path)
+    for i in range(1, len(image_folders)):
+        if '.jpg' not in image_folders[i]:
+            filepath = path + str(image_folders[i]) + "\\*.jpg"
+            files_list = glob.glob(filepath)
+            order = str(image_folders[i]) + ".jpg"
+            img = Image.open(files_list[0])
+            img.load()
+            data = np.asarray(img, dtype="int32")
+            faces[order] = data
+    return faces
+
+
+def comparison(test_filename, path, data_type):
+    if data_type == 'test':
+        faces = load_data_set(path)
+    else:
+        faces = load_set(path)
     face_shape = list(faces.values())[0].shape
     classes = set(filename.split("/")[0] for filename in faces.keys())
 
@@ -39,8 +59,6 @@ def comparison(test_filename, path):
     face_matrix = []
     face_label = []
     for key, val in faces.items():
-        if key == test_filename:
-            continue
         face_matrix.append(val.flatten())
         face_label.append(key.split("/")[0])
 
@@ -54,7 +72,13 @@ def comparison(test_filename, path):
     weights = eigenfaces @ (face_matrix - pca.mean_).T
     print("Shape of the weight matrix:", weights.shape)
     # Test on out-of-sample image of existing class
-    query = faces[test_filename].reshape(1, -1)
+
+    load_test_file = Image.open(test_filename)
+    load_test_file.load()
+    data = np.asarray(load_test_file, dtype="int32")
+    test = {'test': data}
+
+    query = test['test'].reshape(1, -1)
     query_weight = eigenfaces @ (query - pca.mean_).T
     euclidean_distance = np.linalg.norm(weights - query_weight, axis=0)
     best_match = np.argmin(euclidean_distance)
@@ -67,4 +91,4 @@ def comparison(test_filename, path):
     axes[1].set_title("Best match")
     plt.show()
     print('Person number', face_label[best_match])
-    return int(face_label[best_match])
+    return face_label[best_match]
