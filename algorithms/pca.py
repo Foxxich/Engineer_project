@@ -10,6 +10,7 @@ from sklearn.decomposition import PCA
 # noinspection PyTypeChecker
 
 
+# This function is used to load images from path of test set
 def load_data_set(path):
     faces = {}
     image_folders = os.listdir(path)
