@@ -56,9 +56,9 @@ def run_pca():
 
 
 def main():
-    # run_sift()
-    # run_vgg()
-    # run_cnn()
+    run_sift()
+    run_vgg()
+    run_cnn()
     run_pca()
 
 

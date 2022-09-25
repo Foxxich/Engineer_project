@@ -50,10 +50,9 @@ def run_algorithm(self, main_window, algorithm_type):
         print(random_image_number)
         path = os.getcwd() + '\\images\\user_images\\'
         start_time = time.time()
-        if pca.comparison(img2, path, 'lol') == 11:
-            print('Same person on both images')
-        else:
-            print('Different persons on both images')
+        face_name = pca.comparison(img2, path, 'lol')
+        if face_name == 'previous_images.jpg':
+            result = True
     elif algorithm_type == 'cnn':
         folder = os.getcwd() + '\\images\\user_images\\'
         epochs_number = 10
