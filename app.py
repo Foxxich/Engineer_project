@@ -63,6 +63,8 @@ def run_algorithm(self, main_window, algorithm_type):
         face_name = cnn.comparison(folder, img2, epochs_number, steps_for_validation)
         if face_name == 'previous_images':
             result = True
+    elif algorithm_type == 'initial':
+        result = True
 
     end_time = time.time()
     print("Total time: ", round((end_time - start_time)), ' Seconds')
@@ -80,32 +82,47 @@ def show_logged(self, main_window):
     self.app = LoggedWindow(self.newWindow, main_window, True)
 
 
+def new_start():
+    try:
+        os.remove(os.getcwd() + '\\images\\user_images\\previous_images\\previous_image.jpg')
+    except FileNotFoundError:
+        print("File previous_image.jpg was not found")
+    try:
+        os.remove(os.getcwd() + '\\images\\user_images\\new_image.jpg')
+    except FileNotFoundError:
+        print("File new_image.jpg was not found")
+
+
 class App:
     def __init__(self, window, window_title, main_window, testing):
         self.app = None
         self.newWindow = None
         self.photo = None
         self.window = window
+        window.iconbitmap(os.getcwd() + '\\images\\app_images\\icon.ico')
+        center_window(window, 640, 520)
         self.testing = testing
         self.main_window = main_window
         self.window.title(window_title)
         self.video_source = 0
         self.ok = False
 
-        window.iconbitmap(os.getcwd() + '\\images\\app_images\\icon.ico')
-        center_window(window, 640, 520)
-
         self.vid = VideoCapture(self.video_source)
         self.canvas = tk.Canvas(window, width=self.vid.width, height=self.vid.height)
         self.canvas.pack()
-        self.btn_snapshot = tk.Button(window, text="SIFT", command=lambda: self.open_files('sift'))
-        self.btn_snapshot.pack(side=tk.LEFT, padx=5, pady=5)
-        self.btn_cnn = tk.Button(window, text="CNN", command=lambda: self.open_files('cnn'))
-        self.btn_cnn.pack(side=tk.LEFT, padx=5, pady=5)
-        self.btn_vgg = tk.Button(window, text="PCA", command=lambda: self.open_files('pca'))
-        self.btn_vgg.pack(side=tk.LEFT, padx=5, pady=5)
-        self.btn_vgg = tk.Button(window, text="VGG", command=lambda: self.open_files('vgg'))
-        self.btn_vgg.pack(side=tk.LEFT, padx=5, pady=5)
+        if testing:
+            self.btn_snapshot = tk.Button(window, text="SIFT", command=lambda: self.open_files('sift'))
+            self.btn_snapshot.pack(side=tk.LEFT, padx=5, pady=5)
+            self.btn_cnn = tk.Button(window, text="CNN", command=lambda: self.open_files('cnn'))
+            self.btn_cnn.pack(side=tk.LEFT, padx=5, pady=5)
+            self.btn_vgg = tk.Button(window, text="PCA", command=lambda: self.open_files('pca'))
+            self.btn_vgg.pack(side=tk.LEFT, padx=5, pady=5)
+            self.btn_vgg = tk.Button(window, text="VGG", command=lambda: self.open_files('vgg'))
+            self.btn_vgg.pack(side=tk.LEFT, padx=5, pady=5)
+        else:
+            self.btn_snapshot = tk.Button(window, text="Make photo", command=lambda: self.open_files('initial'))
+            self.btn_snapshot.pack(side=tk.LEFT, padx=5, pady=5)
+            new_start()
         self.delay = 10
         self.window.protocol("WM_DELETE_WINDOW", self.on_closing)
         self.update_frame()
@@ -231,6 +248,7 @@ class MainWindow:
         self.app = App(self.newWindow, 'Take image to login', self.master, True)
 
     def register_window(self):
+        self.master.withdraw()
         self.newWindow = tk.Toplevel(self.master)
         self.app = RegisterWindow(self.newWindow, self.master)
 
@@ -241,8 +259,8 @@ def center_window(root, width=300, height=200):
     screen_height = root.winfo_screenheight()
 
     # calculate position x and y coordinates
-    x = (screen_width/2) - (width/2)
-    y = (screen_height/2) - (height/2)
+    x = (screen_width / 2) - (width / 2)
+    y = (screen_height / 2) - (height / 2)
     root.geometry('%dx%d+%d+%d' % (width, height, x, y))
 
 
@@ -257,5 +275,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
-    # add https://stackoverflow.com/questions/14910858/how-to-specify-where-a-tkinter-window-opens
