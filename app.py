@@ -27,7 +27,8 @@ class LoggedWindow:
         master.iconbitmap(os.getcwd() + '\\images\\app_images\\icon.ico')
 
         if is_successful:
-            master.title("Welcome back")
+            f = open(os.getcwd() + '\\utils\\username.txt', "r")
+            master.title("Welcome back, " + f.read())
             img = Image.open(definitons.app_images_dir + 'logged.png')
         else:
             master.title("Unknown person")
