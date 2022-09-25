@@ -5,7 +5,6 @@ import matplotlib.pyplot as plt
 import numpy as np
 from PIL import Image
 from sklearn.decomposition import PCA
-import glob
 
 
 # noinspection PyTypeChecker
@@ -66,7 +65,7 @@ def comparison(test_filename, path, data_type):
     face_matrix = np.array(face_matrix)
     # Apply PCA to use first K principal components as eigenfaces
     pca = PCA().fit(face_matrix)
-    n_components = 50
+    n_components = 100
     eigenfaces = pca.components_[:n_components]
     # Generate weights as a KxN matrix where K is the number of eigenfaces and N the number of samples
     weights = eigenfaces @ (face_matrix - pca.mean_).T
