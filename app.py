@@ -23,11 +23,14 @@ class LoggedWindow:
         self.master = master
         self.main_window = main_window
         self.frame = tk.Frame(self.master, width=300, height=300)
-        master.title('You are logged')
+        center_window(master, 300, 300)
+        master.iconbitmap(os.getcwd() + '\\images\\app_images\\icon.ico')
 
         if is_successful:
+            master.title("Welcome back")
             img = Image.open(definitons.app_images_dir + 'logged.png')
         else:
+            master.title("Unknown person")
             img = Image.open(definitons.app_images_dir + 'error.png')
         self.tk_image = ImageTk.PhotoImage(img)
         Label(self.master, image=self.tk_image).place(x=0, y=0, relwidth=1, relheight=1)
@@ -89,19 +92,29 @@ class App:
         self.video_source = 0
         self.ok = False
 
+        window.iconbitmap(os.getcwd() + '\\images\\app_images\\icon.ico')
+        center_window(window, 640, 520)
+
         self.vid = VideoCapture(self.video_source)
         self.canvas = tk.Canvas(window, width=self.vid.width, height=self.vid.height)
         self.canvas.pack()
         self.btn_snapshot = tk.Button(window, text="SIFT", command=lambda: self.open_files('sift'))
-        self.btn_snapshot.pack(side=tk.LEFT)
+        self.btn_snapshot.pack(side=tk.LEFT, padx=5, pady=5)
         self.btn_cnn = tk.Button(window, text="CNN", command=lambda: self.open_files('cnn'))
-        self.btn_cnn.pack(side=tk.LEFT)
+        self.btn_cnn.pack(side=tk.LEFT, padx=5, pady=5)
         self.btn_vgg = tk.Button(window, text="PCA", command=lambda: self.open_files('pca'))
-        self.btn_vgg.pack(side=tk.LEFT)
+        self.btn_vgg.pack(side=tk.LEFT, padx=5, pady=5)
         self.btn_vgg = tk.Button(window, text="VGG", command=lambda: self.open_files('vgg'))
-        self.btn_vgg.pack(side=tk.LEFT)
+        self.btn_vgg.pack(side=tk.LEFT, padx=5, pady=5)
         self.delay = 10
+        self.window.protocol("WM_DELETE_WINDOW", self.on_closing)
         self.update_frame()
+
+    def on_closing(self):
+        self.vid.destroy()
+        self.window.destroy()
+        self.main_window.destroy()
+        cv2.destroyAllWindows()
 
     def open_files(self, algorithm_type):
         ret, frame = self.vid.get_frame()
@@ -206,10 +219,10 @@ class MainWindow:
         self.master = master
         self.frame = tk.Frame(self.master, width=200, height=300)
         self.frame.size()
-        self.button1 = tk.Button(self.frame, text='Login', width=125, command=self.login_window)
-        self.button1.pack()
-        self.button2 = tk.Button(self.frame, text='Register', width=125, command=self.register_window)
-        self.button2.pack()
+        self.button1 = tk.Button(self.frame, text='Login', height="2", width="30", command=self.login_window)
+        self.button1.pack(padx=50, pady=50)
+        self.button2 = tk.Button(self.frame, text='Register', height="2", width="30", command=self.register_window)
+        self.button2.pack(padx=50, pady=50)
         self.frame.pack()
 
     def login_window(self):
@@ -222,8 +235,22 @@ class MainWindow:
         self.app = RegisterWindow(self.newWindow, self.master)
 
 
+def center_window(root, width=300, height=200):
+    # get screen width and height
+    screen_width = root.winfo_screenwidth()
+    screen_height = root.winfo_screenheight()
+
+    # calculate position x and y coordinates
+    x = (screen_width/2) - (width/2)
+    y = (screen_height/2) - (height/2)
+    root.geometry('%dx%d+%d+%d' % (width, height, x, y))
+
+
 def main():
     root = tk.Tk()
+    center_window(root, 400, 350)
+    root.iconbitmap(os.getcwd() + '\\images\\app_images\\icon.ico')
+    root.title("Face recognition")
     MainWindow(root)
     root.mainloop()
 

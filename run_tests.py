@@ -6,8 +6,8 @@ from algorithms import sift, vgg_face, cnn, pca
 
 
 def run_sift():
-    test_image = definitons.root_dir + '\\images\\user_images\\1.jpg'
-    original_image = definitons.root_dir + '\\images\\user_images\\2.jpg'
+    test_image = definitons.root_dir + '\\images\\random_images\\1.jpg'
+    original_image = definitons.root_dir + '\\images\\random_images\\2.jpg'
     start_time = time.time()
     sift.comparison(test_image, original_image)
     end_time = time.time()
@@ -15,8 +15,8 @@ def run_sift():
 
 
 def run_vgg():
-    test_image = definitons.root_dir + '\\images\\user_images\\1.jpg'
-    original_image = definitons.root_dir + '\\images\\user_images\\2.jpg'
+    test_image = definitons.root_dir + '\\images\\random_images\\1.jpg'
+    original_image = definitons.root_dir + '\\images\\random_images\\2.jpg'
     start_time = time.time()
     result = vgg_face.comparison(test_image, original_image)
     end_time = time.time()
