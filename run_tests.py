@@ -16,9 +16,9 @@ def run_sift():
 
 def run_vgg():
     test_image = definitons.root_dir + '\\images\\random_images\\1.jpg'
-    original_image = definitons.root_dir + '\\images\\random_images\\2.jpg'
+    original_image = definitons.root_dir + '\\images\\random_images\\3.jpg'
     start_time = time.time()
-    result = vgg_face.comparison(test_image, original_image)
+    result = vgg_face.comparison(test_image, original_image, 'resnet50')
     end_time = time.time()
     print("Total time: ", round((end_time - start_time)), ' Seconds')
 
@@ -56,10 +56,10 @@ def run_pca():
 
 
 def main():
-    run_sift()
+    # run_sift()
     run_vgg()
-    run_cnn()
-    run_pca()
+    # run_cnn()
+    # run_pca()
 
 
 if __name__ == "__main__":

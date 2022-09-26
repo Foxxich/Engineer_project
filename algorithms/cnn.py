@@ -44,7 +44,7 @@ def generate_sets(training_image_path):
 # This implementation is used with the format (64,64,3) for TensorFlow backend;
 # It is done to represent 3 matrix (with each size 64 to 64) for
 # representing Red, Green and Blue components of pixels;
-def prepare_classifier(output_neurons):
+def prepare_classifier(output_neurons, optimizer, loss):
     classifier = Sequential()
     classifier.add(Convolution2D(32, kernel_size=(5, 5), strides=(1, 1), input_shape=(64, 64, 3), activation='relu'))
     classifier.add(MaxPool2D(pool_size=(2, 2)))
@@ -53,7 +53,7 @@ def prepare_classifier(output_neurons):
     classifier.add(Flatten())
     classifier.add(Dense(64, activation='relu'))
     classifier.add(Dense(output_neurons, activation='softmax'))
-    classifier.compile(loss='categorical_crossentropy', optimizer='adam', metrics=["accuracy"])
+    classifier.compile(loss=loss, optimizer=optimizer, metrics=["accuracy"])
     return classifier
 
 
@@ -87,7 +87,7 @@ def comparison(folder, img, epochs_number, steps_for_validation):
     print("Mapping of Face and its ID", result_map)
     print('\n The Number of output neurons: ', output_neurons)
 
-    classifier = prepare_classifier(output_neurons)
+    classifier = prepare_classifier(output_neurons, 'adam', 'categorical_crossentropy')
     steps_per_epoch = len(test_set)
 
     classifier.fit(

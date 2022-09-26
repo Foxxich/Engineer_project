@@ -48,7 +48,7 @@ def run_algorithm(self, main_window, algorithm_type):
     if algorithm_type == 'sift':
         result = sift.comparison(img1, img2)
     elif algorithm_type == 'vgg':
-        result = vgg_face.comparison(img1, img2)
+        result = vgg_face.comparison(img1, img2, 'resnet50')
     elif algorithm_type == 'pca':
         random_image_number = random.randrange(1, 10, 1)
         print(random_image_number)

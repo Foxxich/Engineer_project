@@ -34,8 +34,8 @@ def prepare_sample(test_image, original_image):
 
 # This function is used for calculation of prediction with face embeddings;
 # Standard model is resnet50;
-def prepare_prediction(samples):
-    model = VGGFace(model='resnet50', include_top=False, input_shape=(224, 224, 3), pooling='avg')
+def prepare_prediction(samples, model):
+    model = VGGFace(model=model, include_top=False, input_shape=(224, 224, 3), pooling='avg')
     prediction = model.predict(samples)
     return prediction
 
@@ -53,6 +53,6 @@ def is_match(known_embedding, candidate_embedding, test_image, original_image):
         return False
 
 
-def comparison(test_image, original_image):
-    predictions = prepare_prediction(prepare_sample(test_image, original_image))
+def comparison(test_image, original_image, model):
+    predictions = prepare_prediction(prepare_sample(test_image, original_image), model)
     return is_match(predictions[0], predictions[1], test_image, original_image)
