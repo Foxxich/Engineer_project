@@ -34,7 +34,7 @@ def convert_rgb_to_gray(image):
 
 
 def main():
-    convert_formats()
+    pass
 
 
 if __name__ == "__main__":
