@@ -4,13 +4,6 @@ import matplotlib.pyplot as plt
 import definitons
 
 
-# This function is used to get path for cascade needed
-# for the sift;
-def cascade_path():
-    path = definitons.root_dir + '\\utils\\cascades\\'
-    return path + 'haarcascade_frontalface_default.xml'
-
-
 # This function is used to color given images to RGB and
 # also get gray versions of them;
 def prepare_images(image1, image2):
@@ -36,7 +29,7 @@ def show_key_points(gray, image):
     print(keypoints.shape)
     plt.figure(figsize=(20, 10))
     plt.imshow(keypoints)
-    plt.title('Keypoints of Image 1 for reference')
+    plt.title('Keypoints of first Image')
     plt.savefig(definitons.root_dir + '\\results\\sift_keypoints.jpg')
     plt.show()
 
@@ -80,10 +73,8 @@ def final_statistics(image1, image2, kp1, kp2, des1, des2):
 
 
 # This function is used to check up percent of matches with set custom delta;
-def is_match(good, matches, test_image, original_image):
-    delta = 15
+def is_match(good, matches, test_image, original_image, percent_delta):
     match_percent = len(good) * 100 / len(matches)
-    percent_delta = 2.1
     if match_percent >= percent_delta:
         print('There is a match between {} and {}'.format(test_image, original_image))
         print(len(good))
@@ -94,13 +85,21 @@ def is_match(good, matches, test_image, original_image):
         return False
 
 
-def comparison(test_image, original_image):
+def comparison(
+        test_image,
+        original_image,
+        cascade_name='haarcascade_frontalface_default',
+        percent_delta=2.1):
     image1 = cv2.imread(test_image)
     image2 = cv2.imread(original_image)
     image1, image2, gray1, gray2 = prepare_images(image1, image2)
     show_key_points(gray1, image1)
     sift = cv2.SIFT_create()
-    face_cascade = cv2.CascadeClassifier(cascade_path())
+    face_cascade = cv2.CascadeClassifier(
+        definitons.root_dir +
+        '\\utils\\cascades\\' +
+        cascade_name + '.xml'
+    )
 
     # detect faces in the images
     faces1 = face_cascade.detectMultiScale(gray1, 1.3, 5)
@@ -139,4 +138,4 @@ def comparison(test_image, original_image):
             matcher_count.append([m])
 
     final_statistics(image1, image2, kp1, kp2, des1, des2)
-    return is_match(matcher_count, matches, test_image, original_image)
+    return is_match(matcher_count, matches, test_image, original_image, percent_delta)
