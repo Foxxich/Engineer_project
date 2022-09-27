@@ -42,8 +42,7 @@ def prepare_prediction(samples, model):
 
 # This function is used for comparison of distance between embeddings
 # to check up percent of matches;
-def is_match(known_embedding, candidate_embedding, test_image, original_image):
-    thresh = 0.5
+def is_match(known_embedding, candidate_embedding, test_image, original_image, thresh):
     score = cosine(known_embedding, candidate_embedding)
     if score <= thresh:
         print('There is a match (%.3f <= %.3f)' % (score, thresh) + ' between', test_image + ' and', original_image)
@@ -53,6 +52,10 @@ def is_match(known_embedding, candidate_embedding, test_image, original_image):
         return False
 
 
-def comparison(test_image, original_image, model):
+def comparison(
+        test_image,
+        original_image,
+        model='resnet50',
+        thresh=0.5):
     predictions = prepare_prediction(prepare_sample(test_image, original_image), model)
-    return is_match(predictions[0], predictions[1], test_image, original_image)
+    return is_match(predictions[0], predictions[1], test_image, original_image, thresh)
