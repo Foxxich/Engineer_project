@@ -48,20 +48,18 @@ def run_algorithm(self, main_window, algorithm_type):
     if algorithm_type == 'sift':
         result = sift.comparison(img1, img2)
     elif algorithm_type == 'vgg':
-        result = vgg_face.comparison(img1, img2, 'resnet50')
+        result = vgg_face.comparison(img1, img2)
     elif algorithm_type == 'pca':
         random_image_number = random.randrange(1, 10, 1)
         print(random_image_number)
         path = os.getcwd() + '\\images\\user_images\\'
         start_time = time.time()
-        face_name = pca.comparison(img2, path, 'lol')
+        face_name = pca.comparison(img2, path, 'app')
         if face_name == 'previous_images.jpg':
             result = True
     elif algorithm_type == 'cnn':
         folder = os.getcwd() + '\\images\\user_images\\'
-        epochs_number = 10
-        steps_for_validation = 20
-        face_name = cnn.comparison(folder, img2, epochs_number, steps_for_validation)
+        face_name = cnn.comparison(folder, img2)
         if face_name == 'previous_images':
             result = True
     elif algorithm_type == 'initial':
