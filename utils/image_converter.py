@@ -42,8 +42,8 @@ def convert_rgb_to_gray(image):
 def blur(folder_path, image_name, blur_percent=5):
     Image.open(definitons.root_dir + "\\images\\" + folder_path + "\\" + image_name + ".jpg") \
         .filter(ImageFilter.GaussianBlur(blur_percent)) \
-        .save(definitons.root_dir + "\\images\\blured\\" + folder_path + "\\" + image_name + ".jpg")
-    return definitons.root_dir + "\\images\\blured\\" + folder_path + "\\" + image_name + ".jpg"
+        .save(definitons.root_dir + "\\images\\tests\\blured\\" + folder_path + "\\" + image_name + ".jpg")
+    return definitons.root_dir + "\\images\\tests\\blured\\" + folder_path + "\\" + image_name + ".jpg"
 
 
 # This function is used to add noise for image with given path, image_type
@@ -53,5 +53,5 @@ def gaussian_noise(folder_path, image_name):
     gauss = np.random.normal(0, 1, img.size)
     gauss = gauss.reshape((img.shape[0], img.shape[1], img.shape[2])).astype('uint8')
     noise = img + img * gauss
-    cv2.imwrite(definitons.root_dir + "\\images\\noised\\" + folder_path + "\\" + image_name + ".jpg", noise)
-    return definitons.root_dir + "\\images\\noised\\" + folder_path + "\\" + image_name + ".jpg"
+    cv2.imwrite(definitons.root_dir + "\\images\\tests\\noised\\" + folder_path + "\\" + image_name + ".jpg", noise)
+    return definitons.root_dir + "\\images\\tests\\noised\\" + folder_path + "\\" + image_name + ".jpg"

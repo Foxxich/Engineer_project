@@ -10,7 +10,7 @@ from algorithms import sift, vgg_face, cnn, pca
 import sys
 
 sys.path.insert(0, '..')
-from utils.image_converter import blur, gaussian_noise, add_gray_noise, convert_bgr_to_rgb
+from utils.image_converter import blur, gaussian_noise, convert_bgr_to_rgb
 
 # First element is set by default for running in every algorithm
 cnn_optimizers = ['adam', 'rmsprop', 'Ftrl', 'Nadam', 'Adamax']
@@ -88,45 +88,90 @@ def generate_blured_images():
     image_folders = os.listdir(converted_images_path)
     for i in range(0, len(image_folders)):
         filepath = converted_images_path + str(image_folders[i]) + "\\*.jpg"
-        files_list = glob.glob(filepath)
-        for j in range(1, 5):
+        for j in range(1, 14):
             try:
-                path = os.path.join(definitons.root_dir + "\\images\\blured\\tt_dataset\\Final Training Images\\" + str(image_folders[i]))
+                path = os.path.join(definitons.root_dir + "\\images\\tests\\blured\\tt_dataset\\Final Training Images\\" + str(image_folders[i]))
                 os.mkdir(path, mode)
             except:
                 FileExistsError
             blur("tt_dataset\\Final Training Images\\" + image_folders[i], str(j) + str(image_folders[i]))
-    print('FINISH')
-    # mode = 0o666
-    #
-    # converted_images_path = definitons.root_dir + "\\images\\converted_images\\"
-    # image_folders = os.listdir(converted_images_path)
-    # for i in range(0, len(image_folders)):
-    #     filepath = converted_images_path + str(image_folders[i]) + "\\*.jpg"
-    #     files_list = glob.glob(filepath)
-    #     for j in range(1, 11):
-    #         try:
-    #             path = os.path.join(definitons.root_dir + "\\images\\blured\\converted_images\\" + str(image_folders[i]))
-    #             os.mkdir(path, mode)
-    #         except:
-    #             FileExistsError
-    #         blur("converted_images\\" + image_folders[i], str(j))
-    # print('FINISH')
+    print('finished Final Training Images')
 
-def rename_files():
-    converted_images_path = definitons.root_dir + "\\images\\tt_dataset\\Final Training Images\\"
+    converted_images_path = definitons.root_dir + "\\images\\tt_dataset\\Final Testing Images\\"
+    image_folders = os.listdir(converted_images_path)
+    for i in range(0, len(image_folders)):
+        filepath = converted_images_path + str(image_folders[i]) + "\\*.jpg"
+        for j in range(1, 5):
+            try:
+                path = os.path.join(definitons.root_dir + "\\images\\tests\\blured\\tt_dataset\\Final Testing Images\\" + str(image_folders[i]))
+                os.mkdir(path, mode)
+            except:
+                FileExistsError
+            blur("tt_dataset\\Final Testing Images\\" + image_folders[i], str(j) + str(image_folders[i]))
+    print('finished Final Testing Images')
+
+    converted_images_path = definitons.root_dir + "\\images\\converted_images\\"
     image_folders = os.listdir(converted_images_path)
     for i in range(0, len(image_folders)):
         filepath = converted_images_path + str(image_folders[i]) + "\\*.jpg"
         files_list = glob.glob(filepath)
-        for j in range(1, len(files_list)):
-            os.rename(files_list[j],
-                      os.getcwd() + '\\images\\tt_dataset\\Final Training Images\\' + str(image_folders[i]) + '\\' + str(j) + 'face' + str(i))
+        for j in range(1, 11):
+            try:
+                path = os.path.join(definitons.root_dir + "\\images\\tests\\blured\\converted_images\\" + str(image_folders[i]))
+                os.mkdir(path, mode)
+            except:
+                FileExistsError
+            blur("converted_images\\" + image_folders[i], str(j))
     print('FINISH')
 
+
+def generate_gaussian():
+    mode = 0o666
+
+    converted_images_path = definitons.root_dir + "\\images\\tt_dataset\\Final Training Images\\"
+    image_folders = os.listdir(converted_images_path)
+    for i in range(0, len(image_folders)):
+        filepath = converted_images_path + str(image_folders[i]) + "\\*.jpg"
+        for j in range(1, 14):
+            try:
+                path = os.path.join(definitons.root_dir + "\\images\\tests\\noised\\tt_dataset\\Final Training Images\\" + str(image_folders[i]))
+                os.mkdir(path, mode)
+            except:
+                FileExistsError
+            gaussian_noise("tt_dataset\\Final Training Images\\" + image_folders[i], str(j) + str(image_folders[i]))
+    print('finished Final Training Images')
+
+    converted_images_path = definitons.root_dir + "\\images\\tt_dataset\\Final Testing Images\\"
+    image_folders = os.listdir(converted_images_path)
+    for i in range(0, len(image_folders)):
+        filepath = converted_images_path + str(image_folders[i]) + "\\*.jpg"
+        for j in range(1, 5):
+            try:
+                path = os.path.join(definitons.root_dir + "\\images\\tests\\noised\\tt_dataset\\Final Testing Images\\" + str(image_folders[i]))
+                os.mkdir(path, mode)
+            except:
+                FileExistsError
+            gaussian_noise("tt_dataset\\Final Testing Images\\" + image_folders[i], str(j) + str(image_folders[i]))
+    print('finished Final Testing Images')
+
+    converted_images_path = definitons.root_dir + "\\images\\converted_images\\"
+    image_folders = os.listdir(converted_images_path)
+    for i in range(0, len(image_folders)):
+        filepath = converted_images_path + str(image_folders[i]) + "\\*.jpg"
+        files_list = glob.glob(filepath)
+        for j in range(1, 11):
+            try:
+                path = os.path.join(definitons.root_dir + "\\images\\tests\\noised\\converted_images\\" + str(image_folders[i]))
+                os.mkdir(path, mode)
+            except:
+                FileExistsError
+            gaussian_noise("converted_images\\" + image_folders[i], str(j))
+    print('FINISH')
+
+
 def main():
-    rename_files()
-    # generate_blured_images()
+    generate_blured_images()
+    generate_gaussian()
     # run_sift()
     # run_vgg()
     # run_cnn()
