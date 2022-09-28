@@ -48,8 +48,8 @@ def run_vgg():
 def run_cnn():
     face = 2
     random_image_number = random.randrange(1, 4, 1)
-    folder = definitons.root_dir + '\\images\\tt_dataset\\Final Training Images\\'
-    image_path = definitons.root_dir + '\\images\\tt_dataset\\Final Testing Images\\face' + str(face) + '\\' + str(
+    folder = definitons.root_dir + '\\images\\datasets\\tt_dataset\\Final Training Images\\'
+    image_path = definitons.root_dir + '\\images\\datasets\\tt_dataset\\Final Testing Images\\face' + str(face) + '\\' + str(
         random_image_number) + 'face' + str(face) + '.jpg'
     start_time = time.time()
     if cnn.comparison(folder,
@@ -70,8 +70,8 @@ def run_pca():
     face = 21
     random_image_number = random.randrange(1, 10, 1)
     print(random_image_number)
-    test_file = definitons.root_dir + "\\images\\converted_images\\11\\8.jpg"
-    path = definitons.root_dir + "\\images\\converted_images\\"
+    test_file = definitons.root_dir + "\\images\\datasets\\converted_images\\11\\8.jpg"
+    path = definitons.root_dir + "\\images\\datasets\\converted_images\\"
     start_time = time.time()
     if int(pca.comparison(test_file, path, 'test', pca_components[0])) == 11:
         print('Same person on both images')
@@ -84,7 +84,7 @@ def run_pca():
 def generate_blured_images():
     mode = 0o666
 
-    converted_images_path = definitons.root_dir + "\\images\\tt_dataset\\Final Training Images\\"
+    converted_images_path = definitons.root_dir + "\\images\\datasets\\tt_dataset\\Final Training Images\\"
     image_folders = os.listdir(converted_images_path)
     for i in range(0, len(image_folders)):
         filepath = converted_images_path + str(image_folders[i]) + "\\*.jpg"
@@ -97,7 +97,7 @@ def generate_blured_images():
             blur("tt_dataset\\Final Training Images\\" + image_folders[i], str(j) + str(image_folders[i]))
     print('finished Final Training Images')
 
-    converted_images_path = definitons.root_dir + "\\images\\tt_dataset\\Final Testing Images\\"
+    converted_images_path = definitons.root_dir + "\\images\\datasets\\tt_dataset\\Final Testing Images\\"
     image_folders = os.listdir(converted_images_path)
     for i in range(0, len(image_folders)):
         filepath = converted_images_path + str(image_folders[i]) + "\\*.jpg"
@@ -110,7 +110,7 @@ def generate_blured_images():
             blur("tt_dataset\\Final Testing Images\\" + image_folders[i], str(j) + str(image_folders[i]))
     print('finished Final Testing Images')
 
-    converted_images_path = definitons.root_dir + "\\images\\converted_images\\"
+    converted_images_path = definitons.root_dir + "\\images\\datasets\\converted_images\\"
     image_folders = os.listdir(converted_images_path)
     for i in range(0, len(image_folders)):
         filepath = converted_images_path + str(image_folders[i]) + "\\*.jpg"
@@ -128,7 +128,7 @@ def generate_blured_images():
 def generate_gaussian():
     mode = 0o666
 
-    converted_images_path = definitons.root_dir + "\\images\\tt_dataset\\Final Training Images\\"
+    converted_images_path = definitons.root_dir + "\\images\\datasets\\tt_dataset\\Final Training Images\\"
     image_folders = os.listdir(converted_images_path)
     for i in range(0, len(image_folders)):
         filepath = converted_images_path + str(image_folders[i]) + "\\*.jpg"
@@ -141,7 +141,7 @@ def generate_gaussian():
             gaussian_noise("tt_dataset\\Final Training Images\\" + image_folders[i], str(j) + str(image_folders[i]))
     print('finished Final Training Images')
 
-    converted_images_path = definitons.root_dir + "\\images\\tt_dataset\\Final Testing Images\\"
+    converted_images_path = definitons.root_dir + "\\images\\datasets\\tt_dataset\\Final Testing Images\\"
     image_folders = os.listdir(converted_images_path)
     for i in range(0, len(image_folders)):
         filepath = converted_images_path + str(image_folders[i]) + "\\*.jpg"
@@ -154,7 +154,7 @@ def generate_gaussian():
             gaussian_noise("tt_dataset\\Final Testing Images\\" + image_folders[i], str(j) + str(image_folders[i]))
     print('finished Final Testing Images')
 
-    converted_images_path = definitons.root_dir + "\\images\\converted_images\\"
+    converted_images_path = definitons.root_dir + "\\images\\datasets\\converted_images\\"
     image_folders = os.listdir(converted_images_path)
     for i in range(0, len(image_folders)):
         filepath = converted_images_path + str(image_folders[i]) + "\\*.jpg"

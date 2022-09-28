@@ -1,6 +1,5 @@
 import glob
 import os
-import random
 from pathlib import Path
 
 import cv2
@@ -22,11 +21,11 @@ def convert_formats():
             new_file = "{}.jpg".format(j)
             image_path = path + str(i) + "\\" + str(j) + ".pgm"
             with Image.open(image_path) as im:
-                Path(definitons.root_dir + "\\images\\converted_images\\" + str(i)).mkdir(parents=True, exist_ok=True)
-                im.save(definitons.root_dir + "\\images\\converted_images\\" + str(i) + "\\" + new_file)
+                Path(definitons.root_dir + "\\images\\datasets\\converted_images\\" + str(i)).mkdir(parents=True, exist_ok=True)
+                im.save(definitons.root_dir + "\\images\\datasets\\converted_images\\" + str(i) + "\\" + new_file)
                 source = cv2.imread(image_path, 0)
                 image = convert_bgr_to_rgb(source)
-                cv2.imwrite(os.getcwd() + "\\images\\converted_images\\" + str(i) + "\\" + new_file, image)
+                cv2.imwrite(os.getcwd() + "\\images\\datasets\\converted_images\\" + str(i) + "\\" + new_file, image)
 
 
 def convert_bgr_to_rgb(image):
@@ -40,7 +39,7 @@ def convert_rgb_to_gray(image):
 # This function is used to add blur for image with given path, image_type, percent (default is 5)
 # and later save it to `blured\\image_type` folder
 def blur(folder_path, image_name, blur_percent=5):
-    Image.open(definitons.root_dir + "\\images\\" + folder_path + "\\" + image_name + ".jpg") \
+    Image.open(definitons.root_dir + "\\images\\datasets\\" + folder_path + "\\" + image_name + ".jpg") \
         .filter(ImageFilter.GaussianBlur(blur_percent)) \
         .save(definitons.root_dir + "\\images\\tests\\blured\\" + folder_path + "\\" + image_name + ".jpg")
     return definitons.root_dir + "\\images\\tests\\blured\\" + folder_path + "\\" + image_name + ".jpg"
@@ -49,7 +48,7 @@ def blur(folder_path, image_name, blur_percent=5):
 # This function is used to add noise for image with given path, image_type
 # and later save it to `noised\\image_type` folder
 def gaussian_noise(folder_path, image_name):
-    img = cv2.imread(definitons.root_dir + "\\images\\" + folder_path + "\\" + image_name + ".jpg")
+    img = cv2.imread(definitons.root_dir + "\\images\\datasets\\" + folder_path + "\\" + image_name + ".jpg")
     gauss = np.random.normal(0, 1, img.size)
     gauss = gauss.reshape((img.shape[0], img.shape[1], img.shape[2])).astype('uint8')
     noise = img + img * gauss
