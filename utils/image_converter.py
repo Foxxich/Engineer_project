@@ -55,28 +55,3 @@ def gaussian_noise(folder_path, image_name):
     noise = img + img * gauss
     cv2.imwrite(definitons.root_dir + "\\images\\noised\\" + folder_path + "\\" + image_name + ".jpg", noise)
     return definitons.root_dir + "\\images\\noised\\" + folder_path + "\\" + image_name + ".jpg"
-
-
-# This function is used to add noise for image with given path, image_type
-# and later save it to `gray_noised\\image_type` folder;
-# The main difference between this and `gaussian_noise` conversions is
-# that image is converted to GRAYSCALE
-def add_gray_noise(folder_path, image_name):
-    image = cv2.imread(definitons.root_dir + "\\images\\" + folder_path + "\\" + image_name + ".jpg",
-                       cv2.IMREAD_GRAYSCALE)
-    row, col = image.shape
-    number_of_pixels = random.randint(300, 10000)
-    for i in range(number_of_pixels):
-        y_coord = random.randint(0, row - 1)
-        x_coord = random.randint(0, col - 1)
-        image[y_coord][x_coord] = 255
-
-    number_of_pixels = random.randint(300, 10000)
-    for i in range(number_of_pixels):
-        y_coord = random.randint(0, row - 1)
-        x_coord = random.randint(0, col - 1)
-        image[y_coord][x_coord] = 0
-
-    # Storing the image
-    cv2.imwrite(definitons.root_dir + "\\images\\gray_noised\\" + folder_path + "\\" + image_name + ".jpg", image)
-    return definitons.root_dir + "\\images\\gray_noised\\" + folder_path + "\\" + image_name + ".jpg"
