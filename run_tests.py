@@ -1,16 +1,14 @@
 import glob
 import os
 import random
+import sys
 import time
-
-import cv2
 
 import definitons
 from algorithms import sift, vgg_face, cnn, pca
-import sys
 
 sys.path.insert(0, '..')
-from utils.image_converter import blur, gaussian_noise, convert_bgr_to_rgb
+from utils.image_converter import blur, gaussian_noise
 
 # First element is set by default for running in every algorithm
 cnn_optimizers = ['adam', 'rmsprop', 'Ftrl', 'Nadam', 'Adamax']
@@ -22,13 +20,15 @@ vgg_thresh = [0.5, 0.6, 0.7, 0.8, 0.4, 0.3]
 vgg_model = ['resnet50', 'vgg16', 'senet50']
 pca_components = [100, 90, 80, 70, 60, 50]
 sift_cascades = ['haarcascade_frontalface_default',
-                 'haarcascade_frontalface_alt']
+                 'haarcascade_frontalface_alt',
+                 'haarcascade_frontalface_alt_tree',
+                 'haarcascade_frontalface_alt2']
 sift_percent_delta = [2.0, 2.5, 3.0, 5.0, 1.5, 1.0]
 
 
 def run_sift():
-    test_image = definitons.root_dir + '\\images\\random_images\\1.jpg'
-    original_image = definitons.root_dir + '\\images\\random_images\\2.jpg'
+    test_image = definitons.root_dir + '\\images\\tests\\random_images\\1.jpg'
+    original_image = definitons.root_dir + '\\images\\tests\\random_images\\2.jpg'
     start_time = time.time()
     sift.comparison(test_image, original_image, sift_cascades[0])
     end_time = time.time()
@@ -36,8 +36,8 @@ def run_sift():
 
 
 def run_vgg():
-    test_image = definitons.root_dir + '\\images\\random_images\\1.jpg'
-    original_image = definitons.root_dir + '\\images\\random_images\\2.jpg'
+    test_image = definitons.root_dir + '\\images\\tests\\random_images\\1.jpg'
+    original_image = definitons.root_dir + '\\images\\tests\\random_images\\2.jpg'
     start_time = time.time()
     result = vgg_face.comparison(test_image, original_image, vgg_model[0],
                                  vgg_thresh[0])
@@ -170,10 +170,10 @@ def generate_gaussian():
 
 
 def main():
-    generate_blured_images()
-    generate_gaussian()
-    # run_sift()
-    # run_vgg()
+    # generate_blured_images()
+    # generate_gaussian()
+    run_sift()
+    run_vgg()
     # run_cnn()
     # run_pca()
 
