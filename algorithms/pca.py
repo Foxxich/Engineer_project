@@ -70,7 +70,7 @@ def comparison(test_filename, path, data_type, n_components=100):
         face_matrix.append(val.flatten())
         face_label.append(key.split("/")[0])
 
-    face_matrix = np.array(face_matrix, dtype=object)
+    face_matrix = np.array(face_matrix)
     pca = PCA().fit(face_matrix)
     eigenfaces = pca.components_[:n_components]
     weights = eigenfaces @ (face_matrix - pca.mean_).T

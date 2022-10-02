@@ -136,52 +136,71 @@ def run_cnn():
 
 
 def run_pca():
+    face = 21
+    test_file = definitons.root_dir + "\\images\\datasets\\converted_images\\11\\8.jpg"
+    path = definitons.root_dir + "\\images\\datasets\\converted_images\\"
+    start_time = time.time()
+    if int(pca.comparison(test_file, path, 'test', pca_components[0])) == 11:
+        print('Same person on both images')
+    else:
+        print('Different persons on both images')
+
+    # test_file = definitons.root_dir + "\\images\\datasets\\tt_dataset\\Final Training Images\\face1\\2face1.jpg"
+    # path = definitons.root_dir + "\\images\\datasets\\tt_dataset\\Final Training Images\\"
+    # start_time = time.time()
+    # pca.comparison(test_file, path, 'test', pca_components[0])
+
+    # img2 = os.getcwd() + '\\images\\user_images\\new_image.jpg'
+    # path = os.getcwd() + '\\images\\user_images\\'
+    # start_time = time.time()
+    # face_name = pca.comparison(img2, path, 'app')
+
     # 11 - folder name
     # test_file = definitons.root_dir + "\\images\\datasets\\tt_dataset\\Final Training Images\\face1\\2face1.jpg"
     # path = definitons.root_dir + "\\images\\datasets\\tt_dataset\\Final Training Images\\"
     # print(path)
     # print(test_file)
     # print(pca.comparison(test_file, path, 'ss', pca_components[0]))
-    img2 = os.getcwd() + '\\images\\user_images\\new_image.jpg'
-    path = os.getcwd() + '\\images\\user_images\\'
-    face_name = pca.comparison(img2, path, 'app')
+    # img2 = os.getcwd() + '\\images\\user_images\\new_image.jpg'
+    # path = os.getcwd() + '\\images\\user_images\\'
+    # face_name = pca.comparison(img2, path, 'app')
 
-    data = []
-    for image1 in test_data:
-        image2 = None
-        for score in test_data:
-            if score[2] == image1[2] and score[0] != image1[0]:
-                image2 = score
-        face = image2[0].replace("\\", " ").split()[0]
-        print(face)
-        folder = definitons.root_dir + '\\' + image1[3] + '\\'
-        print(folder)
-        image_path = definitons.root_dir + '\\' + image2[3] + '\\' + image2[0]
-        print(image_path)
-        start_time = time.time()
-        res = False
-        if pca.comparison(
-                image_path,
-                folder,
-                'other',
-                pca_components[0]) == str(face):
-            res = True
-
-        end_time = time.time()
-        is_same_person = False
-        if image1[4] == image2[4]:
-            is_same_person = True
-        data.append([
-            str(image1[0]),
-            str(image2[0]),
-            str(res),
-            str(is_same_person),
-            str(round((end_time - start_time))),
-            image1[2],
-            image1[1],
-        ])
-        print("Total time: ", round((end_time - start_time)), ' Seconds')
-    write(data, 'cnn')
+    # data = []
+    # for image1 in test_data:
+    #     image2 = None
+    #     for score in test_data:
+    #         if score[2] == image1[2] and score[0] != image1[0]:
+    #             image2 = score
+    #     face = image2[0].replace("\\", " ").split()[0]
+    #     print(face)
+    #     folder = definitons.root_dir + '\\' + image1[3] + '\\'
+    #     print(folder)
+    #     image_path = definitons.root_dir + '\\' + image2[3] + '\\' + image2[0]
+    #     print(image_path)
+    #     start_time = time.time()
+    #     res = False
+    #     if pca.comparison(
+    #             image_path,
+    #             folder,
+    #             'other',
+    #             pca_components[0]) == str(face):
+    #         res = True
+    #
+    #     end_time = time.time()
+    #     is_same_person = False
+    #     if image1[4] == image2[4]:
+    #         is_same_person = True
+    #     data.append([
+    #         str(image1[0]),
+    #         str(image2[0]),
+    #         str(res),
+    #         str(is_same_person),
+    #         str(round((end_time - start_time))),
+    #         image1[2],
+    #         image1[1],
+    #     ])
+    #     print("Total time: ", round((end_time - start_time)), ' Seconds')
+    # write(data, 'cnn')
 
 
 def generate_blured_images():
