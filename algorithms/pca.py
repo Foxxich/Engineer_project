@@ -13,16 +13,17 @@ from sklearn.decomposition import PCA
 def load_data_set(path):
     faces = {}
     image_folders = os.listdir(path)
-    for i in range(1, len(image_folders) + 1):
-        filepath = path + str(i) + "\\*.jpg"
+    for i in range(0, len(image_folders)):
+        filepath = path + str(image_folders[i]) + "\\*.jpg"
         files_list = glob.glob(filepath)
-        for j in range(1, len(files_list) + 1):
-            image_path = path + str(i) + "\\" + str(j) + ".jpg"
+        for j in range(0, len(files_list)):
+            image_path = files_list[j]
             order = str(i) + "/" + str(j) + ".jpg"
             img = Image.open(image_path)
             img.load()
             data = np.asarray(img, dtype="int32")
             faces[order] = data
+    print(len(faces))
     return faces
 
 
@@ -41,6 +42,7 @@ def load_set(path):
             img.load()
             data = np.asarray(img, dtype="int32")
             faces[order] = data
+    print(len(faces))
     return faces
 
 
@@ -68,7 +70,7 @@ def comparison(test_filename, path, data_type, n_components=100):
         face_matrix.append(val.flatten())
         face_label.append(key.split("/")[0])
 
-    face_matrix = np.array(face_matrix)
+    face_matrix = np.array(face_matrix, dtype=object)
     pca = PCA().fit(face_matrix)
     eigenfaces = pca.components_[:n_components]
     weights = eigenfaces @ (face_matrix - pca.mean_).T
