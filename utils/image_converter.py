@@ -54,3 +54,37 @@ def gaussian_noise(folder_path, image_name):
     noise = img + img * gauss
     cv2.imwrite(definitons.root_dir + "\\images\\tests\\noised\\" + folder_path + "\\" + image_name + ".jpg", noise)
     return definitons.root_dir + "\\images\\tests\\noised\\" + folder_path + "\\" + image_name + ".jpg"
+
+
+# This function is used to choose data needed to be blured/noised
+def run_image_selection(folder, images_number, modification_type):
+    mode = 0o666
+    converted_images_path = definitons.root_dir + "\\images\\datasets\\" + folder + "\\"
+    image_folders = os.listdir(converted_images_path)
+    for i in range(0, len(image_folders)):
+        filepath = converted_images_path + str(image_folders[i]) + "\\*.jpg"
+        glob.glob(filepath)
+        for j in range(1, images_number):
+            try:
+                path = os.path.join(
+                    definitons.root_dir +
+                    "\\images\\tests\\" +
+                    modification_type +
+                    "\\" + folder +
+                    "\\" + str(image_folders[i]))
+                os.mkdir(path, mode)
+            except FileExistsError:
+                print('Error during creating folder, some of them exist')
+            if modification_type == 'noised':
+                if folder == 'converted_images':
+                    gaussian_noise(folder + "\\" + image_folders[i], str(j))
+                else:
+                    gaussian_noise(folder + "\\" + image_folders[i],
+                                   str(j) + str(image_folders[i]))
+            else:
+                if folder == 'converted_images':
+                    blur(folder + "\\" + image_folders[i], str(j))
+                else:
+                    blur(folder + "\\" + image_folders[i],
+                         str(j) + str(image_folders[i]))
+    print('Successfully added ' + folder + ' with ' + modification_type)
