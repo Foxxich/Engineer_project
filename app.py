@@ -50,8 +50,6 @@ def run_algorithm(self, main_window, algorithm_type):
     elif algorithm_type == 'vgg':
         result = vgg_face.comparison(img1, img2)
     elif algorithm_type == 'pca':
-        random_image_number = random.randrange(1, 10, 1)
-        print(random_image_number)
         path = os.getcwd() + '\\images\\user_images\\'
         start_time = time.time()
         face_name = pca.comparison(img2, path, 'app')
