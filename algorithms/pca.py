@@ -25,6 +25,7 @@ def load_data_set(path):
             img = Image.open(image_path)
             img.load()
             img = img.resize((new_width, new_height), Image.ANTIALIAS)
+            img = img.convert("L", palette=Image.ADAPTIVE, colors=8)
             data = np.asarray(img, dtype="int32")
             faces[order] = data
     return faces, 'tt_dataset'
@@ -44,6 +45,7 @@ def load_set(path):
             img = Image.open(files_list[0])
             img.load()
             img = img.resize((new_width, new_height), Image.ANTIALIAS)
+            img = img.convert("L", palette=Image.ADAPTIVE, colors=8)
             data = np.asarray(img, dtype="int32")
             faces[order] = data
     return faces
@@ -82,6 +84,7 @@ def comparison(test_filename, path, data_type, n_components=100):
     load_test_file.load()
     load_test_file = load_test_file\
         .resize((new_width, new_height), Image.ANTIALIAS)
+    load_test_file = load_test_file.convert("L", palette=Image.ADAPTIVE, colors=8)
 
     # noinspection PyTypeChecker
     data = np.asarray(load_test_file, dtype="int32")
