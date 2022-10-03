@@ -1,3 +1,4 @@
+import glob
 import time
 
 import definitons
@@ -23,12 +24,15 @@ blur_percents = [1, 2, 3, 4, 5]
 
 datasets = [
     ['images\\datasets\\converted_images\\', 'training_dataset'],
+    ['images\\datasets\\tt_dataset\\Final Training Images', 'training_dataset'],
     ['images\\datasets\\tt_dataset\\Final Testing Images', 'testing_dataset'],
 ]
 
 test_data = [
     ['1\\1.jpg', 'usual', 'att', datasets[0][0], 'face1'],
     ['1\\2.jpg', 'usual', 'att', datasets[0][0], 'face1'],
+    ['face1\\1face1.jpg', 'usual', 'att', datasets[1][0], 'face1'],
+    ['face1\\2face1.jpg', 'usual', 'att', datasets[1][0], 'face1'],
 ]
 
 
@@ -58,16 +62,10 @@ def run_sift():
             image1[1],
         ])
         print("Total time: ", round((end_time - start_time)), ' Seconds')
-    write(data, 'sift_cascades')
+    write(data, 'sift_cascades', 'usual')
 
 
 def run_vgg():
-    # test_image = definitons.root_dir + '\\images\\random_images\\1.jpg'
-    # original_image = definitons.root_dir + '\\images\\random_images\\2.jpg'
-    # start_time = time.time()
-    # result = vgg_face.comparison(test_image, original_image)
-    # end_time = time.time()
-    # print("Total time: ", round((end_time - start_time)), ' Seconds')
     data = []
     for image1 in test_data:
         image2 = None
@@ -94,7 +92,7 @@ def run_vgg():
             image1[1],
         ])
         print("Total time: ", round((end_time - start_time)), ' Seconds')
-    write(data, 'vgg_model')
+    write(data, 'vgg_model', 'usual')
 
 
 def run_cnn():
@@ -112,7 +110,6 @@ def run_cnn():
         print(image_path)
         start_time = time.time()
         res = False
-        #TODO: result - is in folder, image 1 - folder, minor improves
         if cnn.comparison(folder,
                           image_path,
                           cnn_epochs_number[0],
@@ -127,25 +124,20 @@ def run_cnn():
             str(folder),
             str(image2[0]),
             str(res),
-            str(''),
             str(round((end_time - start_time))),
             image1[2],
             image1[1],
         ])
         print("Total time: ", round((end_time - start_time)), ' Seconds')
-    write(data, 'cnn')
+    write(data, 'cnn', 'complex')
 
 
 def run_pca():
     data = []
     for image1 in test_data:
-        image2 = None
-        for score in test_data:
-            if score[2] == image1[2] and score[0] != image1[0]:
-                image2 = score
-        face = image2[0].replace("\\", " ").split()[0]
+        face = image1[0].replace("\\", " ").split()[0]
         folder = definitons.root_dir + '\\' + image1[3] + '\\'
-        image_path = definitons.root_dir + '\\' + image2[3] + '\\' + image2[0]
+        image_path = definitons.root_dir + '\\' + image1[3] + '\\' + image1[0]
         start_time = time.time()
         res = False
         comparison_result = pca.comparison(
@@ -153,7 +145,7 @@ def run_pca():
                 folder,
                 'test',
                 pca_components[0])
-        if image2[2] == 'tt_dataset':
+        if image1[2] == 'tt_dataset':
             if 'face' + comparison_result == str(face):
                 res = True
         else:
@@ -161,18 +153,16 @@ def run_pca():
                 res = True
 
         end_time = time.time()
-        #TODO: result - is in folder, image 1 - folder, minor improves
         data.append([
             str(folder),
-            str(image2[0]),
+            str(image1[0]),
             str(res),
-            str(' '),
             str(round((end_time - start_time))),
             image1[2],
             image1[1],
         ])
         print("Total time: ", round((end_time - start_time)), ' Seconds')
-    write(data, 'pca')
+    write(data, 'pca', 'complex')
 
 
 def generate_blured_images():
@@ -187,7 +177,14 @@ def generate_gaussian():
     run_image_selection('converted_images', 11, 'noised')
 
 
+def add_data():
+    if len(glob.glob(definitons.root_dir + '\\images\\tests\\*')) == 0:
+        generate_blured_images()
+        generate_gaussian()
+
+
 def main():
+    add_data()
     run_sift()
     run_cnn()
     run_pca()
