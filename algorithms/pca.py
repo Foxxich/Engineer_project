@@ -6,6 +6,9 @@ import numpy as np
 from PIL import Image
 from sklearn.decomposition import PCA
 
+new_width = 326
+new_height = 327
+
 
 # noinspection PyTypeChecker
 # This function is used to load images from path of test set,
@@ -21,9 +24,11 @@ def load_data_set(path):
             order = str(i+1) + "/" + str(j+1) + ".jpg"
             img = Image.open(image_path)
             img.load()
+            if 'tt_dataset' in files_list[j]:
+                img = img.resize((new_width, new_height), Image.ANTIALIAS)
             data = np.asarray(img, dtype="int32")
             faces[order] = data
-    return faces
+    return faces, 'tt_dataset'
 
 
 # noinspection PyTypeChecker
@@ -52,7 +57,7 @@ def load_set(path):
 # 3. Prepare KxN matrix (K is the number of eigenfaces, N is the number of samples)
 def comparison(test_filename, path, data_type, n_components=100):
     if data_type == 'test':
-        faces = load_data_set(path)
+        faces, set_type = load_data_set(path)
     else:
         faces = load_set(path)
     face_shape = list(faces.values())[0].shape
@@ -75,6 +80,10 @@ def comparison(test_filename, path, data_type, n_components=100):
     print("Shape of the weight matrix:", weights.shape)
     load_test_file = Image.open(test_filename)
     load_test_file.load()
+    if set_type == 'tt_dataset':
+        load_test_file = load_test_file\
+            .resize((new_width, new_height), Image.ANTIALIAS)
+
     # noinspection PyTypeChecker
     data = np.asarray(load_test_file, dtype="int32")
     image = {'image': data}
