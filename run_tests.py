@@ -23,16 +23,16 @@ sift_percent_delta = [2.0, 2.5, 4.0, 1.5, 1.0]
 blur_percents = [1, 2, 3, 4, 5]
 
 datasets = [
-    ['images\\datasets\\converted_images\\', 'training_dataset'],
-    ['images\\datasets\\tt_dataset\\Final Training Images', 'training_dataset'],
-    ['images\\datasets\\tt_dataset\\Final Testing Images', 'testing_dataset'],
+    ['images\\datasets\\converted_images\\'],
+    ['images\\datasets\\tt_dataset\\Final Training Images'],
+    ['images\\datasets\\tt_dataset\\Final Testing Images'],
 ]
 
 test_data = [
     ['1\\1.jpg', 'usual', 'att', datasets[0][0], 'face1'],
     ['1\\2.jpg', 'usual', 'att', datasets[0][0], 'face1'],
-    ['face1\\1face1.jpg', 'usual', 'att', datasets[1][0], 'face1'],
-    ['face1\\2face1.jpg', 'usual', 'att', datasets[1][0], 'face1'],
+    ['face1\\1face1.jpg', 'usual', 'tt', datasets[1][0], 'face1'],
+    ['face1\\2face1.jpg', 'usual', 'tt', datasets[1][0], 'face1'],
 ]
 
 
@@ -145,7 +145,9 @@ def run_pca():
                 folder,
                 'test',
                 pca_components[0])
-        if image1[2] == 'tt_dataset':
+        print(str(face))
+        print(comparison_result)
+        if image1[2] == 'tt':
             if 'face' + comparison_result == str(face):
                 res = True
         else:
@@ -185,10 +187,10 @@ def add_data():
 
 def main():
     add_data()
-    run_sift()
+    # run_sift()
     run_cnn()
-    run_pca()
-    run_vgg()
+    # run_pca()
+    # run_vgg()
 
 
 if __name__ == "__main__":
