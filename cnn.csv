@@ -1,3 +1,5 @@
-image,compare_with,result,is_same_person,time,dataset,type
-face1\1face1.jpg,face1\2face1.jpg,True,True,15,tt_dataset,usual
-face1\2face1.jpg,face1\1face1.jpg,True,True,14,tt_dataset,usual
+folder,image,was_found,time,dataset,type
+C:\Users\Vadym\PycharmProjects\Engineer_project\images\datasets\converted_images\\,1\2.jpg,True,46,att,usual
+C:\Users\Vadym\PycharmProjects\Engineer_project\images\datasets\converted_images\\,1\1.jpg,True,46,att,usual
+C:\Users\Vadym\PycharmProjects\Engineer_project\images\datasets\tt_dataset\Final Training Images\,face1\2face1.jpg,True,12,tt,usual
+C:\Users\Vadym\PycharmProjects\Engineer_project\images\datasets\tt_dataset\Final Training Images\,face1\1face1.jpg,True,11,tt,usual

@@ -1,3 +1,5 @@
 image,compare_with,result,is_same_person,time,dataset,type
-face1\1face1.jpg,face1\2face1.jpg,True,True,1,tt_dataset,usual
-face1\2face1.jpg,face1\1face1.jpg,True,True,1,tt_dataset,usual
+1\1.jpg,1\2.jpg,True,True,1,att,usual
+1\2.jpg,1\1.jpg,True,True,1,att,usual
+face1\1face1.jpg,face1\2face1.jpg,False,True,1,tt,usual
+face1\2face1.jpg,face1\1face1.jpg,False,True,1,tt,usual
