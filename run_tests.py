@@ -22,13 +22,13 @@ sift_percent_delta = [2.0, 2.5, 4.0, 1.5, 1.0]
 blur_percents = [1, 2, 3, 4, 5]
 
 datasets = [
-    ['images\\datasets\\tt_dataset\\Final Training Images', 'training_dataset'],
+    ['images\\datasets\\converted_images\\', 'training_dataset'],
     ['images\\datasets\\tt_dataset\\Final Testing Images', 'testing_dataset'],
 ]
 
 test_data = [
-    ['face1\\1face1.jpg', 'usual', 'tt_dataset', datasets[0][0], 'face1'],
-    ['face1\\2face1.jpg', 'usual', 'tt_dataset', datasets[0][0], 'face1'],
+    ['1\\1.jpg', 'usual', 'att', datasets[0][0], 'face1'],
+    ['1\\2.jpg', 'usual', 'att', datasets[0][0], 'face1'],
 ]
 
 
@@ -62,6 +62,12 @@ def run_sift():
 
 
 def run_vgg():
+    # test_image = definitons.root_dir + '\\images\\random_images\\1.jpg'
+    # original_image = definitons.root_dir + '\\images\\random_images\\2.jpg'
+    # start_time = time.time()
+    # result = vgg_face.comparison(test_image, original_image)
+    # end_time = time.time()
+    # print("Total time: ", round((end_time - start_time)), ' Seconds')
     data = []
     for image1 in test_data:
         image2 = None
@@ -106,6 +112,7 @@ def run_cnn():
         print(image_path)
         start_time = time.time()
         res = False
+        #TODO: result - is in folder, image 1 - folder, minor improves
         if cnn.comparison(folder,
                           image_path,
                           cnn_epochs_number[0],
@@ -116,14 +123,11 @@ def run_cnn():
             res = True
 
         end_time = time.time()
-        is_same_person = False
-        if image1[4] == image2[4]:
-            is_same_person = True
         data.append([
-            str(image1[0]),
+            str(folder),
             str(image2[0]),
             str(res),
-            str(is_same_person),
+            str(''),
             str(round((end_time - start_time))),
             image1[2],
             image1[1],
@@ -149,7 +153,7 @@ def run_pca():
                 folder,
                 'test',
                 pca_components[0])
-        if image1[2] == 'tt_dataset':
+        if image2[2] == 'tt_dataset':
             if 'face' + comparison_result == str(face):
                 res = True
         else:
@@ -157,14 +161,12 @@ def run_pca():
                 res = True
 
         end_time = time.time()
-        is_same_person = False
-        if image1[4] == image2[4]:
-            is_same_person = True
+        #TODO: result - is in folder, image 1 - folder, minor improves
         data.append([
-            str(image1[0]),
+            str(folder),
             str(image2[0]),
             str(res),
-            str(is_same_person),
+            str(' '),
             str(round((end_time - start_time))),
             image1[2],
             image1[1],
@@ -187,9 +189,9 @@ def generate_gaussian():
 
 def main():
     run_sift()
-    run_vgg()
     run_cnn()
     run_pca()
+    run_vgg()
 
 
 if __name__ == "__main__":
