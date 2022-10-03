@@ -24,8 +24,7 @@ def load_data_set(path):
             order = str(i+1) + "/" + str(j+1) + ".jpg"
             img = Image.open(image_path)
             img.load()
-            if 'tt_dataset' in files_list[j]:
-                img = img.resize((new_width, new_height), Image.ANTIALIAS)
+            img = img.resize((new_width, new_height), Image.ANTIALIAS)
             data = np.asarray(img, dtype="int32")
             faces[order] = data
     return faces, 'tt_dataset'
@@ -44,6 +43,7 @@ def load_set(path):
             order = str(image_folders[i]) + ".jpg"
             img = Image.open(files_list[0])
             img.load()
+            img = img.resize((new_width, new_height), Image.ANTIALIAS)
             data = np.asarray(img, dtype="int32")
             faces[order] = data
     return faces
@@ -80,9 +80,8 @@ def comparison(test_filename, path, data_type, n_components=100):
     print("Shape of the weight matrix:", weights.shape)
     load_test_file = Image.open(test_filename)
     load_test_file.load()
-    if set_type == 'tt_dataset':
-        load_test_file = load_test_file\
-            .resize((new_width, new_height), Image.ANTIALIAS)
+    load_test_file = load_test_file\
+        .resize((new_width, new_height), Image.ANTIALIAS)
 
     # noinspection PyTypeChecker
     data = np.asarray(load_test_file, dtype="int32")
