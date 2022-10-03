@@ -93,7 +93,7 @@ def comparison(
     image1 = cv2.imread(test_image)
     image2 = cv2.imread(original_image)
     image1, image2, gray1, gray2 = prepare_images(image1, image2)
-    show_key_points(gray1, image1)
+    # show_key_points(gray1, image1)
     sift = cv2.SIFT_create()
     face_cascade = cv2.CascadeClassifier(
         definitons.root_dir +
