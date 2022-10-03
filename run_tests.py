@@ -1,12 +1,9 @@
-import glob
-import os
-import random
 import time
 
 import definitons
 from algorithms import sift, vgg_face, cnn, pca
-from utils.image_converter import blur, gaussian_noise
 from utils.files_utils import write
+from utils.image_converter import run_image_selection
 
 # First element is set by default for running in every algorithm
 cnn_optimizers = ['adam', 'rmsprop', 'Ftrl', 'Nadam', 'Adamax']
@@ -188,43 +185,10 @@ def generate_gaussian():
     run_image_selection('converted_images', 11, 'noised')
 
 
-def run_image_selection(folder, images_number, modification_type):
-    mode = 0o666
-    converted_images_path = definitons.root_dir + "\\images\\datasets\\" + folder + "\\"
-    image_folders = os.listdir(converted_images_path)
-    for i in range(0, len(image_folders)):
-        filepath = converted_images_path + str(image_folders[i]) + "\\*.jpg"
-        glob.glob(filepath)
-        for j in range(1, images_number):
-            try:
-                path = os.path.join(
-                    definitons.root_dir +
-                    "\\images\\tests\\" +
-                    modification_type +
-                    "\\" + folder +
-                    "\\" + str(image_folders[i]))
-                os.mkdir(path, mode)
-            except FileExistsError:
-                print('Error during creating folder, some of them exist')
-            if modification_type == 'noised':
-                if folder == 'converted_images':
-                    gaussian_noise(folder + "\\" + image_folders[i], str(j))
-                else:
-                    gaussian_noise(folder + "\\" + image_folders[i],
-                                   str(j) + str(image_folders[i]))
-            else:
-                if folder == 'converted_images':
-                    blur(folder + "\\" + image_folders[i], str(j))
-                else:
-                    blur(folder + "\\" + image_folders[i],
-                         str(j) + str(image_folders[i]))
-    print('Successfully added ' + folder + ' with ' + modification_type)
-
-
 def main():
-    # run_sift()
-    # run_vgg()
-    # run_cnn()
+    run_sift()
+    run_vgg()
+    run_cnn()
     run_pca()
 
 
