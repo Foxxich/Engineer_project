@@ -18,12 +18,11 @@ def load_data_set(path):
         files_list = glob.glob(filepath)
         for j in range(0, len(files_list)):
             image_path = files_list[j]
-            order = str(i) + "/" + str(j) + ".jpg"
+            order = str(i+1) + "/" + str(j+1) + ".jpg"
             img = Image.open(image_path)
             img.load()
             data = np.asarray(img, dtype="int32")
             faces[order] = data
-    print(len(faces))
     return faces
 
 
@@ -42,7 +41,6 @@ def load_set(path):
             img.load()
             data = np.asarray(img, dtype="int32")
             faces[order] = data
-    print(len(faces))
     return faces
 
 
@@ -85,12 +83,10 @@ def comparison(test_filename, path, data_type, n_components=100):
     query_weight = eigenfaces @ (query - pca.mean_).T
     euclidean_distance = np.linalg.norm(weights - query_weight, axis=0)
     best_match = np.argmin(euclidean_distance)
-    print("Best match %s with Euclidean distance %f" % (face_label[best_match], euclidean_distance[best_match]))
     fig, axes = plt.subplots(1, 2, figsize=(8, 6))
     axes[0].imshow(query.reshape(face_shape), cmap="gray")
     axes[0].set_title("Query")
     axes[1].imshow(face_matrix[best_match].reshape(face_shape), cmap="gray")
     axes[1].set_title("Best match")
     plt.show()
-    print('Person number', face_label[best_match])
     return face_label[best_match]
