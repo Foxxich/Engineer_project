@@ -31,12 +31,13 @@ def read(file_name, file_type='usual'):
                         correct += 1
                     else:
                         incorrect += 1
+                    time += float(line[4])
                 else:
                     if line[2] == 'True':
                         correct += 1
                     else:
                         incorrect += 1
-                time += float(line[3])
+                    time += float(line[3])
                 print('line[{}] = {}'.format(i, line))
     print('Correct ', correct)
     print('Incorrect ', incorrect)
@@ -44,7 +45,7 @@ def read(file_name, file_type='usual'):
 
 
 def main():
-    read('cnn', 'complex')
+    read('vgg_model')
 
 
 if __name__ == "__main__":
