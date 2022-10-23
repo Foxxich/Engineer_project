@@ -89,11 +89,13 @@ def comparison(
         test_image,
         original_image,
         cascade_name='haarcascade_frontalface_default',
-        percent_delta=2.1):
+        percent_delta=2.1,
+        show_test_data=False):
     image1 = cv2.imread(test_image)
     image2 = cv2.imread(original_image)
     image1, image2, gray1, gray2 = prepare_images(image1, image2)
-    # show_key_points(gray1, image1)
+    if show_test_data:
+        show_key_points(gray1, image1)
     sift = cv2.SIFT_create()
     face_cascade = cv2.CascadeClassifier(
         definitons.root_dir +
@@ -121,7 +123,8 @@ def comparison(
         roi_gray.append(gray2)
         roi_color.append(image2)
 
-    plot_grayscale_images(roi_gray)
+    if show_test_data:
+        plot_grayscale_images(roi_gray)
 
     kp1, des1 = sift.detectAndCompute(roi_gray[0], None)
     kp2, des2 = sift.detectAndCompute(roi_gray[1], None)
@@ -137,5 +140,6 @@ def comparison(
         if m.distance < 0.75 * n.distance:
             matcher_count.append([m])
 
-    final_statistics(image1, image2, kp1, kp2, des1, des2)
+    if show_test_data:
+        final_statistics(image1, image2, kp1, kp2, des1, des2)
     return is_match(matcher_count, matches, test_image, original_image, percent_delta)

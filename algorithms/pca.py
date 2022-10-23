@@ -57,7 +57,11 @@ def load_set(path):
 # 1. Create NxM matrix with N images and M pixels per image
 # 2. Apply PCA to use first K principal components as eigenfaces
 # 3. Prepare KxN matrix (K is the number of eigenfaces, N is the number of samples)
-def comparison(test_filename, path, data_type, n_components=100):
+def comparison(test_filename,
+               path,
+               data_type,
+               n_components=100,
+               show_test_data=False):
     if data_type == 'test':
         faces, set_type = load_data_set(path)
     else:
@@ -94,10 +98,11 @@ def comparison(test_filename, path, data_type, n_components=100):
     query_weight = eigenfaces @ (query - pca.mean_).T
     euclidean_distance = np.linalg.norm(weights - query_weight, axis=0)
     best_match = np.argmin(euclidean_distance)
-    fig, axes = plt.subplots(1, 2, figsize=(8, 6))
-    axes[0].imshow(query.reshape(face_shape), cmap="gray")
-    axes[0].set_title("Query")
-    axes[1].imshow(face_matrix[best_match].reshape(face_shape), cmap="gray")
-    axes[1].set_title("Best match")
-    plt.show()
+    if show_test_data:
+        fig, axes = plt.subplots(1, 2, figsize=(8, 6))
+        axes[0].imshow(query.reshape(face_shape), cmap="gray")
+        axes[0].set_title("Query")
+        axes[1].imshow(face_matrix[best_match].reshape(face_shape), cmap="gray")
+        axes[1].set_title("Best match")
+        plt.show()
     return face_label[best_match]

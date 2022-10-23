@@ -9,9 +9,6 @@ from scipy.spatial.distance import cosine
 
 # This function is used to extract the face from a given photograph;
 # Basically size is set for 224 up to 224;
-import definitons
-
-
 def extract_face(filename, required_size=(224, 224)):
     pixels = pyplot.imread(filename)
     detector = MTCNN()
