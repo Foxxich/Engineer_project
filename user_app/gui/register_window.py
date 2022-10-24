@@ -1,17 +1,17 @@
-import os
 import tkinter as tk
 from functools import partial
 from tkinter import *
 
-from utils.gui.app_window import App
-from utils.gui.gui_utils import center_window
+import definitons
+from user_app.gui.app_window import App
+from user_app.gui.gui_utils import center_window
 
 
 class RegisterWindow:
 
     def validate_login(self, username):
         print("username entered :", username.get())
-        with open(os.getcwd() + '\\utils\\username.txt', 'w') as f:
+        with open(definitons.root_dir + '\\utils\\username.txt', 'w') as f:
             f.write(username.get())
         self.newWindow = tk.Toplevel(self.main_window)
         self.app = App(self.newWindow, 'Take image to login', self.main_window, False)
@@ -26,7 +26,7 @@ class RegisterWindow:
         self.frame = tk.Frame(self.master)
         master.title('Create account')
         center_window(master, 250, 250)
-        master.iconbitmap(os.getcwd() + '\\images\\app_images\\icon.ico')
+        master.iconbitmap(definitons.app_images_dir + '\\icon.ico')
 
         Label(master, text="User Name").grid(row=1, column=1, padx=10, pady=10)
         username = StringVar()

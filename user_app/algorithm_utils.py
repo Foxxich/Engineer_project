@@ -3,7 +3,7 @@ import time
 import tkinter as tk
 
 from algorithms import sift, vgg_face, cnn, pca
-from utils.gui.logged_window import LoggedWindow
+from user_app.gui.logged_window import LoggedWindow
 
 
 def run_algorithm(self, main_window, algorithm_type):

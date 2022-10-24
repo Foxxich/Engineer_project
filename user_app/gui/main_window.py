@@ -1,7 +1,7 @@
 import tkinter as tk
 
-from utils.gui.app_window import App
-from utils.gui.register_window import RegisterWindow
+from user_app.gui.app_window import App
+from user_app.gui.register_window import RegisterWindow
 
 
 class MainWindow:

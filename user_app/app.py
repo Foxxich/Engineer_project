@@ -1,14 +1,15 @@
 import os
 import tkinter as tk
 
-from utils.gui.gui_utils import center_window
-from utils.gui.main_window import MainWindow
+import definitons
+from user_app.gui.gui_utils import center_window
+from user_app.gui.main_window import MainWindow
 
 
 def main():
     root = tk.Tk()
     center_window(root, 400, 350)
-    root.iconbitmap(os.getcwd() + '\\images\\app_images\\icon.ico')
+    root.iconbitmap(definitons.app_images_dir + '\\icon.ico')
     root.title("Face recognition")
     MainWindow(root)
     root.mainloop()

@@ -5,7 +5,7 @@ import definitons
 from PIL import Image
 from PIL import ImageTk
 
-from utils.gui.gui_utils import center_window
+from user_app.gui.gui_utils import center_window
 
 
 class LoggedWindow:
@@ -15,7 +15,7 @@ class LoggedWindow:
         self.main_window = main_window
         self.frame = tk.Frame(self.master, width=300, height=300)
         center_window(master, 300, 300)
-        master.iconbitmap(os.getcwd() + '\\images\\app_images\\icon.ico')
+        master.iconbitmap(definitons.app_images_dir + '\\icon.ico')
 
         if is_successful:
             f = open(os.getcwd() + '\\utils\\username.txt', "r")

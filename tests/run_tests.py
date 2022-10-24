@@ -283,10 +283,10 @@ def add_data():
 
 def main():
     add_data()
-    # run_sift()
+    run_sift()
     # run_vgg()
     # run_pca()
-    run_cnn()
+    # run_cnn()
 
 
 if __name__ == "__main__":

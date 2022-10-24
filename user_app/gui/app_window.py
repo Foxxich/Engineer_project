@@ -5,10 +5,11 @@ import PIL.ImageTk
 import cv2
 from PIL import Image
 
-from utils.algorithm_utils import run_algorithm
-from utils.gui.gui_utils import center_window
-from utils.gui.logged_window import show_logged
-from utils.gui.video_capture import VideoCapture
+import definitons
+from user_app.algorithm_utils import run_algorithm
+from user_app.gui.gui_utils import center_window
+from user_app.gui.logged_window import show_logged
+from user_app.gui.video_capture import VideoCapture
 
 
 class App:
@@ -17,7 +18,7 @@ class App:
         self.newWindow = None
         self.photo = None
         self.window = window
-        window.iconbitmap(os.getcwd() + '\\images\\app_images\\icon.ico')
+        window.iconbitmap(definitons.app_images_dir + '\\icon.ico')
         center_window(window, 640, 520)
         self.testing = testing
         self.main_window = main_window
