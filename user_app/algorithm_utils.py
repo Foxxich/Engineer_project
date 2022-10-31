@@ -1,6 +1,10 @@
 import os
+import shutil
 import time
 import tkinter as tk
+from random import randrange
+
+import cv2
 
 import definitons
 from algorithms import sift, vgg_face, cnn, pca
@@ -24,8 +28,16 @@ def run_algorithm(self, main_window, algorithm_type):
         if face_name == 'previous_images.jpg':
             result = True
     elif algorithm_type == 'cnn':
+        n = 20
         folder = definitons.root_dir + '\\images\\user_images\\'
-        face_name = cnn.comparison(folder, img2)
+        for i in range(n):
+            file = definitons.root_dir + '\\images\\user_images\\previous_images\\previous_image' + str(randrange(100)) + '.jpg'
+            shutil.copy(img1, file)
+        face_name = cnn.comparison(folder, img2, 'user')
+        filenames = next(os.walk(definitons.root_dir + '\\images\\user_images\\previous_images\\'), (None, None, []))[2]
+        for file in filenames:
+            if 'previous_image.jpg' not in file:
+                os.remove(definitons.root_dir + '\\images\\user_images\\previous_images\\' + file)
         if face_name == 'previous_images':
             result = True
     elif algorithm_type == 'initial':

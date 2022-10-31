@@ -38,87 +38,12 @@ datasets = [
 ]
 
 test_data = [
-    # Blured and noise with 5% of blur att
-    ['1\\1.jpg', 'noised', 'att', datasets[3][0]],
-    ['1\\2.jpg', 'noised', 'att', datasets[3][0]],
-
-    ['1\\1.jpg', 'blured', 'att', datasets[6][0]],
-    ['1\\2.jpg', 'blured', 'att', datasets[6][0]],
-
-    ['10\\5.jpg', 'noised', 'att', datasets[3][0]],
-    ['10\\8.jpg', 'noised', 'att', datasets[3][0]],
-
-    ['10\\5.jpg', 'blured', 'att', datasets[6][0]],
-    ['10\\8.jpg', 'blured', 'att', datasets[6][0]],
-
-    ['38\\5.jpg', 'blured', 'att', datasets[6][0]],
-    ['38\\8.jpg', 'blured', 'att', datasets[6][0]],
-
-    ['38\\5.jpg', 'noised', 'att', datasets[3][0]],
-    ['38\\8.jpg', 'noised', 'att', datasets[3][0]],
-
-    # Usual att
-    ['1\\1.jpg', 'usual', 'att', datasets[0][0]],
-    ['1\\2.jpg', 'usual', 'att', datasets[0][0]],
-
-    ['2\\5.jpg', 'usual', 'att', datasets[0][0]],
-    ['2\\8.jpg', 'usual', 'att', datasets[0][0]],
-
-    ['10\\5.jpg', 'usual', 'att', datasets[0][0]],
-    ['10\\8.jpg', 'usual', 'att', datasets[0][0]],
-
-    ['17\\5.jpg', 'usual', 'att', datasets[0][0]],
-    ['18\\9.jpg', 'usual', 'att', datasets[0][0]],
-
-    ['19\\2.jpg', 'usual', 'att', datasets[0][0]],
-    ['19\\10.jpg', 'usual', 'att', datasets[0][0]],
-
-    ['20\\2.jpg', 'usual', 'att', datasets[0][0]],
-    ['20\\10.jpg', 'usual', 'att', datasets[0][0]],
-
-    ['29\\2.jpg', 'usual', 'att', datasets[0][0]],
-    ['29\\10.jpg', 'usual', 'att', datasets[0][0]],
-
-    ['38\\5.jpg', 'usual', 'att', datasets[0][0]],
-    ['38\\8.jpg', 'usual', 'att', datasets[0][0]],
-
     # Usual tt
     ['face1\\1face1.jpg', 'usual', 'tt', datasets[1][0]],
     ['face1\\2face1.jpg', 'usual', 'tt', datasets[1][0]],
 
     ['face2\\10face2.jpg', 'usual', 'tt', datasets[1][0]],
     ['face2\\12face2.jpg', 'usual', 'tt', datasets[1][0]],
-
-    ['face3\\5face3.jpg', 'usual', 'tt', datasets[1][0]],
-    ['face3\\8face3.jpg', 'usual', 'tt', datasets[1][0]],
-
-    ['face4\\5face4.jpg', 'usual', 'tt', datasets[1][0]],
-    ['face4\\10face4.jpg', 'usual', 'tt', datasets[1][0]],
-
-    ['face5\\10face5.jpg', 'usual', 'tt', datasets[1][0]],
-    ['face5\\2face5.jpg', 'usual', 'tt', datasets[1][0]],
-
-    ['face6\\8face6.jpg', 'usual', 'tt', datasets[1][0]],
-    ['face6\\12face6.jpg', 'usual', 'tt', datasets[1][0]],
-
-    # Blured and noise with 5% of blur tt
-    ['face4\\5face4.jpg', 'blured', 'tt', datasets[4][0]],
-    ['face4\\10face4.jpg', 'blured', 'tt', datasets[4][0]],
-
-    ['face5\\10face5.jpg', 'blured', 'tt', datasets[4][0]],
-    ['face5\\2face5.jpg', 'blured', 'tt', datasets[4][0]],
-
-    ['face6\\8face6.jpg', 'blured', 'tt', datasets[4][0]],
-    ['face6\\12face6.jpg', 'blured', 'tt', datasets[4][0]],
-
-    ['face4\\5face4.jpg', 'noised', 'tt', datasets[7][0]],
-    ['face4\\10face4.jpg', 'noised', 'tt', datasets[7][0]],
-
-    ['face5\\10face5.jpg', 'noised', 'tt', datasets[7][0]],
-    ['face5\\2face5.jpg', 'noised', 'tt', datasets[7][0]],
-
-    ['face6\\8face6.jpg', 'noised', 'tt', datasets[7][0]],
-    ['face6\\12face6.jpg', 'noised', 'tt', datasets[7][0]]
 ]
 
 
@@ -208,6 +133,7 @@ def run_cnn():
         res = False
         if cnn.comparison(folder,
                           image_path,
+                          'test',
                           cnn_epochs_number[0],
                           cnn_steps_for_validation[0],
                           cnn_optimizers[0],
@@ -282,11 +208,11 @@ def add_data():
 
 
 def main():
-    add_data()
-    run_sift()
+    # add_data()
+    # run_sift()
     # run_vgg()
     # run_pca()
-    # run_cnn()
+    run_cnn()
 
 
 if __name__ == "__main__":

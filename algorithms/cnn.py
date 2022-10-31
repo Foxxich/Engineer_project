@@ -13,6 +13,9 @@ from keras.preprocessing.image import ImageDataGenerator
 # This function is used to prepare both training and final test sets.
 # First is prepared with defining pre-processing transformations on raw images of testing data.
 # The final test set is generated without transformations.
+import definitons
+
+
 def generate_sets(training_image_path):
     test_datagen = ImageDataGenerator()
 
@@ -73,19 +76,24 @@ def final_prediction(image_path, classifier, result_map):
 # the logic of CNN, like getting generated set, prepare classifier and making final prediction
 def comparison(training_image_path,
                image_path,
-               epochs_number=10,
+               map_type,
+               epochs_number=30,
                steps_for_validation=20,
                optimizer='adam',
                loss='categorical_crossentropy',
-               metrics='top_k_categorical_accuracy'):
+               metrics='top_k_categorical_accuracy',
+               ):
     training_set, test_set = generate_sets(training_image_path)
     train_classes = training_set.class_indices
     result_map = {}
     for faceValue, faceName in zip(train_classes.values(), train_classes.keys()):
         result_map[faceValue] = faceName
-
-    with open("algorithms/ResultsMap.pkl", 'wb') as fileWriteStream:
-        pickle.dump(result_map, fileWriteStream)
+    if map_type == 'user':
+        with open(definitons.root_dir + "\\utils\\cnn\\ResultsMapUser.pkl", 'wb') as fileWriteStream:
+            pickle.dump(result_map, fileWriteStream)
+    else:
+        with open(definitons.root_dir + "\\utils\\cnn\\ResultsMapTest.pkl", 'wb') as fileWriteStream:
+            pickle.dump(result_map, fileWriteStream)
     output_neurons = len(result_map)
 
     print("Mapping of Face and its ID", result_map)
