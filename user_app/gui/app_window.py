@@ -10,6 +10,7 @@ from user_app.algorithm_utils import run_algorithm
 from user_app.gui.gui_utils import center_window
 from user_app.gui.logged_window import show_logged
 from user_app.gui.video_capture import VideoCapture
+import definitons
 
 
 class App:
@@ -55,20 +56,20 @@ class App:
     def open_files(self, algorithm_type):
         ret, frame = self.vid.get_frame()
         if ret:
-            if os.path.isfile(os.getcwd() + '\\images\\user_images\\new_image.jpg'):
-                os.rename(os.getcwd() + '\\images\\user_images\\new_image.jpg',
-                          os.getcwd() + '\\images\\user_images\\previous_image.jpg')
-                os.replace(os.getcwd() + '\\images\\user_images\\previous_image.jpg',
-                           os.getcwd() + '\\images\\user_images\\previous_images\\previous_image.jpg'
+            if os.path.isfile(definitons.root_dir + '\\images\\user_images\\new_image.jpg'):
+                os.rename(definitons.root_dir + '\\images\\user_images\\new_image.jpg',
+                          definitons.root_dir + '\\images\\user_images\\previous_image.jpg')
+                os.replace(definitons.root_dir + '\\images\\user_images\\previous_image.jpg',
+                           definitons.root_dir + '\\images\\user_images\\previous_images\\previous_image.jpg'
                            )
-                cv2.imwrite(os.getcwd() + '\\images\\user_images\\new_image.jpg',
+                cv2.imwrite(definitons.root_dir + '\\images\\user_images\\new_image.jpg',
                             cv2.cvtColor(frame, cv2.COLOR_RGB2BGR))
                 self.vid.destroy()
                 self.window.destroy()
                 cv2.destroyAllWindows()
                 run_algorithm(self.window, self.main_window, algorithm_type)
             else:
-                cv2.imwrite(os.getcwd() + '\\images\\user_images\\new_image.jpg',
+                cv2.imwrite(definitons.root_dir + '\\images\\user_images\\new_image.jpg',
                             cv2.cvtColor(frame, cv2.COLOR_RGB2BGR))
                 self.vid.destroy()
                 self.window.destroy()
@@ -88,10 +89,10 @@ class App:
 
 def new_start():
     try:
-        os.remove(os.getcwd() + '\\images\\user_images\\previous_images\\previous_image.jpg')
+        os.remove(definitons.root_dir + '\\images\\user_images\\previous_images\\previous_image.jpg')
     except FileNotFoundError:
         print("File previous_image.jpg was not found")
     try:
-        os.remove(os.getcwd() + '\\images\\user_images\\new_image.jpg')
+        os.remove(definitons.root_dir + '\\images\\user_images\\new_image.jpg')
     except FileNotFoundError:
         print("File new_image.jpg was not found")

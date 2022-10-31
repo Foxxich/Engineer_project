@@ -11,7 +11,7 @@ class RegisterWindow:
 
     def validate_login(self, username):
         print("username entered :", username.get())
-        with open(definitons.root_dir + '\\utils\\username.txt', 'w') as f:
+        with open(definitons.root_dir + '\\user_app\\utils\\username.txt', 'w') as f:
             f.write(username.get())
         self.newWindow = tk.Toplevel(self.main_window)
         self.app = App(self.newWindow, 'Take image to login', self.main_window, False)
