@@ -4,6 +4,7 @@ import time
 
 import definitons
 from algorithms import sift, vgg_face, cnn, pca
+from algorithms.cnn import CNN
 from utils.files_utils import write
 from utils.image_converter import run_image_selection
 
@@ -131,14 +132,17 @@ def run_cnn():
         print(image_path)
         start_time = time.time()
         res = False
-        if cnn.comparison(folder,
-                          image_path,
-                          'test',
-                          cnn_epochs_number[0],
-                          cnn_steps_for_validation[0],
-                          cnn_optimizers[0],
-                          cnn_loss[0],
-                          cnn_metrics[0]) == str(face):
+        cnn = CNN(
+            folder,
+            image_path,
+            'test',
+            cnn_epochs_number[0],
+            cnn_steps_for_validation[0],
+            cnn_optimizers[0],
+            cnn_loss[0],
+            cnn_metrics[0]
+        )
+        if cnn.comparison() == str(face):
             res = True
 
         end_time = time.time()

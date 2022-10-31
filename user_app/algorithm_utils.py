@@ -4,10 +4,9 @@ import time
 import tkinter as tk
 from random import randrange
 
-import cv2
-
 import definitons
-from algorithms import sift, vgg_face, cnn, pca
+from algorithms import sift, vgg_face, pca
+from algorithms.cnn import CNN
 from user_app.gui.logged_window import LoggedWindow
 
 
@@ -33,7 +32,8 @@ def run_algorithm(self, main_window, algorithm_type):
         for i in range(n):
             file = definitons.root_dir + '\\images\\user_images\\previous_images\\previous_image' + str(randrange(100)) + '.jpg'
             shutil.copy(img1, file)
-        face_name = cnn.comparison(folder, img2, 'user')
+        cnn = CNN(folder, img2, 'user')
+        face_name = cnn.comparison()
         filenames = next(os.walk(definitons.root_dir + '\\images\\user_images\\previous_images\\'), (None, None, []))[2]
         for file in filenames:
             if 'previous_image.jpg' not in file:
