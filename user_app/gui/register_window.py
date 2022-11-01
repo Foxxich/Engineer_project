@@ -4,7 +4,7 @@ from tkinter import *
 
 import definitons
 from user_app.gui.app_window import App
-from user_app.gui.gui_utils import center_window
+from utils.gui.gui_utils import center_window
 
 
 class RegisterWindow:

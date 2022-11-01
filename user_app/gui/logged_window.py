@@ -1,11 +1,11 @@
-import os
 import tkinter as tk
 from tkinter import *
-import definitons
+
 from PIL import Image
 from PIL import ImageTk
 
-from user_app.gui.gui_utils import center_window
+import definitons
+from utils.gui.gui_utils import center_window
 
 
 class LoggedWindow:

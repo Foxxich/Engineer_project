@@ -7,10 +7,9 @@ from PIL import Image
 
 import definitons
 from user_app.algorithm_utils import run_algorithm
-from user_app.gui.gui_utils import center_window
 from user_app.gui.logged_window import show_logged
 from user_app.gui.video_capture import VideoCapture
-import definitons
+from utils.gui.gui_utils import center_window
 
 
 class App:

@@ -3,7 +3,7 @@ import random
 import time
 
 import definitons
-from algorithms import sift, vgg_face, cnn, pca
+from algorithms import sift, vgg_face, pca
 from algorithms.cnn import CNN
 from utils.files_utils import write
 from utils.image_converter import run_image_selection

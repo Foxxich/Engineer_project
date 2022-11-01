@@ -1,8 +1,8 @@
 import tkinter as tk
 
 import definitons
-from user_app.gui.gui_utils import center_window
 from user_app.gui.main_window import MainWindow
+from utils.gui.gui_utils import center_window
 
 
 def main():
