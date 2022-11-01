@@ -1,11 +1,16 @@
 import tkinter as tk
 from tkinter import *
+from sys import exit
+from tkinter import messagebox
 
 from tests.gui.cnn_window import CnnWindow
 from tests.gui.pca_window import PcaWindow
+from tests.gui.results import Results
 from tests.gui.save_window import SaveWindow
 from tests.gui.sift_window import SiftWindow
 from tests.gui.vgg_window import VggWindow
+
+results = Results()
 
 
 class TestMainWindow:
@@ -43,10 +48,15 @@ class TestMainWindow:
 
     def close_window(self):
         self.master.destroy()
+        exit()
 
     def cnn_checkbox(self):
-        self.newWindow = tk.Toplevel(self.master)
-        self.app = CnnWindow(self.newWindow, 'CNN parameters', self.master, True)
+        if len(results.get_cnn()) != 5:
+            self.master.withdraw()
+            self.newWindow = tk.Toplevel(self.master)
+            self.app = CnnWindow(self.newWindow, 'CNN parameters', self.master, results)
+        else:
+            messagebox.showerror(title=None, message='You have chosen parameters for CNN')
 
     def vgg_checkbox(self):
         self.newWindow = tk.Toplevel(self.master)
@@ -63,4 +73,4 @@ class TestMainWindow:
     def save_location_window(self):
         self.master.withdraw()
         self.newWindow = tk.Toplevel(self.master)
-        self.app = SaveWindow(self.newWindow, 'Tests execution')
+        self.app = SaveWindow(self.newWindow, 'Tests execution', results)

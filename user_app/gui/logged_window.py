@@ -3,6 +3,7 @@ from tkinter import *
 
 from PIL import Image
 from PIL import ImageTk
+from sys import exit
 
 import definitons
 from utils.gui.gui_utils import center_window
@@ -32,6 +33,7 @@ class LoggedWindow:
     def on_closing(self):
         self.master.destroy()
         self.main_window.destroy()
+        exit()
 
 
 def show_logged(self, main_window):

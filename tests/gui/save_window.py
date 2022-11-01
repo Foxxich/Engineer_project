@@ -2,6 +2,7 @@ from tkinter.filedialog import asksaveasfile
 
 import definitons
 from tkinter import *
+from sys import exit
 from utils.gui.gui_utils import center_window
 
 def upload(root):
@@ -17,9 +18,11 @@ def upload(root):
 
 
 class SaveWindow:
-    def __init__(self, window, window_title):
+    def __init__(self, window, window_title, results):
         self.window = window
         self.window.title(window_title)
+        self.results = results
+        print(results.get_cnn())
         window.iconbitmap(definitons.app_images_dir + '\\icon.ico')
         center_window(window, 640, 520)
 

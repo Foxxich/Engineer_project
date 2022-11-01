@@ -4,6 +4,7 @@ import tkinter as tk
 import PIL.ImageTk
 import cv2
 from PIL import Image
+from sys import exit
 
 import definitons
 from user_app.algorithm_utils import run_algorithm
@@ -51,6 +52,7 @@ class App:
         self.window.destroy()
         self.main_window.destroy()
         cv2.destroyAllWindows()
+        exit()
 
     def open_files(self, algorithm_type):
         ret, frame = self.vid.get_frame()
