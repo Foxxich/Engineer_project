@@ -1,2 +1,2 @@
-SIFT:[['cascades', 'default'], ['percentage', '1.0']]
-0.679
+PCA:[['components', '60']]
+Total time:5.796

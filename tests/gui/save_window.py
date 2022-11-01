@@ -1,5 +1,7 @@
 import time
+from tkinter import messagebox
 from tkinter.filedialog import asksaveasfile
+from tkinter.ttk import Progressbar
 
 import definitons
 from tkinter import *
@@ -9,16 +11,11 @@ from tests.run_tests import add_data, run_sift, run_vgg, run_pca, run_cnn
 from utils.gui.gui_utils import center_window
 
 
-def upload(root):
-    statusvar = StringVar()
-    statusvar.set("Ready")
-    sbar = Label(root, textvariable=statusvar, relief=SUNKEN, anchor="w")
-    sbar.pack(side=BOTTOM, fill=X)
-    statusvar.set("Busy..")
-    sbar.update()
-    import time
-    time.sleep(2)
-    statusvar.set("Ready")
+def bar(progress, root, percent):
+    progress['value'] = percent
+    root.update_idletasks()
+    if percent == 100:
+        messagebox.showinfo("showinfo", "Testing is finished")
 
 
 def write_results(algorithm_parameters, name, total_time):
@@ -42,7 +39,10 @@ class SaveWindow:
     def save_file(self):
         f = asksaveasfile(initialfile='results.csv',
                           defaultextension=".txt", filetypes=[("CSV", "*.csv")])
-        upload(self.window)
+        progress = Progressbar(self.window, orient=HORIZONTAL,
+                               length=300, mode='determinate')
+        progress.pack(pady=10)
+
         add_data()
         sift = self.results.get_sift()
         vgg = self.results.get_vgg()
@@ -50,18 +50,23 @@ class SaveWindow:
         cnn = self.results.get_cnn()
         start_time = time.time()
         data_to_print = []
+        bar(progress, self.window, 0)
         if len(sift) != 0:
             data_to_print.append(['SIFT', sift])
             run_sift(f.name, sift)
+        bar(progress, self.window, 25)
         if len(vgg) != 0:
             data_to_print.append(['VGG', vgg])
             run_vgg(f.name, vgg)
+        bar(progress, self.window, 50)
         if len(pca) != 0:
             run_pca(f.name, pca)
             data_to_print.append(['PCA', pca])
+        bar(progress, self.window, 75)
         if len(cnn) != 0:
             data_to_print.append(['CNN', cnn])
             run_cnn(f.name, cnn)
+        bar(progress, self.window, 100)
         write_results(data_to_print, f.name, round((time.time() - start_time), 3))
 
     def close_window(self):
