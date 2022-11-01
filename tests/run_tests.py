@@ -8,20 +8,6 @@ from algorithms.cnn import CNN
 from utils.files_utils import write
 from utils.image_converter import run_image_selection
 
-# First element is set by default for running in every algorithm
-cnn_optimizers = ['adam', 'rmsprop', 'Ftrl', 'Nadam', 'Adamax']
-cnn_loss = ['categorical_crossentropy', 'binary_crossentropy']
-cnn_metrics = ['accuracy', 'binary_accuracy', 'categorical_accuracy', 'top_k_categorical_accuracy']
-cnn_epochs_number = [50, 45, 20, 15, 10]
-cnn_steps_for_validation = [10, 9, 8, 7, 6]
-vgg_thresh = [0.5, 0.6, 0.7, 0.4, 0.3]
-vgg_model = ['resnet50', 'vgg16', 'senet50']
-pca_components = [100, 90, 80, 70, 60]
-sift_cascades = ['haarcascade_frontalface_default',
-                 'haarcascade_frontalface_alt',
-                 'haarcascade_frontalface_alt_tree',
-                 'haarcascade_frontalface_alt2']
-sift_percent_delta = [2.0, 2.5, 4.0, 1.5, 1.0]
 blur_percents = [1, 2, 3, 4, 5]
 
 datasets = [
@@ -48,7 +34,14 @@ test_data = [
 ]
 
 
-def run_sift():
+def run_sift(path, parameters):
+    sift_cascades = None
+    delta = None
+    for parameter in parameters:
+        if 'cascades' in parameter:
+            sift_cascades = parameter[1]
+        else:
+            delta = parameter[1]
     data = []
     for image1 in test_data:
         image2 = None
@@ -61,7 +54,7 @@ def run_sift():
         start_time = time.time()
         s1 = image1[0].replace("\\", " ").split()[0].replace(".jpg", " ")
         s2 = image2[0].replace("\\", " ").split()[0].replace(".jpg", " ")
-        res = sift.comparison(test_image, original_image, sift_cascades[0])
+        res = sift.comparison(test_image, original_image, sift_cascades, delta, path='haarcascade_frontalface_')
         end_time = time.time()
         is_same_person = False
         if s1 == s2:
@@ -77,10 +70,17 @@ def run_sift():
             image2[1],
         ])
         print("Total time: ", round((end_time - start_time), 3), ' Seconds')
-    write(data, 'sift', 'usual')
+    write(data, 'sift', 'usual', path)
 
 
-def run_vgg():
+def run_vgg(path, parameters):
+    vgg_thresh = None
+    vgg_model = None
+    for parameter in parameters:
+        if 'thresh' in parameter:
+            vgg_thresh = parameter[1]
+        else:
+            vgg_model = parameter[1]
     data = []
     for image1 in test_data:
         try:
@@ -94,8 +94,8 @@ def run_vgg():
             start_time = time.time()
             s1 = image1[0].replace("\\", " ").split()[0].replace(".jpg", " ")
             s2 = image2[0].replace("\\", " ").split()[0].replace(".jpg", " ")
-            res = vgg_face.comparison(test_image, original_image, vgg_model[0],
-                                      vgg_thresh[0])
+            res = vgg_face.comparison(test_image, original_image, vgg_model,
+                                      vgg_thresh)
             end_time = time.time()
             is_same_person = False
             if s1 == s2:
@@ -113,10 +113,29 @@ def run_vgg():
             print("Total time: ", round((end_time - start_time), 3), ' Seconds')
         except IndexError:
             print('Sift do not support these type of images')
-    write(data, 'vgg_model', 'usual')
+    write(data, 'vgg_model', 'usual', path)
 
 
-def run_cnn():
+def run_cnn(path, parameters):
+    cnn_optimizers = None
+    cnn_loss = None
+    cnn_metrics = None
+    cnn_epochs_number = None
+    cnn_steps_for_validation = None
+    for parameter in parameters:
+        if 'loss' in parameter:
+            cnn_loss = parameter[1] + '_crossentropy'
+        elif 'metrics' in parameter:
+            if 'accuracy' not in parameter[1]:
+                cnn_metrics = parameter[1] + '_accuracy'
+            else:
+                cnn_metrics = parameter[1]
+        elif 'optimizer' in parameter:
+            cnn_optimizers = parameter[1]
+        elif 'epochs_number' in parameter:
+            cnn_epochs_number = int(parameter[1])
+        else:
+            cnn_steps_for_validation = int(parameter[1])
     data = []
     for image1 in test_data:
         image2 = None
@@ -132,15 +151,18 @@ def run_cnn():
         print(image_path)
         start_time = time.time()
         res = False
+        print(cnn_loss)
+        print(cnn_optimizers)
+        print(cnn_metrics)
         cnn = CNN(
             folder,
             image_path,
             'test',
-            cnn_epochs_number[0],
-            cnn_steps_for_validation[0],
-            cnn_optimizers[0],
-            cnn_loss[0],
-            cnn_metrics[0]
+            cnn_epochs_number,
+            cnn_steps_for_validation,
+            cnn_optimizers,
+            cnn_loss,
+            cnn_metrics
         )
         if cnn.comparison() == str(face):
             res = True
@@ -155,10 +177,11 @@ def run_cnn():
             image1[1],
         ])
         print("Total time: ", round((end_time - start_time), 3), ' Seconds')
-    write(data, 'cnn', 'complex')
+    write(data, 'cnn', 'complex', path)
 
 
-def run_pca():
+def run_pca(path, parameter):
+    pca_components = int(parameter[0][1])
     data = []
     for image1 in test_data:
         face = image1[0].replace("\\", " ").split()[0]
@@ -170,7 +193,7 @@ def run_pca():
             image_path,
             folder,
             'test',
-            pca_components[0])
+            pca_components)
         print(str(face))
         print(comparison_result)
         if image1[2] == 'tt':
@@ -190,7 +213,7 @@ def run_pca():
             image1[1],
         ])
         print("Total time: ", round((end_time - start_time), 3), ' Seconds')
-    write(data, 'pca', 'complex')
+    write(data, 'pca', 'complex', path)
 
 
 def generate_blured_images():
@@ -209,15 +232,3 @@ def add_data():
     if len(glob.glob(definitons.root_dir + '\\images\\tests\\*')) == 0:
         generate_blured_images()
         generate_gaussian()
-
-
-def main():
-    # add_data()
-    # run_sift()
-    # run_vgg()
-    # run_pca()
-    run_cnn()
-
-
-if __name__ == "__main__":
-    main()

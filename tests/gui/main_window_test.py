@@ -59,18 +59,30 @@ class TestMainWindow:
             messagebox.showerror(title=None, message='You have chosen parameters for CNN')
 
     def vgg_checkbox(self):
-        self.newWindow = tk.Toplevel(self.master)
-        self.app = VggWindow(self.newWindow, 'VGG parameters', self.master, True)
+        if len(results.get_vgg()) != 2:
+            self.master.withdraw()
+            self.newWindow = tk.Toplevel(self.master)
+            self.app = VggWindow(self.newWindow, 'VGG parameters', self.master, results)
+        else:
+            messagebox.showerror(title=None, message='You have chosen parameters for VGG')
 
     def sift_checkbox(self):
-        self.newWindow = tk.Toplevel(self.master)
-        self.app = SiftWindow(self.newWindow, 'SIFT parameters', self.master, True)
+        if len(results.get_sift()) != 2:
+            self.master.withdraw()
+            self.newWindow = tk.Toplevel(self.master)
+            self.app = SiftWindow(self.newWindow, 'SIFT parameters', self.master, results)
+        else:
+            messagebox.showerror(title=None, message='You have chosen parameters for SIFT')
 
     def pca_checkbox(self):
-        self.newWindow = tk.Toplevel(self.master)
-        self.app = PcaWindow(self.newWindow, 'PCA Parameters', self.master, True)
+        if len(results.get_pca()) != 1:
+            self.master.withdraw()
+            self.newWindow = tk.Toplevel(self.master)
+            self.app = PcaWindow(self.newWindow, 'PCA parameters', self.master, results)
+        else:
+            messagebox.showerror(title=None, message='You have chosen parameters for PCA')
 
     def save_location_window(self):
         self.master.withdraw()
         self.newWindow = tk.Toplevel(self.master)
-        self.app = SaveWindow(self.newWindow, 'Tests execution', results)
+        self.app = SaveWindow(self.newWindow, 'Tests execution', results, self.master)

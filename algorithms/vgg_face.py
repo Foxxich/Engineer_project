@@ -44,6 +44,7 @@ def prepare_prediction(samples, model):
 # to check up percent of matches;
 def is_match(known_embedding, candidate_embedding, test_image, original_image, thresh):
     score = cosine(known_embedding, candidate_embedding)
+    thresh = float(thresh)
     if score <= thresh:
         print('There is a match (%.3f <= %.3f)' % (score, thresh) + ' between', test_image + ' and', original_image)
         return True

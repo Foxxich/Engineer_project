@@ -8,11 +8,12 @@ headers = [
 ]
 
 
-def write(data, file_name, header_type):
+def write(data, file_name, header_type, path):
     header = headers[0]
     if header_type == 'complex':
         header = headers[1]
-    with open(definitons.root_dir + '\\' + file_name + '.csv', 'w', encoding='UTF8', newline='') as f:
+    path = path.split('.csv')[0]
+    with open(path + '_' + file_name + '.csv', 'w', encoding='UTF8', newline='') as f:
         writer = csv.writer(f)
         writer.writerow(header)
         writer.writerows(data)
@@ -41,11 +42,3 @@ def read(file_name, file_type='usual'):
     print('Correct ', correct)
     print('Incorrect ', incorrect)
     print('Total time ', time)
-
-
-def main():
-    read('vgg_model')
-
-
-if __name__ == "__main__":
-    main()

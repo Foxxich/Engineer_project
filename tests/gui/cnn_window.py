@@ -9,11 +9,11 @@ from utils.gui.gui_utils import center_window
 cnn_parameters = []
 
 
-def checkout(parameter, label):
+def checkout(parameters, label):
     for parameter in cnn_parameters:
         if label in parameter[0]:
             cnn_parameters.remove(parameter)
-    cnn_parameters.append([label, parameter])
+    cnn_parameters.append([label, parameters])
 
 
 class CnnWindow:
@@ -36,8 +36,9 @@ class CnnWindow:
         x_coordinate = 50
         for option in labels:
             x_coordinate += 85
+            self.CheckVar = IntVar(value=0)
             parameter_validator = partial(checkout, option, labels[option])
-            Checkbutton(self.window, text=option, command=parameter_validator).place(
+            Checkbutton(self.window, text=option, command=parameter_validator, variable=self.CheckVar).place(
                 x=x_coordinate, y=60)
 
         Label(self.window, text="Metrics (accuracy)").place(x=x, y=80)
@@ -45,18 +46,20 @@ class CnnWindow:
         labels = {'accuracy': 'metrics', 'binary': 'metrics', 'categorical': 'metrics', 'top_k_categorical': 'metrics'}
         for option in labels:
             x_coordinate += 85
+            self.CheckVar = IntVar(value=0)
             parameter_validator = partial(checkout, option, labels[option])
-            Checkbutton(self.window, text=option, command=parameter_validator).place(
+            Checkbutton(self.window, text=option, command=parameter_validator, variable=self.CheckVar).place(
                 x=x_coordinate, y=80)
 
         Label(self.window, text="Optimizers").place(x=x, y=100)
         x_coordinate = 50
         labels = {'adam': 'optimizer', 'rmsprop': 'optimizer', 'Ftrl': 'optimizer', 'Nadam': 'optimizer',
-                  'Adamax': 'optimizers'}
+                  'Adamax': 'optimizer'}
         for option in labels:
             x_coordinate += 85
+            self.CheckVar = IntVar(value=0)
             parameter_validator = partial(checkout, option, labels[option])
-            Checkbutton(self.window, text=option, command=parameter_validator).place(
+            Checkbutton(self.window, text=option, command=parameter_validator, variable=self.CheckVar).place(
                 x=x_coordinate, y=100)
 
         Label(self.window, text="Epochs number").place(x=x, y=120)
@@ -65,8 +68,9 @@ class CnnWindow:
                   '50': 'epochs_number'}
         for option in labels:
             x_coordinate += 85
+            self.CheckVar = IntVar(value=0)
             parameter_validator = partial(checkout, option, labels[option])
-            Checkbutton(self.window, text=option, command=parameter_validator).place(
+            Checkbutton(self.window, text=option, command=parameter_validator, variable=self.CheckVar).place(
                 x=x_coordinate, y=120)
 
         Label(self.window, text="Steps for validation").place(x=x, y=140)
@@ -75,8 +79,9 @@ class CnnWindow:
                   '7': 'steps_for_validation', '6': 'steps_for_validation'}
         for option in labels:
             x_coordinate += 85
+            self.CheckVar = IntVar(value=0)
             parameter_validator = partial(checkout, option, labels[option])
-            Checkbutton(self.window, text=option, command=parameter_validator).place(
+            Checkbutton(self.window, text=option, command=parameter_validator, variable=self.CheckVar).place(
                 x=x_coordinate, y=140)
 
         exit_button = ttk.Button(
