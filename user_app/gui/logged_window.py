@@ -6,6 +6,7 @@ from PIL import ImageTk
 from sys import exit
 
 import definitons
+from user_app.utils.username_reader import read_username
 from utils.gui.gui_utils import center_window
 
 
@@ -19,15 +20,13 @@ class LoggedWindow:
         master.iconbitmap(definitons.app_images_dir + '\\icon.ico')
 
         if is_successful == 'success':
-            f = open(definitons.root_dir + '\\user_app\\utils\\username.txt', "r")
-            master.title("Welcome back, " + f.read())
+            master.title("Welcome back, " + read_username())
             img = Image.open(definitons.app_images_dir + 'logged.png')
         elif is_successful == 'fail':
             master.title("Unknown person")
             img = Image.open(definitons.app_images_dir + 'error.png')
         else:
-            f = open(definitons.root_dir + '\\user_app\\utils\\username.txt', "r")
-            master.title("You are registered, " + f.read())
+            master.title("You are registered, " + read_username())
             img = Image.open(definitons.app_images_dir + 'registered.jpg')
         self.tk_image = ImageTk.PhotoImage(img.resize((300, 300), Image.ANTIALIAS))
         Label(self.master, image=self.tk_image).place(x=0, y=0, relwidth=1, relheight=1)

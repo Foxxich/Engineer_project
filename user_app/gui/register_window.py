@@ -4,15 +4,14 @@ from tkinter import *
 
 import definitons
 from user_app.gui.app_window import App
+from user_app.utils.username_generator import create_username
 from utils.gui.gui_utils import center_window
 
 
 class RegisterWindow:
 
     def validate_login(self, username):
-        print("username entered :", username.get())
-        with open(definitons.root_dir + '\\user_app\\utils\\username.txt', 'w') as f:
-            f.write(username.get())
+        create_username(username.get())
         self.newWindow = tk.Toplevel(self.main_window)
         self.app = App(self.newWindow, 'Take image to login', self.main_window, False)
         self.master.destroy()
