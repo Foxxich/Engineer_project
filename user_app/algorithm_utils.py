@@ -52,7 +52,7 @@ def run_algorithm(self, main_window, algorithm_type):
     print("Total time: ", round((end_time - start_time)), ' Seconds')
     if result:
         self.newWindow = tk.Toplevel(self.master)
-        self.app = LoggedWindow(self.newWindow, main_window, True)
+        self.app = LoggedWindow(self.newWindow, main_window, 'success')
     else:
         os.rename(definitons.root_dir + '\\images\\user_images\\previous_images\\previous_image.jpg',
                   definitons.root_dir + '\\images\\user_images\\previous_images\\new_image.jpg')
@@ -60,4 +60,4 @@ def run_algorithm(self, main_window, algorithm_type):
                    definitons.root_dir + '\\images\\user_images\\new_image.jpg')
 
         self.newWindow = tk.Toplevel(self.master)
-        self.app = LoggedWindow(self.newWindow, main_window, False)
+        self.app = LoggedWindow(self.newWindow, main_window, 'fail')
