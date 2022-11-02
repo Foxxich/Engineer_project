@@ -37,8 +37,8 @@ class SaveWindow:
         self.window.protocol("WM_DELETE_WINDOW", self.close_window)
 
     def save_file(self):
-        f = asksaveasfile(initialfile='results.csv',
-                          defaultextension=".txt", filetypes=[("CSV", "*.csv")])
+        f = asksaveasfile(initialfile='results.txt',
+                          defaultextension=".txt", filetypes=[("txt", "*.txt")])
         progress = Progressbar(self.window, orient=HORIZONTAL,
                                length=300, mode='determinate')
         progress.pack(pady=10)
