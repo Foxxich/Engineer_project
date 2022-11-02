@@ -1,12 +1,11 @@
 import ctypes
 import os
 import sys
-import time
 
 from cryptography.fernet import Fernet
 
 
-class Credentials():
+class Credentials:
 
     def __init__(self):
         self.__key = ""
