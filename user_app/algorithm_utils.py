@@ -31,11 +31,13 @@ def run_algorithm(self, main_window, algorithm_type):
             n = 20
             folder = definitons.root_dir + '\\images\\user_images\\'
             for i in range(n):
-                file = definitons.root_dir + '\\images\\user_images\\previous_images\\previous_image' + str(randrange(100)) + '.jpg'
+                file = definitons.root_dir + '\\images\\user_images\\previous_images\\previous_image' + str(
+                    randrange(100)) + '.jpg'
                 shutil.copy(img1, file)
             cnn = CNN(folder, img2, 'user')
             face_name = cnn.comparison()
-            filenames = next(os.walk(definitons.root_dir + '\\images\\user_images\\previous_images\\'), (None, None, []))[2]
+            filenames = \
+            next(os.walk(definitons.root_dir + '\\images\\user_images\\previous_images\\'), (None, None, []))[2]
             for file in filenames:
                 if 'previous_image.jpg' not in file:
                     os.remove(definitons.root_dir + '\\images\\user_images\\previous_images\\' + file)

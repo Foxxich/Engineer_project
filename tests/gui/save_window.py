@@ -7,7 +7,7 @@ import definitons
 from tkinter import *
 from sys import exit
 
-from tests.run_tests import add_data, run_sift, run_vgg, run_pca, run_cnn
+from tests.test_utils import add_data, run_sift, run_vgg, run_pca, run_cnn
 from utils.gui.gui_utils import center_window
 
 

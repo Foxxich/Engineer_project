@@ -30,7 +30,7 @@ class SiftWindow:
 
         x = 10
 
-        Label(self.window, text="Cascades for frontal face").place(x=x, y=60)
+        Label(self.window, text="Cascades for face").place(x=x, y=60)
         labels = {'default': 'cascades', 'alt': 'cascades', 'alt_tree': 'cascades', 'alt2': 'cascades'}
         x_coordinate = 50
         for option in labels:
