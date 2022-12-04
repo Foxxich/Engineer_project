@@ -34,7 +34,7 @@ test_data = [
 ]
 
 
-def run_sift(path, parameters):
+def run_sift(path, parameters, set_size):
     sift_cascades = None
     delta = None
     for parameter in parameters:
@@ -43,7 +43,7 @@ def run_sift(path, parameters):
         else:
             delta = parameter[1]
     data = []
-    for image1 in test_data:
+    for image1 in test_data[0:set_size-1]:
         image2 = None
         while image2 is None:
             score = random.choice(test_data)
@@ -73,7 +73,7 @@ def run_sift(path, parameters):
     write(data, 'sift', 'usual', path)
 
 
-def run_vgg(path, parameters):
+def run_vgg(path, parameters, set_size):
     vgg_thresh = None
     vgg_model = None
     for parameter in parameters:
@@ -82,7 +82,7 @@ def run_vgg(path, parameters):
         else:
             vgg_model = parameter[1]
     data = []
-    for image1 in test_data:
+    for image1 in test_data[0:set_size-1]:
         try:
             image2 = None
             while image2 is None:
@@ -116,7 +116,7 @@ def run_vgg(path, parameters):
     write(data, 'vgg_model', 'usual', path)
 
 
-def run_cnn(path, parameters):
+def run_cnn(path, parameters, set_size):
     cnn_optimizers = None
     cnn_loss = None
     cnn_metrics = None
@@ -137,7 +137,7 @@ def run_cnn(path, parameters):
         else:
             cnn_steps_for_validation = int(parameter[1])
     data = []
-    for image1 in test_data:
+    for image1 in test_data[0:set_size-1]:
         image2 = None
         while image2 is None:
             score = random.choice(test_data)
@@ -180,10 +180,10 @@ def run_cnn(path, parameters):
     write(data, 'cnn', 'complex', path)
 
 
-def run_pca(path, parameter):
+def run_pca(path, parameter, set_size):
     pca_components = int(parameter[0][1])
     data = []
-    for image1 in test_data:
+    for image1 in test_data[0:set_size-1]:
         face = image1[0].replace("\\", " ").split()[0]
         folder = definitons.root_dir + '\\' + image1[3] + '\\'
         image_path = definitons.root_dir + '\\' + image1[3] + '\\' + image1[0]

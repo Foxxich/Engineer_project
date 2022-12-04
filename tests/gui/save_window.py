@@ -26,11 +26,12 @@ def write_results(algorithm_parameters, name, total_time):
 
 
 class SaveWindow:
-    def __init__(self, window, window_title, results, master):
+    def __init__(self, window, window_title, results, master, set_size):
         self.window = window
         self.window.title(window_title)
         self.results = results
         self.master = master
+        self.set_size = set_size
         window.iconbitmap(definitons.app_images_dir + '\\icon.ico')
         center_window(window, 640, 520)
         self.save_file()
@@ -53,19 +54,19 @@ class SaveWindow:
         bar(progress, self.window, 0)
         if len(sift) != 0:
             data_to_print.append(['SIFT', sift])
-            run_sift(f.name, sift)
+            run_sift(f.name, sift, self.set_size)
         bar(progress, self.window, 25)
         if len(vgg) != 0:
             data_to_print.append(['VGG', vgg])
-            run_vgg(f.name, vgg)
+            run_vgg(f.name, vgg, self.set_size)
         bar(progress, self.window, 50)
         if len(pca) != 0:
-            run_pca(f.name, pca)
+            run_pca(f.name, pca, self.set_size)
             data_to_print.append(['PCA', pca])
         bar(progress, self.window, 75)
         if len(cnn) != 0:
             data_to_print.append(['CNN', cnn])
-            run_cnn(f.name, cnn)
+            run_cnn(f.name, cnn, self.set_size)
         bar(progress, self.window, 100)
         write_results(data_to_print, f.name, round((time.time() - start_time), 3))
 

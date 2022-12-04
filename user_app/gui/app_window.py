@@ -14,14 +14,14 @@ from utils.gui.gui_utils import center_window
 
 
 class App:
-    def __init__(self, window, window_title, main_window, testing):
+    def __init__(self, window, window_title, main_window, is_usual_user):
         self.app = None
         self.newWindow = None
         self.photo = None
         self.window = window
         window.iconbitmap(definitons.app_images_dir + '\\icon.ico')
         center_window(window, 640, 520)
-        self.testing = testing
+        self.testing = is_usual_user
         self.main_window = main_window
         self.window.title(window_title)
         self.video_source = 0
@@ -30,17 +30,17 @@ class App:
         self.vid = VideoCapture(self.video_source)
         self.canvas = tk.Canvas(window, width=self.vid.width, height=self.vid.height)
         self.canvas.pack()
-        if testing:
+        if is_usual_user:
             self.btn_snapshot = tk.Button(window, text="SIFT", command=lambda: self.open_files('sift'))
             self.btn_snapshot.pack(side=tk.LEFT, padx=5, pady=5)
             self.btn_cnn = tk.Button(window, text="CNN", command=lambda: self.open_files('cnn'))
             self.btn_cnn.pack(side=tk.LEFT, padx=5, pady=5)
-            self.btn_vgg = tk.Button(window, text="PCA", command=lambda: self.open_files('pca'))
-            self.btn_vgg.pack(side=tk.LEFT, padx=5, pady=5)
+            self.btn_pca = tk.Button(window, text="PCA", command=lambda: self.open_files('pca'))
+            self.btn_pca.pack(side=tk.LEFT, padx=5, pady=5)
             self.btn_vgg = tk.Button(window, text="VGG", command=lambda: self.open_files('vgg'))
             self.btn_vgg.pack(side=tk.LEFT, padx=5, pady=5)
         else:
-            self.btn_snapshot = tk.Button(window, text="Make photo", command=lambda: self.open_files('initial'))
+            self.btn_snapshot = tk.Button(window, text="Take photo", command=lambda: self.open_files('initial'))
             self.btn_snapshot.pack(side=tk.LEFT, padx=5, pady=5)
             new_start()
         self.delay = 10
