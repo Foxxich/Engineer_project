@@ -42,3 +42,5 @@ def read(file_name, file_type='usual'):
     print('Correct ', correct)
     print('Incorrect ', incorrect)
     print('Total time ', time)
+
+# read('results_cnn', 'unusual')

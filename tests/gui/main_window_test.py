@@ -21,12 +21,12 @@ class TestMainWindow:
         self.frame = tk.Frame(self.master, width=200, height=300)
         self.master.protocol("WM_DELETE_WINDOW", self.close_window)
         self.frame.size()
-        self.set_size = 4
+        self.set_size = 54
 
-        self.btn_pca = tk.Button(text="+", command=self.increase_set)
-        self.btn_pca.place(x=125, y=230)
-        self.btn_pca = tk.Button(text="-", command=self.decrease_set)
-        self.btn_pca.place(x=260, y=230)
+        self.btn_increase = tk.Button(text="+", command=self.increase_set)
+        self.btn_increase.place(x=125, y=230)
+        self.btn_decrease = tk.Button(text="-", command=self.decrease_set)
+        self.btn_decrease.place(x=260, y=230)
 
         self.number_label = tk.Label(text=str(self.set_size) + " images")
         self.number_label.place(x=170, y=230)
@@ -110,6 +110,9 @@ class TestMainWindow:
             messagebox.showerror(title=None, message='You have chosen parameters for PCA')
 
     def save_location_window(self):
-        self.master.withdraw()
-        self.newWindow = tk.Toplevel(self.master)
-        self.app = SaveWindow(self.newWindow, 'Tests execution', results, self.master, self.set_size)
+        if len(results.get_cnn()) == 0 and len(results.get_pca()) == 0 and len(results.get_vgg()) == 0 and len(results.get_sift()) == 0:
+            messagebox.showerror(title=None, message='You did not choose technique of face recognition')
+        else:
+            self.master.withdraw()
+            self.newWindow = tk.Toplevel(self.master)
+            self.app = SaveWindow(self.newWindow, 'Tests execution', results, self.master, self.set_size)

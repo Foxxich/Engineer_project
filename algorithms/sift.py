@@ -140,9 +140,12 @@ def comparison(
 
     # Apply ratio test to filter out only the good matches
     matcher_count = []
-    for m, n in matches:
-        if m.distance < 0.75 * n.distance:
-            matcher_count.append([m])
+    try:
+        for m, n in matches:
+            if m.distance < 0.75 * n.distance:
+                matcher_count.append([m])
+    except:
+        print('Not enough values')
 
     if show_test_data:
         final_statistics(image1, image2, kp1, kp2, des1, des2)
