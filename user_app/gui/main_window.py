@@ -11,6 +11,8 @@ class MainWindow:
         self.master = master
         self.frame = tk.Frame(self.master, width=200, height=300)
         self.frame.size()
+        self.master.call('wm', 'attributes', '.', '-topmost', True)
+        self.master.after_idle(self.master.call, 'wm', 'attributes', '.', '-topmost', False)
         self.button1 = tk.Button(self.frame, text='Login', height="2", width="30", command=self.login_window)
         self.button1.pack(padx=50, pady=50)
         self.button2 = tk.Button(self.frame, text='Register', height="2", width="30", command=self.register_window)

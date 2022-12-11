@@ -14,7 +14,6 @@ class VideoCapture:
                 messagebox.showerror(title=None, message='The used device is without embedded camera')
 
         self.fourcc = cv2.VideoWriter_fourcc(*'XVID')
-
         dimensions = {
             '480p': (640, 480),
             '720p': (1280, 720),

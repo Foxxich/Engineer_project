@@ -7,9 +7,10 @@ from PIL import Image
 from sys import exit
 
 import definitons
-from user_app.algorithm_utils import run_algorithm
+from user_app.model.algorithm_utils import run_algorithm
 from user_app.gui.logged_window import show_logged
 from user_app.gui.video_capture import VideoCapture
+from utils.gui_utils import center_window
 
 
 class App:
@@ -18,10 +19,14 @@ class App:
         self.newWindow = None
         self.photo = None
         self.window = window
+        self.window.attributes('-topmost',True)
         window.iconbitmap(definitons.app_images_dir + '\\icon.ico')
         self.testing = is_usual_user
         self.main_window = main_window
         self.window.title(window_title)
+        center_window(window, 640, 520)
+        self.main_window.call('wm', 'attributes', '.', '-topmost', True)
+        self.main_window.after_idle(self.main_window.call, 'wm', 'attributes', '.', '-topmost', False)
         self.video_source = 0
         self.ok = False
 

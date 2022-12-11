@@ -6,7 +6,8 @@ from PIL import ImageTk
 from sys import exit
 
 import definitons
-from user_app.utils.username_reader import read_username
+from user_app.model.username_reader import read_username
+from utils.gui_utils import center_window
 
 
 class LoggedWindow:
@@ -14,6 +15,7 @@ class LoggedWindow:
     def __init__(self, master, main_window, is_successful):
         self.master = master
         self.main_window = main_window
+        center_window(master, 300, 300)
         self.frame = tk.Frame(self.master, width=300, height=300)
         master.iconbitmap(definitons.app_images_dir + '\\icon.ico')
 

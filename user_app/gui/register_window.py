@@ -4,7 +4,8 @@ from tkinter import *
 
 import definitons
 from user_app.gui.app_window import App
-from user_app.utils.username_generator import create_username
+from user_app.model.username_generator import create_username
+from utils.gui_utils import center_window
 
 
 class RegisterWindow:
@@ -22,6 +23,7 @@ class RegisterWindow:
         self.master = master
         self.main_window = main_window
         self.frame = tk.Frame(self.master)
+        center_window(master, 250, 250)
         master.title('Create account')
         master.iconbitmap(definitons.app_images_dir + '\\icon.ico')
 
