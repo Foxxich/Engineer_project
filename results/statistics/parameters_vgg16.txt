@@ -1,0 +1,2 @@
+VGG:[['model', 'vgg16'], ['thresh', '0.5']]
+Total time:187.439

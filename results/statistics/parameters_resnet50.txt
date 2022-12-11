@@ -1,0 +1,2 @@
+VGG:[['model', 'resnet50'], ['thresh', '0.5']]
+Total time:309.149

@@ -1,0 +1,100 @@
+folder,image,was_found,time,dataset,type
+C:\Users\Vadym\PycharmProjects\Engineer_project\images\datasets\converted_images\\,1\1.jpg,True,8.881,first_set,usual
+C:\Users\Vadym\PycharmProjects\Engineer_project\images\datasets\converted_images\\,1\5.jpg,True,7.282,first_set,usual
+C:\Users\Vadym\PycharmProjects\Engineer_project\images\datasets\converted_images\\,1\9.jpg,True,7.252,first_set,usual
+C:\Users\Vadym\PycharmProjects\Engineer_project\images\datasets\converted_images\\,1\1.jpg,True,7.294,first_set,usual
+C:\Users\Vadym\PycharmProjects\Engineer_project\images\datasets\converted_images\\,1\2.jpg,True,7.314,first_set,usual
+C:\Users\Vadym\PycharmProjects\Engineer_project\images\datasets\converted_images\\,1\5.jpg,True,7.263,first_set,usual
+C:\Users\Vadym\PycharmProjects\Engineer_project\images\datasets\converted_images\\,1\6.jpg,True,7.266,first_set,usual
+C:\Users\Vadym\PycharmProjects\Engineer_project\images\datasets\converted_images\\,1\8.jpg,True,7.389,first_set,usual
+C:\Users\Vadym\PycharmProjects\Engineer_project\images\datasets\converted_images\\,1\9.jpg,True,7.356,first_set,usual
+C:\Users\Vadym\PycharmProjects\Engineer_project\images\datasets\converted_images\\,1\10.jpg,True,7.308,first_set,usual
+C:\Users\Vadym\PycharmProjects\Engineer_project\images\datasets\converted_images\\,12\7.jpg,False,7.214,first_set,usual
+C:\Users\Vadym\PycharmProjects\Engineer_project\images\datasets\converted_images\\,12\7.jpg,False,7.25,first_set,usual
+C:\Users\Vadym\PycharmProjects\Engineer_project\images\datasets\converted_images\\,12\5.jpg,False,7.293,first_set,usual
+C:\Users\Vadym\PycharmProjects\Engineer_project\images\datasets\converted_images\\,12\4.jpg,False,7.243,first_set,usual
+C:\Users\Vadym\PycharmProjects\Engineer_project\images\datasets\converted_images\\,12\3.jpg,False,7.278,first_set,usual
+C:\Users\Vadym\PycharmProjects\Engineer_project\images\datasets\converted_images\\,12\2.jpg,False,7.499,first_set,usual
+C:\Users\Vadym\PycharmProjects\Engineer_project\images\datasets\converted_images\\,12\1.jpg,False,7.372,first_set,usual
+C:\Users\Vadym\PycharmProjects\Engineer_project\images\datasets\converted_images\\,12\9.jpg,False,7.412,first_set,usual
+C:\Users\Vadym\PycharmProjects\Engineer_project\images\datasets\converted_images\\,40\8.jpg,False,7.284,first_set,usual
+C:\Users\Vadym\PycharmProjects\Engineer_project\images\datasets\converted_images\\,40\7.jpg,False,7.227,first_set,usual
+C:\Users\Vadym\PycharmProjects\Engineer_project\images\datasets\converted_images\\,40\6.jpg,False,7.304,first_set,usual
+C:\Users\Vadym\PycharmProjects\Engineer_project\images\datasets\converted_images\\,40\5.jpg,False,7.893,first_set,usual
+C:\Users\Vadym\PycharmProjects\Engineer_project\images\datasets\converted_images\\,40\4.jpg,False,7.362,first_set,usual
+C:\Users\Vadym\PycharmProjects\Engineer_project\images\datasets\converted_images\\,40\3.jpg,False,9.039,first_set,usual
+C:\Users\Vadym\PycharmProjects\Engineer_project\images\datasets\converted_images\\,40\2.jpg,False,8.84,first_set,usual
+C:\Users\Vadym\PycharmProjects\Engineer_project\images\datasets\converted_images\\,40\1.jpg,False,8.861,first_set,usual
+C:\Users\Vadym\PycharmProjects\Engineer_project\images\datasets\converted_images\\,6\7.jpg,False,7.457,first_set,usual
+C:\Users\Vadym\PycharmProjects\Engineer_project\images\datasets\converted_images\\,6\8.jpg,False,7.341,first_set,usual
+C:\Users\Vadym\PycharmProjects\Engineer_project\images\datasets\converted_images\\,6\9.jpg,False,7.429,first_set,usual
+C:\Users\Vadym\PycharmProjects\Engineer_project\images\datasets\converted_images\\,6\6.jpg,False,7.262,first_set,usual
+C:\Users\Vadym\PycharmProjects\Engineer_project\images\datasets\converted_images\\,6\5.jpg,False,7.229,first_set,usual
+C:\Users\Vadym\PycharmProjects\Engineer_project\images\datasets\converted_images\\,6\2.jpg,False,7.223,first_set,usual
+C:\Users\Vadym\PycharmProjects\Engineer_project\images\datasets\second_set_dataset\Final Training Images\,face1\1face1.jpg,True,1.459,second_set,usual
+C:\Users\Vadym\PycharmProjects\Engineer_project\images\datasets\second_set_dataset\Final Training Images\,face1\2face1.jpg,True,1.302,second_set,usual
+C:\Users\Vadym\PycharmProjects\Engineer_project\images\datasets\second_set_dataset\Final Training Images\,face2\10face2.jpg,True,1.337,second_set,usual
+C:\Users\Vadym\PycharmProjects\Engineer_project\images\datasets\second_set_dataset\Final Training Images\,face2\12face2.jpg,True,1.333,second_set,usual
+C:\Users\Vadym\PycharmProjects\Engineer_project\images\datasets\second_set_dataset\Final Training Images\,face1\1face1.jpg,True,1.328,second_set,usual
+C:\Users\Vadym\PycharmProjects\Engineer_project\images\datasets\second_set_dataset\Final Training Images\,face1\2face1.jpg,True,1.398,second_set,usual
+C:\Users\Vadym\PycharmProjects\Engineer_project\images\datasets\second_set_dataset\Final Training Images\,face3\10face3.jpg,True,1.334,second_set,usual
+C:\Users\Vadym\PycharmProjects\Engineer_project\images\datasets\second_set_dataset\Final Training Images\,face3\12face3.jpg,True,1.293,second_set,usual
+C:\Users\Vadym\PycharmProjects\Engineer_project\images\datasets\second_set_dataset\Final Training Images\,face4\1face4.jpg,True,1.339,second_set,usual
+C:\Users\Vadym\PycharmProjects\Engineer_project\images\datasets\second_set_dataset\Final Training Images\,face4\2face4.jpg,True,1.336,second_set,usual
+C:\Users\Vadym\PycharmProjects\Engineer_project\images\datasets\second_set_dataset\Final Training Images\,face5\10face5.jpg,True,1.361,second_set,usual
+C:\Users\Vadym\PycharmProjects\Engineer_project\images\datasets\second_set_dataset\Final Training Images\,face5\12face5.jpg,True,1.281,second_set,usual
+C:\Users\Vadym\PycharmProjects\Engineer_project\images\datasets\second_set_dataset\Final Training Images\,face6\1face6.jpg,True,1.358,second_set,usual
+C:\Users\Vadym\PycharmProjects\Engineer_project\images\datasets\second_set_dataset\Final Training Images\,face6\2face6.jpg,True,1.382,second_set,usual
+C:\Users\Vadym\PycharmProjects\Engineer_project\images\datasets\second_set_dataset\Final Training Images\,face5\10face5.jpg,True,1.302,second_set,usual
+C:\Users\Vadym\PycharmProjects\Engineer_project\images\datasets\second_set_dataset\Final Training Images\,face4\12face4.jpg,True,1.4,second_set,usual
+C:\Users\Vadym\PycharmProjects\Engineer_project\images\datasets\second_set_dataset\Final Testing Images\,face16\1face16.jpg,False,1.002,second_set,usual
+C:\Users\Vadym\PycharmProjects\Engineer_project\images\datasets\second_set_dataset\Final Testing Images\,face16\3face16.jpg,False,0.966,second_set,usual
+C:\Users\Vadym\PycharmProjects\Engineer_project\images\datasets\second_set_dataset\Final Testing Images\,face12\1face12.jpg,False,1.021,second_set,usual
+C:\Users\Vadym\PycharmProjects\Engineer_project\images\datasets\second_set_dataset\Final Testing Images\,face12\2face12.jpg,False,0.976,second_set,usual
+C:\Users\Vadym\PycharmProjects\Engineer_project\images\datasets\second_set_dataset\Final Testing Images\,face10\2face10.jpg,False,0.974,second_set,usual
+C:\Users\Vadym\PycharmProjects\Engineer_project\images\datasets\second_set_dataset\Final Testing Images\,face10\2face10.jpg,False,1.001,second_set,usual
+C:\Users\Vadym\PycharmProjects\Engineer_project\images\datasets\second_set_dataset\Final Testing Images\,face13\1face13.jpg,False,0.971,second_set,usual
+C:\Users\Vadym\PycharmProjects\Engineer_project\images\datasets\second_set_dataset\Final Testing Images\,face13\2face13.jpg,False,0.98,second_set,usual
+C:\Users\Vadym\PycharmProjects\Engineer_project\images\datasets\second_set_dataset\Final Testing Images\,face8\3face8.jpg,False,0.946,second_set,usual
+C:\Users\Vadym\PycharmProjects\Engineer_project\images\datasets\second_set_dataset\Final Testing Images\,face8\4face8.jpg,False,1.025,second_set,usual
+C:\Users\Vadym\PycharmProjects\Engineer_project\images\datasets\second_set_dataset\Final Testing Images\,face7\1face7.jpg,False,0.96,second_set,usual
+C:\Users\Vadym\PycharmProjects\Engineer_project\images\datasets\second_set_dataset\Final Testing Images\,face7\2face7.jpg,False,1.007,second_set,usual
+C:\Users\Vadym\PycharmProjects\Engineer_project\images\datasets\second_set_dataset\Final Testing Images\,face9\1face9.jpg,False,0.998,second_set,usual
+C:\Users\Vadym\PycharmProjects\Engineer_project\images\datasets\second_set_dataset\Final Testing Images\,face9\2face9.jpg,False,0.976,second_set,usual
+C:\Users\Vadym\PycharmProjects\Engineer_project\images\datasets\second_set_dataset\Final Testing Images\,face4\1face4.jpg,False,0.97,second_set,usual
+C:\Users\Vadym\PycharmProjects\Engineer_project\images\datasets\second_set_dataset\Final Testing Images\,face4\2face4.jpg,False,0.984,second_set,usual
+C:\Users\Vadym\PycharmProjects\Engineer_project\images\tests\noised\converted_images\\,1\1.jpg,True,7.731,first_set,noised
+C:\Users\Vadym\PycharmProjects\Engineer_project\images\tests\noised\converted_images\\,1\5.jpg,True,7.953,first_set,noised
+C:\Users\Vadym\PycharmProjects\Engineer_project\images\tests\noised\converted_images\\,1\9.jpg,True,8.352,first_set,noised
+C:\Users\Vadym\PycharmProjects\Engineer_project\images\tests\noised\converted_images\\,5\1.jpg,False,8.337,first_set,noised
+C:\Users\Vadym\PycharmProjects\Engineer_project\images\tests\noised\converted_images\\,5\2.jpg,False,8.162,first_set,noised
+C:\Users\Vadym\PycharmProjects\Engineer_project\images\tests\noised\converted_images\\,6\5.jpg,False,9.013,first_set,noised
+C:\Users\Vadym\PycharmProjects\Engineer_project\images\tests\noised\converted_images\\,6\6.jpg,False,7.99,first_set,noised
+C:\Users\Vadym\PycharmProjects\Engineer_project\images\tests\noised\converted_images\\,7\8.jpg,False,7.594,first_set,noised
+C:\Users\Vadym\PycharmProjects\Engineer_project\images\tests\blurred\converted_images\\,8\9.jpg,False,7.307,first_set,blurred
+C:\Users\Vadym\PycharmProjects\Engineer_project\images\tests\noised\converted_images\\,8\10.jpg,False,8.031,first_set,noised
+C:\Users\Vadym\PycharmProjects\Engineer_project\images\tests\blurred\converted_images\\,12\7.jpg,False,8.124,first_set,blurred
+C:\Users\Vadym\PycharmProjects\Engineer_project\images\tests\noised\converted_images\\,12\7.jpg,False,9.364,first_set,noised
+C:\Users\Vadym\PycharmProjects\Engineer_project\images\tests\blurred\converted_images\\,12\5.jpg,False,10.587,first_set,blurred
+C:\Users\Vadym\PycharmProjects\Engineer_project\images\tests\noised\converted_images\\,33\4.jpg,False,8.353,first_set,noised
+C:\Users\Vadym\PycharmProjects\Engineer_project\images\tests\blurred\converted_images\\,33\3.jpg,False,7.288,first_set,blurred
+C:\Users\Vadym\PycharmProjects\Engineer_project\images\tests\noised\converted_images\\,23\2.jpg,False,7.559,first_set,noised
+C:\Users\Vadym\PycharmProjects\Engineer_project\images\tests\blurred\converted_images\\,34\1.jpg,False,7.857,first_set,blurred
+C:\Users\Vadym\PycharmProjects\Engineer_project\images\tests\noised\converted_images\\,39\9.jpg,False,8.855,first_set,noised
+C:\Users\Vadym\PycharmProjects\Engineer_project\images\tests\blurred\converted_images\\,40\8.jpg,False,7.854,first_set,blurred
+C:\Users\Vadym\PycharmProjects\Engineer_project\images\tests\noised\converted_images\\,26\7.jpg,False,8.445,first_set,noised
+C:\Users\Vadym\PycharmProjects\Engineer_project\images\tests\blurred\converted_images\\,26\6.jpg,False,8.159,first_set,blurred
+C:\Users\Vadym\PycharmProjects\Engineer_project\images\tests\noised\converted_images\\,15\5.jpg,False,8.999,first_set,noised
+C:\Users\Vadym\PycharmProjects\Engineer_project\images\tests\blurred\converted_images\\,15\4.jpg,False,7.583,first_set,blurred
+C:\Users\Vadym\PycharmProjects\Engineer_project\images\tests\noised\converted_images\\,19\3.jpg,False,7.58,first_set,noised
+C:\Users\Vadym\PycharmProjects\Engineer_project\images\tests\blurred\converted_images\\,17\2.jpg,False,7.308,first_set,blurred
+C:\Users\Vadym\PycharmProjects\Engineer_project\images\tests\noised\converted_images\\,6\1.jpg,False,7.623,first_set,noised
+C:\Users\Vadym\PycharmProjects\Engineer_project\images\tests\blurred\converted_images\\,6\7.jpg,False,7.365,first_set,blurred
+C:\Users\Vadym\PycharmProjects\Engineer_project\images\tests\noised\converted_images\\,13\8.jpg,False,9.075,first_set,noised
+C:\Users\Vadym\PycharmProjects\Engineer_project\images\tests\blurred\converted_images\\,13\9.jpg,False,9.59,first_set,blurred
+C:\Users\Vadym\PycharmProjects\Engineer_project\images\tests\noised\converted_images\\,23\6.jpg,False,7.751,first_set,noised
+C:\Users\Vadym\PycharmProjects\Engineer_project\images\tests\blurred\converted_images\\,22\5.jpg,False,7.625,first_set,blurred
+C:\Users\Vadym\PycharmProjects\Engineer_project\images\tests\noised\converted_images\\,22\2.jpg,False,7.769,first_set,noised
+C:\Users\Vadym\PycharmProjects\Engineer_project\images\tests\noised\second_set_dataset\Final Training Images\,face1\1face1.jpg,True,1.44,second_set,noised
+C:\Users\Vadym\PycharmProjects\Engineer_project\images\tests\blurred\second_set_dataset\Final Training Images\,face1\2face1.jpg,True,1.349,second_set,blurred
+C:\Users\Vadym\PycharmProjects\Engineer_project\images\tests\noised\second_set_dataset\Final Training Images\,face2\10face2.jpg,True,1.425,second_set,noised

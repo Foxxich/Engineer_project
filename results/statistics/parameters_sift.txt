@@ -1,0 +1,2 @@
+SIFT:[['cascades', 'default'], ['percentage', '5.0']]
+Total time:5.516

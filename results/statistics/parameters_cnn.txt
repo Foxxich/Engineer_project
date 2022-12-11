@@ -1,0 +1,2 @@
+CNN:[['loss', 'binary'], ['metrics', 'categorical'], ['optimizer', 'adam'], ['epochs_number', '50'], ['steps_for_validation', '10']]
+Total time:4756.751

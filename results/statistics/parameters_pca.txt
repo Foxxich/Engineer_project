@@ -1,0 +1,2 @@
+PCA:[['components', '100']]
+Total time:1406.146
