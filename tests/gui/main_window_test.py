@@ -21,7 +21,7 @@ class TestMainWindow:
         self.frame = tk.Frame(self.master, width=200, height=300)
         self.master.protocol("WM_DELETE_WINDOW", self.close_window)
         self.frame.size()
-        self.set_size = 3
+        self.set_size = 50
         self.master.call('wm', 'attributes', '.', '-topmost', True)
         self.master.after_idle(self.master.call, 'wm', 'attributes', '.', '-topmost', False)
         self.btn_increase = tk.Button(text="+", command=self.increase_set)
