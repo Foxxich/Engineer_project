@@ -2,7 +2,7 @@ import definitons
 import tkinter as tk
 
 from tests.gui.main_window_test import TestMainWindow
-from utils.gui.gui_utils import center_window
+from utils.gui_utils import center_window
 
 
 def main():

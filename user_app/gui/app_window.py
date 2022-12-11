@@ -10,7 +10,6 @@ import definitons
 from user_app.algorithm_utils import run_algorithm
 from user_app.gui.logged_window import show_logged
 from user_app.gui.video_capture import VideoCapture
-from utils.gui.gui_utils import center_window
 
 
 class App:
@@ -20,7 +19,6 @@ class App:
         self.photo = None
         self.window = window
         window.iconbitmap(definitons.app_images_dir + '\\icon.ico')
-        center_window(window, 640, 520)
         self.testing = is_usual_user
         self.main_window = main_window
         self.window.title(window_title)

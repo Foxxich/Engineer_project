@@ -92,7 +92,6 @@ def comparison(
         original_image,
         cascade_name='haarcascade_frontalface_default',
         percent_delta=2.1,
-        delta=10,
         show_test_data=False,
         path=''):
     image1 = cv2.imread(test_image)

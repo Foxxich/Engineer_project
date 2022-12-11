@@ -28,7 +28,7 @@ def load_data_set(path):
             img = img.convert("L", palette=Image.ADAPTIVE, colors=8)
             data = np.asarray(img, dtype="int32")
             faces[order] = data
-    return faces, 'tt_dataset'
+    return faces
 
 
 # noinspection PyTypeChecker
@@ -63,15 +63,10 @@ def comparison(test_filename,
                n_components=100,
                show_test_data=False):
     if data_type == 'test':
-        faces, set_type = load_data_set(path)
+        faces = load_data_set(path)
     else:
         faces = load_set(path)
     face_shape = list(faces.values())[0].shape
-    classes = set(filename.split("/")[0] for filename in faces.keys())
-
-    print("Face image shape:", face_shape)
-    print("Number of classes:", len(classes))
-    print("Number of images:", len(faces))
 
     face_matrix = []
     face_label = []
@@ -83,7 +78,6 @@ def comparison(test_filename,
     pca = PCA().fit(face_matrix)
     eigenfaces = pca.components_[:n_components]
     weights = eigenfaces @ (face_matrix - pca.mean_).T
-    print("Shape of the weight matrix:", weights.shape)
     load_test_file = Image.open(test_filename)
     load_test_file.load()
     load_test_file = load_test_file\

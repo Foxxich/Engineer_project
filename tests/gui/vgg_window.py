@@ -1,10 +1,9 @@
 from functools import partial
 from tkinter import *
-from tkinter import messagebox
 from tkinter import ttk
 
 import definitons
-from utils.gui.gui_utils import center_window
+from utils.gui_utils import center_window, close_algorithm_window
 
 vgg_parameters = []
 
@@ -23,33 +22,35 @@ class VggWindow:
         self.window = window
         window.iconbitmap(definitons.app_images_dir + '\\icon.ico')
         center_window(window, 640, 520)
+        self.var1 = IntVar(value=0)
+        self.var2 = IntVar(value=0)
         self.results = results
         self.main_window = main_window
         self.window.title(window_title)
-        self.window.protocol("WM_DELETE_WINDOW", self.disable_event)
+        self.window.protocol("WM_DELETE_WINDOW", self.close_window)
 
+        x_coordinate = 50
         x = 10
 
         Label(self.window, text="Thresh").place(x=x, y=60)
-
-        labels = {'0.3': 'thresh', '0.4': 'thresh', '0.5': 'thresh', '0.6': 'thresh', '0.7': 'thresh'}
-        x_coordinate = 50
-        for option in labels:
-            x_coordinate += 85
-            self.CheckVar = IntVar(value=0)
-            parameter_validator = partial(checkout, option, labels[option])
-            Checkbutton(self.window, text=option, command=parameter_validator, variable=self.CheckVar).place(
-                x=x_coordinate, y=60)
+        Radiobutton(self.window, text="0.3", variable=self.var1, value=1,
+                    command=partial(checkout, "0.3", "thresh")).place(x=x_coordinate, y=60)
+        Radiobutton(self.window, text="0.4", variable=self.var1, value=2,
+                    command=partial(checkout, "0.4", "thresh")).place(x=x_coordinate + 85, y=60)
+        Radiobutton(self.window, text="0.5", variable=self.var1, value=3,
+                    command=partial(checkout, "0.5", "thresh")).place(x=x_coordinate + 85 * 2, y=60)
+        Radiobutton(self.window, text="0.6", variable=self.var1, value=4,
+                    command=partial(checkout, "0.6", "thresh")).place(x=x_coordinate + 85 * 3, y=60)
+        Radiobutton(self.window, text="0.7", variable=self.var1, value=5,
+                    command=partial(checkout, "0.7", "thresh")).place(x=x_coordinate + 85 * 4, y=60)
 
         Label(self.window, text="Model").place(x=x, y=80)
-        x_coordinate = 50
-        labels = {'resnet50': 'model', 'vgg16': 'model', 'senet50': 'model'}
-        for option in labels:
-            x_coordinate += 85
-            self.CheckVar = IntVar(value=0)
-            parameter_validator = partial(checkout, option, labels[option])
-            Checkbutton(self.window, text=option, command=parameter_validator, variable=self.CheckVar).place(
-                x=x_coordinate, y=80)
+        Radiobutton(self.window, text="resnet50", variable=self.var2, value=1,
+                    command=partial(checkout, "resnet50", "model")).place(x=x_coordinate, y=80)
+        Radiobutton(self.window, text="vgg16", variable=self.var2, value=2,
+                    command=partial(checkout, "vgg16", "model")).place(x=x_coordinate + 85, y=80)
+        Radiobutton(self.window, text="senet50", variable=self.var2, value=3,
+                    command=partial(checkout, "senet50", "model")).place(x=x_coordinate + 85 * 2, y=80)
 
         exit_button = ttk.Button(
             self.window,
@@ -64,12 +65,4 @@ class VggWindow:
         )
 
     def close_window(self):
-        if len(vgg_parameters) == 2:
-            self.results.set_vgg(vgg_parameters)
-            self.window.destroy()
-            self.main_window.deiconify()
-        else:
-            messagebox.showerror(title=None, message='Choose all the parameters!')
-
-    def disable_event(self):
-        pass
+        close_algorithm_window(vgg_parameters, self.main_window, self.window, self.results, 'vgg')

@@ -5,12 +5,12 @@ from tkinter import messagebox
 
 from tests.gui.cnn_window import CnnWindow
 from tests.gui.pca_window import PcaWindow
-from tests.gui.results import Results
+from tests.model.parameters import Parameters
 from tests.gui.save_window import SaveWindow
 from tests.gui.sift_window import SiftWindow
 from tests.gui.vgg_window import VggWindow
 
-results = Results()
+results = Parameters()
 
 
 class TestMainWindow:
@@ -21,8 +21,9 @@ class TestMainWindow:
         self.frame = tk.Frame(self.master, width=200, height=300)
         self.master.protocol("WM_DELETE_WINDOW", self.close_window)
         self.frame.size()
-        self.set_size = 54
-
+        self.set_size = 3
+        self.master.call('wm', 'attributes', '.', '-topmost', True)
+        self.master.after_idle(self.master.call, 'wm', 'attributes', '.', '-topmost', False)
         self.btn_increase = tk.Button(text="+", command=self.increase_set)
         self.btn_increase.place(x=125, y=230)
         self.btn_decrease = tk.Button(text="-", command=self.decrease_set)
@@ -52,7 +53,7 @@ class TestMainWindow:
         vgg_check.pack()
         sift_check.pack()
 
-        self.button = tk.Button(self.frame, text='Run testing', height=5, width=20, command=self.save_location_window)
+        self.button = tk.Button(self.frame, text='Run tests', height=5, width=20, command=self.save_location_window)
         self.button.pack(padx=50, pady=50)
         self.frame.pack()
 
@@ -110,7 +111,10 @@ class TestMainWindow:
             messagebox.showerror(title=None, message='You have chosen parameters for PCA')
 
     def save_location_window(self):
-        if len(results.get_cnn()) == 0 and len(results.get_pca()) == 0 and len(results.get_vgg()) == 0 and len(results.get_sift()) == 0:
+        if len(results.get_cnn()) == 0 and \
+                len(results.get_pca()) == 0 and \
+                len(results.get_vgg()) == 0 and \
+                len(results.get_sift()) == 0:
             messagebox.showerror(title=None, message='You did not choose technique of face recognition')
         else:
             self.master.withdraw()

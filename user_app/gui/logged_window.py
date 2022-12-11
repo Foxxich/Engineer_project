@@ -7,7 +7,6 @@ from sys import exit
 
 import definitons
 from user_app.utils.username_reader import read_username
-from utils.gui.gui_utils import center_window
 
 
 class LoggedWindow:
@@ -16,7 +15,6 @@ class LoggedWindow:
         self.master = master
         self.main_window = main_window
         self.frame = tk.Frame(self.master, width=300, height=300)
-        center_window(master, 300, 300)
         master.iconbitmap(definitons.app_images_dir + '\\icon.ico')
 
         if is_successful == 'success':
