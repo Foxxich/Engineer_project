@@ -76,7 +76,14 @@ class App:
                 show_logged(self.window, self.main_window)
 
     def update_frame(self):
-        ret, frame = self.vid.get_frame()
+        ret = None
+        frame = None
+        try:
+            ret, frame = self.vid.get_frame()
+        except TypeError:
+            self.window.destroy()
+            self.main_window.destroy()
+            exit()
         if self.ok:
             self.vid.out.write(cv2.cvtColor(frame, cv2.COLOR_RGB2BGR))
 

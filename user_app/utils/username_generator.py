@@ -8,14 +8,11 @@ from cryptography.fernet import Fernet
 class Credentials:
 
     def __init__(self):
+        self.__username = ""
         self.__key = ""
         self.__password = ""
         self.__key_file = 'key.key'
         self.__time_of_exp = -1
-
-    # ----------------------------------------
-    # Getter setter for attributes
-    # ----------------------------------------
 
     @property
     def password(self):
@@ -60,7 +57,7 @@ class Credentials:
         self.__username = ""
         self.__password = ""
         self.__key = ""
-        self.__key_file
+        self.__key_file = ""
 
 
 def create_username(username):

@@ -1,3 +1,5 @@
+from tkinter import messagebox
+
 import cv2
 
 
@@ -6,7 +8,10 @@ class VideoCapture:
         self.out = None
         self.vid = cv2.VideoCapture(video_source, cv2.CAP_DSHOW)
         if not self.vid.isOpened():
-            raise ValueError("Unable to open camera", video_source)
+            try:
+                raise ValueError("Unable to open camera", video_source)
+            except ValueError:
+                messagebox.showerror(title=None, message='The used device is without embedded camera')
 
         self.fourcc = cv2.VideoWriter_fourcc(*'XVID')
 
